@@ -296,7 +296,7 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         
-        [cell setCountText: [NSString stringWithFormat:@"共计：%d",order.countOfProduct]];
+        [cell setCountText: [NSString stringWithFormat:@"共计：%d件",order.countOfProduct]];
         [cell setTitleText: order.shopName];
         [cell setProductUrl:product.pUrl];
         [cell setTotalMoney:[NSString stringWithFormat:@"总价：%@",order.totalMoney]];

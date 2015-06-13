@@ -32,7 +32,8 @@
 {
     UILabel* _moneyLabel;
     UIButton* _commitBt;
-
+    UILabel* _discountLabel;
+    
     __weak UITextField* _respondField;
     NSDictionary* _addressDic;
     UITableView* _table;
@@ -320,6 +321,22 @@
     [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[separater(0.5)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separater)]];
     
     
+    
+    
+    _discountLabel = [[UILabel alloc]init];
+//    _discountLabel.backgroundColor = [UIColor redColor];
+    _discountLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [_discountLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+
+    _discountLabel.textColor = DEFAULTGRAYCOLO;
+    _discountLabel.font = DEFAULTFONT(11);
+    [footView addSubview:_discountLabel];
+    
+    [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-16-[_discountLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_discountLabel)]];
+    
+    [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_discountLabel(>=0)]-4-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_discountLabel)]];
+   
+    
     _moneyLabel = [[UILabel alloc]init];
     _moneyLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _moneyLabel.textColor = DEFAULTNAVCOLOR;
@@ -328,9 +345,9 @@
     
     [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-16-[_moneyLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_moneyLabel)]];
     
-    
-    [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-3-[_moneyLabel]-3-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_moneyLabel)]];
+    [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_moneyLabel]-6-[_discountLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_moneyLabel,_discountLabel)]];
     _moneyLabel.text = [NSString stringWithFormat:@"总计：¥%.2f",_totalMoney];
+
     
     
     
@@ -338,16 +355,22 @@
     _commitBt.translatesAutoresizingMaskIntoConstraints = NO;
     [_commitBt setTitle:@"支付宝支付" forState:UIControlStateNormal];
     [_commitBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_commitBt setTitleColor:DEFAULTNAVCOLOR forState:UIControlStateDisabled];
     _commitBt.titleLabel.font = DEFAULTFONT(15);
-    _commitBt.backgroundColor = DEFAULTNAVCOLOR;
+//    _commitBt.backgroundColor = DEFAULTNAVCOLOR;
+    [_commitBt setBackgroundImage:[UIImage imageNamed:@"button_back_red"] forState:UIControlStateNormal];
+    [_commitBt setBackgroundImage:[UIImage imageNamed:@"button_back_white"] forState:UIControlStateDisabled];
+    
     _commitBt.layer.cornerRadius = 4;
     _commitBt.layer.masksToBounds = YES;
+    _commitBt.layer.borderWidth = 1;
+    _commitBt.layer.borderColor = DEFAULTNAVCOLOR.CGColor;
     [_commitBt addTarget:self action:@selector(commitOrderAction) forControlEvents:UIControlEventTouchUpInside];
     [footView addSubview:_commitBt];
     
     [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_commitBt(>=100)]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_commitBt)]];
     
-    [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_commitBt(<=30)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_commitBt)]];
+    [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_commitBt(30)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_commitBt)]];
     [footView addConstraint:[NSLayoutConstraint constraintWithItem:_commitBt attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:footView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
  
 }
@@ -359,11 +382,57 @@
     
    [[NSNotificationCenter defaultCenter] postNotificationName:PSHOPCARCHANGE object:productData];
     
+    [self updateShopCar];
     [_table reloadData];
+}
+
+-(void)updateShopCar
+{
+   
+    ShopCarShareData* shareData = [ShopCarShareData shareShopCarManager];
     
     _totalMoney = [shareData getTotalMoney];
-    _moneyLabel.text = [NSString stringWithFormat:@"总计：¥%.2f",_totalMoney];
+    
+    UserManager* manager = [UserManager shareUserManager];
+    
+    if (_currentDiscount&&_payWay!=OrderPayInCash)
+    {
+        _moneyLabel.text = [NSString stringWithFormat:@"总计：¥%.2f",_totalMoney-_currentDiscount.discountMoney];
+        _discountLabel.attributedText = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥%.2f",_totalMoney] attributes:@{NSStrikethroughStyleAttributeName:[NSNumber numberWithInteger:NSUnderlineStyleSingle]}];
+    }
+    else
+    {
+        _discountLabel.attributedText = [[NSAttributedString alloc]initWithString:@""];
+        _moneyLabel.text = [NSString stringWithFormat:@"总计：¥%.2f",_totalMoney];
+    }
+    
+    NSString* btTitle = nil;
+    if (_totalMoney < manager.shopMinPrice)
+    {
+        btTitle = [NSString stringWithFormat:@"还差%.2f元起送", manager.shopMinPrice-_totalMoney];
+        _commitBt.enabled = NO;
+    }
+    else
+    {
+        switch (_payWay)
+        {
+            case OrderPayInCash:
+                btTitle = @"货到付款";
+                break;
+            case OrderPayInWx:
+                 btTitle = @"微信支付";
+                break;
+             case OrderPayInZfb:
+                 btTitle = @"支付宝支付";
+                break;
+            default:
+                break;
+        }
+        _commitBt.enabled = YES;
+    }
+     [_commitBt setTitle:btTitle forState:UIControlStateNormal];
 }
+
 
 #pragma mark-----------table---------------------
 
@@ -444,14 +513,9 @@
         if (cell==nil)
         {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
-//            cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
-//            cell.textLabel.backgroundColor = [UIColor redColor];
         }
         NSMutableAttributedString* strAttribute = [[NSMutableAttributedString alloc]initWithString:@"配送时间：30分钟送达"  attributes:@{NSForegroundColorAttributeName:DEFAULTBLACK}];
         [strAttribute addAttribute:NSFontAttributeName  value:DEFAULTFONT(15) range:NSMakeRange(0, 5)];
-//        [strAttribute addAttribute:NSForegroundColorAttributeName value:DEFAULTBLACK range:NSMakeRange(0, 5)];
-        
-//        [strAttribute addAttribute:NSForegroundColorAttributeName value:DEFAULTNAVCOLOR range:NSMakeRange(5, 6)];
         
         [strAttribute addAttribute:NSFontAttributeName  value:DEFAULTFONT(14) range:NSMakeRange(5, 6)];
         cell.textLabel.attributedText = strAttribute ;
@@ -561,42 +625,48 @@
     }
     else if(indexPath.section==4)
     {
+        NSString* btTitle = nil;
+        
         if (indexPath.row==2) {
             
+            btTitle = @"货到付款";
             _payWay = OrderPayInCash;
-            [_commitBt setTitle:@"货到付款" forState:UIControlStateNormal];
-            [tableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationNone];
+            
         }
         else if (indexPath.row==0)
         {
             _payWay = OrderPayInZfb;
-            [_commitBt setTitle:@"支付宝支付" forState:UIControlStateNormal];
-            [tableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationNone];
-            
+            btTitle = @"支付宝支付";
         }
         else if(indexPath.row==1)
         {
             if ([WXApi isWXAppInstalled]==NO) {
                 
-                THActivityView* warn  = [[THActivityView alloc]initWithString:@"没有安装微信客户端"];
-                [warn show];
-                return;
+               THActivityView* warn  = [[THActivityView alloc]initWithString:@"没有安装微信客户端"];
+               [warn show];
+               return;
             }
             
+            btTitle = @"微信支付";
             _payWay = OrderPayInWx;
-            [_commitBt setTitle:@"微信支付" forState:UIControlStateNormal];
-            [tableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationNone];
-            
         }
         else
         {
-            [self  showDiscountView];
+           [self showDiscountView];
+           return;
+        }
+        
+        [tableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationNone];
+        
+        [self updateShopCar];
+        UserManager* manager = [UserManager shareUserManager];
+        if (_totalMoney < manager.shopMinPrice) {
+            return;
         }
 
-    }
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [_commitBt setTitle:btTitle forState:UIControlStateNormal];
         
+    }
 }
 
 //-(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -705,6 +775,7 @@
 {
     _currentDiscount = obj;
     [_table reloadData];
+    [self updateShopCar];
 }
 
 #pragma mark------------------
@@ -737,8 +808,6 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:PSHOPCARCLEAN object:nil];
 }
-
-
 
 
 -(void)dealloc

@@ -180,7 +180,8 @@
         UIButton* button2 = [cell getCellButtonWithType:ButtonActionTwo];
          UIButton* button1 = [cell getCellButtonWithType:ButtonActionOne];
         
-        if (_orderData.orderStatusType == OrderStatusConfirm) {
+        if (_orderData.orderStatusType == OrderStatusConfirm)
+        {
             
             [cell setCellImage:[UIImage imageNamed:@"orderInfo_complete"]];
             button3.hidden = YES;
@@ -213,7 +214,7 @@
         {
             [cell setCellImage:[UIImage imageNamed:@"orderInfo_cancel"]];
             button3.hidden = YES;
-            title.text = @"订单待支付";
+            title.text = @"订单支付失败";
             button2.hidden = YES;
             button1.hidden = YES;
 
@@ -517,7 +518,6 @@
 }
 -(void)cancelOrder
 {
-    
     __weak OrderData* worder = _orderData;
     __weak UITableView* wtable = _table;
     THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
@@ -530,8 +530,9 @@
         if (status==NetWorkSuccess) {
             worder.orderStatusType = OrderStatusCancel;
             worder.orderStatue = @"用户取消";
-            [wtable reloadData];
             _mySection = -1;
+            
+            [wtable reloadData];
             str = @"取消成功，喵喵客服马上和您联系！";
         }
         else
