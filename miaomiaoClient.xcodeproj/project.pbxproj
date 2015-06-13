@@ -17,6 +17,7 @@
 		C726DBD41B0DC80300ED26A6 /* GeneralSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C726DBD31B0DC80300ED26A6 /* GeneralSelectCell.m */; };
 		C72F5EF71B1831A900064946 /* ShopCarCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = C72F5EF61B1831A900064946 /* ShopCarCoverView.m */; };
 		C72FFA401B15B4F5007C9C3D /* CarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C72FFA3F1B15B4F5007C9C3D /* CarButton.m */; };
+		C737E6781B2C452400B7422B /* miaomiaoClient copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C737E6771B2C452400B7422B /* miaomiaoClient copy-Info.plist */; };
 		C74278D81B0593B900B7307A /* AddProductCommonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C74278D71B0593B900B7307A /* AddProductCommonCell.m */; };
 		C74278DB1B05CE6C00B7307A /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C74278DA1B05CE6C00B7307A /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C74278DE1B05F07200B7307A /* OrderListController.m in Sources */ = {isa = PBXBuildFile; fileRef = C74278DD1B05F07200B7307A /* OrderListController.m */; };
@@ -291,6 +292,7 @@
 		C72F5EF61B1831A900064946 /* ShopCarCoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopCarCoverView.m; sourceTree = "<group>"; };
 		C72FFA3E1B15B4F5007C9C3D /* CarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarButton.h; sourceTree = "<group>"; };
 		C72FFA3F1B15B4F5007C9C3D /* CarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarButton.m; sourceTree = "<group>"; };
+		C737E6771B2C452400B7422B /* miaomiaoClient copy-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "miaomiaoClient copy-Info.plist"; sourceTree = "<group>"; };
 		C74278D61B0593B900B7307A /* AddProductCommonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddProductCommonCell.h; sourceTree = "<group>"; };
 		C74278D71B0593B900B7307A /* AddProductCommonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddProductCommonCell.m; sourceTree = "<group>"; };
 		C74278D91B05CE6C00B7307A /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
@@ -780,6 +782,7 @@
 				C78223C61AFB55A8000A0AB4 /* miaomiaoClient */,
 				C78223E01AFB55A9000A0AB4 /* miaomiaoClientTests */,
 				C78223C51AFB55A8000A0AB4 /* Products */,
+				C737E6771B2C452400B7422B /* miaomiaoClient copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1263,6 +1266,7 @@
 				C74313CB1B1ED89C00E2A068 /* Icon.png in Resources */,
 				C74313CC1B1ED89C00E2A068 /* Images.xcassets in Resources */,
 				C74313CD1B1ED89C00E2A068 /* read_me.txt in Resources */,
+				C737E6781B2C452400B7422B /* miaomiaoClient copy-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
