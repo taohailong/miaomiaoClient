@@ -1,0 +1,71 @@
+
+//
+//  miaomiaoClient-Prefix.h
+//  miaomiaoClient
+//
+//  Created by 陶海龙 on 15-5-7.
+//  Copyright (c) 2015年 miaomiao. All rights reserved.
+//
+
+#ifndef miaomiaoClient_miaomiaoClient_Prefix_h
+#define miaomiaoClient_miaomiaoClient_Prefix_h
+
+
+#endif
+
+#define UPUSHKEY @"user_PushKey"
+#define UGID @"u_gid"
+#define UTOKEN @"userToken"
+
+
+#define PNEEDLOG @"needLogin"
+#define PSHOPCARCHANGE @"shopcar_change"
+#define PSHOPCARCLEAN @"shopcar_clean"
+#define PSEARCHTABLERELOAD @"searchTable_reload"
+#define PPAYSUCCESS @"pay_Success_notic"
+
+
+#define DEFAULTNAVCOLOR [UIColor colorWithRed:255.0/225.0f green:111.0/255.0f blue:108.0/255.0f alpha:1.0]
+
+#define DEFAULTGREENCOLOR [UIColor colorWithRed:51.0/225.0 green:205.0/255.0 blue:95.0/255.0 alpha:1.0]
+
+
+
+#define DEFAULTFONT(X) [UIFont systemFontOfSize:X]
+
+#define DEFAULTBLACK FUNCTCOLOR(102.0,102.0,102.0)
+#define DEFAULTGRAYCOLO FUNCTCOLOR(153.0,153.0,153.0)
+
+#define FUNCTCOLOR(R,G,B) [UIColor colorWithRed:((R) / 255.0f) green:((G) / 255.0f) blue:((B) / 255.0f) alpha:1.0f]
+
+#define VERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
+
+#define SCREENWIDTH [UIScreen mainScreen].bounds.size.width
+#define SCREENHEIGHT [UIScreen mainScreen].bounds.size.height
+
+
+#define IOS_VERSION(X) (([[[UIDevice currentDevice] systemVersion] floatValue] >= X)? (YES):(NO))
+
+#define IOS_VERSION_5_OR_ABOVE (([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)? (YES):(NO))
+
+#define IOS_VERSION_8_OR_ABOVE (([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)? (YES):(NO))
+
+
+#if 1
+//#if DEBUG
+#define HTTPHOST @"182.92.168.2:8088"
+//#define HTTPHOST @"mbianli.com:8099"
+#else
+#define HTTPHOST @"www.mbianli.com"
+#endif
+
+
+
+
+#ifdef DEBUG
+#define NSLog(...) NSLog(__VA_ARGS__)
+#else
+#define NSLog(...) {}
+#endif
+
+
