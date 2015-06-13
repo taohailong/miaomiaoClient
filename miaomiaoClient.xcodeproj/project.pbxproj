@@ -319,7 +319,6 @@
 		C742E7E11B16C4D900EB0A60 /* NSAttributedString+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Frame.h"; sourceTree = "<group>"; };
 		C742E7E21B16C4D900EB0A60 /* NSAttributedString+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Frame.m"; sourceTree = "<group>"; };
 		C74313D11B1ED89C00E2A068 /* miaomiaoClient copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "miaomiaoClient copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C74313D21B1ED89C00E2A068 /* miaomiaoClientcopy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "miaomiaoClientcopy-Info.plist"; path = "/Users/taohailong/Desktop/miaomiao/ios/miaomiaoClient/miaomiaoClientcopy-Info.plist"; sourceTree = "<absolute>"; };
 		C74313D31B1EF80200E2A068 /* OrderInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderInfoController.h; sourceTree = "<group>"; };
 		C74313D41B1EF80200E2A068 /* OrderInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderInfoController.m; sourceTree = "<group>"; };
 		C74313D61B1EFC2700E2A068 /* OrderInfoTopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderInfoTopCell.h; sourceTree = "<group>"; };
@@ -781,7 +780,6 @@
 				C78223C61AFB55A8000A0AB4 /* miaomiaoClient */,
 				C78223E01AFB55A9000A0AB4 /* miaomiaoClientTests */,
 				C78223C51AFB55A8000A0AB4 /* Products */,
-				C74313D21B1ED89C00E2A068 /* miaomiaoClientcopy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
