@@ -213,8 +213,16 @@
 
 -(void)AddressAddWithAddressData:(AddressData *)add
 {
+    if (add == nil) {
+        return;
+    }
     [_dataArr addObject:add];
     [_table reloadData];
+    
+//第一添加地址时 防止没有回传给提交页面地址
+    if ([self.delegate respondsToSelector:@selector(selectAddressOverWithAddress:)]) {
+        [self.delegate selectAddressOverWithAddress:_dataArr[0]];
+    }
 }
 
 

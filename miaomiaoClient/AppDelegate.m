@@ -35,7 +35,8 @@
     
     [WXApi registerApp:@"wx8c2570b40fc89b39"];
     
-#if DEBUG
+//#if DEBUG
+#if 1
     NSSetUncaughtExceptionHandler (&UncaughtExceptionHandler);
 #endif
     return YES;

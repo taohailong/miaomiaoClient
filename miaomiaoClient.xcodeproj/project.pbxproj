@@ -1741,7 +1741,7 @@
 					"$(PROJECT_DIR)/WeChatSDK_1.5",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a13123d8-8d87-43fd-b4d2-52b30bff76a7";
+				PROVISIONING_PROFILE = "b8133b64-43ef-4a6b-89ad-4ad4a43663d2";
 			};
 			name = Debug;
 		};

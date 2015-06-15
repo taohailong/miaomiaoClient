@@ -471,7 +471,7 @@
     }
     else
     {
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您要确定收货吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您确定要收货吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alert show];
     }
 }

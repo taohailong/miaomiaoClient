@@ -7,22 +7,18 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>204FBF77-E9AE-4E1B-AB28-EBF337CA8C8B</string>
 	<key>IDESourceControlProjectName</key>
-	<string>miaomiaoClient</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>122F7B31E047A95118FA241E3DC46172DE520738</key>
 		<string>https://github.com/taohailong/miaomiaoClient.git</string>
-		<key>B88A8A246E763002152065AD7C6D5EF57032E943</key>
-		<string>https://github.com/awuwua/miaomiao</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>miaomiaoClient.xcodeproj</string>
+	<string>miaomiaoClient.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>122F7B31E047A95118FA241E3DC46172DE520738</key>
 		<string>../..</string>
-		<key>B88A8A246E763002152065AD7C6D5EF57032E943</key>
-		<string>../../../miaomiao</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/taohailong/miaomiaoClient.git</string>
@@ -32,14 +28,6 @@
 	<string>122F7B31E047A95118FA241E3DC46172DE520738</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>B88A8A246E763002152065AD7C6D5EF57032E943</string>
-			<key>IDESourceControlWCCName</key>
-			<string>miaomiao</string>
-		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

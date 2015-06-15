@@ -139,6 +139,8 @@
         _dataArr = _allDataDic[categoryID];
         [self addLoadMoreViewWithCount:_dataArr.count];
         [_table reloadData];
+        
+         [_table scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:YES];
         return;
     }
     

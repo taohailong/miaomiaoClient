@@ -185,7 +185,7 @@
     colorView.translatesAutoresizingMaskIntoConstraints = NO;
     [selectView addSubview:colorView];
     
-    [selectView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-1-[colorView(7)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(colorView)]];
+    [selectView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[colorView(7)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(colorView)]];
     [selectView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[colorView]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(colorView)]];
     
     

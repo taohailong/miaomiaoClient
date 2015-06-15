@@ -98,6 +98,8 @@
 
 
 #pragma mark---------------fullLoadingView-----------------
+
+
 -(id)initFullViewTransparentWithSuperView:(UIView *)superView
 {
     
@@ -118,13 +120,6 @@
 }
 
 
-//-(void)layoutSubviews
-//{
-//    self.translatesAutoresizingMaskIntoConstraints = NO;
-//    [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-//    [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeCenterY  relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
-//
-//}
 -(id)initLoadingWithStr:(NSString*)str
 {
     self = [super initWithFrame:CGRectMake(0, 0, 100, 100)];
@@ -166,9 +161,10 @@
 //}
 
 
+#pragma mark---------------error---------------------------
+
 -(id)initWithNetErrorWithSuperView:(UIView*)su
 {
-    
     self = [super init];
     if (su==nil) {
         return self;
@@ -179,8 +175,6 @@
     [su addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[self]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(self)]];
     
     [su addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[self]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(self)]];
-    
-    
     
     UIButton* reloadBt = [UIButton buttonWithType:UIButtonTypeCustom];
     reloadBt.translatesAutoresizingMaskIntoConstraints = NO;
@@ -204,27 +198,7 @@
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:nameL attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:reloadBt attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
     
-//    nameL.backgroundColor = [UIColor greenColor];
-//    nameL.textColor = DEFAULTNAVCOLOR;
-    
-    
-    
-//    UIButton* bt = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    bt.translatesAutoresizingMaskIntoConstraints = NO;
-//    bt.layer.borderWidth = 1.0;
-//    bt.layer.masksToBounds = YES;
-//    bt.layer.cornerRadius = 6;
-//    bt.layer.borderColor = DEFAULTNAVCOLOR.CGColor;
-//    [self addSubview:bt];
-//    [bt addTarget:self action:@selector(performReloadAction) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[imageV]-20-[bt]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(imageV,bt)]];
-//    
-//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[bt(150)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(bt)]];
-//    
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:bt attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-//    [bt setTitleColor:DEFAULTNAVCOLOR forState:UIControlStateNormal];
-//    [bt setTitle:@"重新加载" forState:UIControlStateNormal];
+
     return self;
 }
 
@@ -245,28 +219,7 @@
 }
 
 
-
--(id)initWithFailView
-{
-    self = [super initWithFrame:CGRectMake(0, 0, 250, 60)];
-    if (self)
-    {
-        self.backgroundColor = [UIColor blackColor];
-        self.alpha = 0.8;
-        
-        self.layer.cornerRadius = 6;
-        self.layer.masksToBounds = YES;
-        
-        UILabel* label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 250, 60)];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = [UIColor whiteColor];
-        label.backgroundColor = [UIColor clearColor];
-        label.text = @"未能连接到服务器";
-        [self addSubview:label];
-        
-    }
-    return self;
-}
+#pragma mark-----------------showString----------------
 
 -(void)show
 {
@@ -312,8 +265,74 @@
         
     }
     return self;
-    
 }
+
+
+
+#pragma mark-------------empty data warn view---------
+
+-(id)initEmptyDataWarnViewWithString:(NSString*)str WithSuperView:(UIView*)superView
+{
+    self = [super init];
+    if (superView == nil) {
+        return self;
+    }
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    [superView addSubview:self];
+    self.backgroundColor = [UIColor whiteColor];
+    [superView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[self]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(self)]];
+    
+    [superView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[self]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(self)]];
+    
+    UIImageView* image = [[UIImageView alloc]init];
+    image.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:image];
+    image.image = [UIImage imageNamed:@"warn_emptyImage"];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:image attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:image attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:-30]];
+    
+    
+    
+    UILabel* nameL = [[UILabel alloc]init];
+    nameL.translatesAutoresizingMaskIntoConstraints = NO;
+    nameL.text = str;
+    nameL.font = DEFAULTFONT(17);
+    nameL.textColor = DEFAULTGRAYCOLO;
+    [self addSubview:nameL];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:nameL attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:image attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10]];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:nameL attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+
+    return self;
+}
+
+
+-(void)addBtWithTitle:(NSString*)btTitle WithBk:(void(^)(void))actionBk
+{
+    
+    UIButton* reloadBt = [UIButton buttonWithType:UIButtonTypeCustom];
+
+    reloadBt.layer.cornerRadius = 4;
+    reloadBt.layer.masksToBounds = YES;
+    reloadBt.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:reloadBt];
+    [reloadBt addTarget:self action:@selector(performReloadAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:reloadBt attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:90]];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:reloadBt attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+   
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[reloadBt(>=100)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(reloadBt)]];
+    
+    [reloadBt setTitle:btTitle forState:UIControlStateNormal];
+    [reloadBt setBackgroundImage:[UIImage imageNamed:@"button_back_red"] forState:UIControlStateNormal] ;
+   
+    
+    _errorBk = actionBk;
+}
+
+
+
 -(void)dealloc
 {
 

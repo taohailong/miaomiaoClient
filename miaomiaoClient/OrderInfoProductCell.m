@@ -97,8 +97,16 @@
 
 -(void)setCellImageWith:(UIImage*)image
 {
-    [self.contentView removeConstraint:_ImageScaleLayout];
-    [self.contentView removeConstraints:_imageVLayouts];
+//    _ImageScaleLayout.active = NO;
+//    [NSLayoutConstraint deactivateConstraints:_imageVLayouts];
+    
+    if (_ImageScaleLayout) {
+       [self.contentView removeConstraint:_ImageScaleLayout];
+    }
+    if (_imageVLayouts) {
+        [self.contentView removeConstraints:_imageVLayouts];
+    }
+   
     _cellImage.image = image;
     
 }

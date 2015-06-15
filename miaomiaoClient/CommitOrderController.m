@@ -397,7 +397,11 @@
     
     if (_currentDiscount&&_payWay!=OrderPayInCash)
     {
-        _moneyLabel.text = [NSString stringWithFormat:@"总计：¥%.2f",_totalMoney-_currentDiscount.discountMoney];
+        float disountMoney = _totalMoney-_currentDiscount.discountMoney;
+        
+        disountMoney = disountMoney>0?disountMoney:0.01;
+        _moneyLabel.text = [NSString stringWithFormat:@"总计：¥%.2f",disountMoney];
+        
         _discountLabel.attributedText = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥%.2f",_totalMoney] attributes:@{NSStrikethroughStyleAttributeName:[NSNumber numberWithInteger:NSUnderlineStyleSingle]}];
     }
     else

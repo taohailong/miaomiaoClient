@@ -68,9 +68,16 @@
         [loadV removeFromSuperview];
         if (status==NetWorkSuccess) {
             
+            if (respond.count==0) {
+                THActivityView* warnView = [[THActivityView alloc]initEmptyDataWarnViewWithString:@"你还没有订单哦，赶快下单吧！" WithSuperView:self.view];
+                [warnView addBtWithTitle:@"去下单" WithBk:^{
+                    [wSelf backToRoot];
+                }];
+            }
+            
             _orderArr = respond;
             [_table reloadData];
-            [wSelf addLoadMoreViewWithCount:respond.count];
+            [wSelf addLoadMoreViewWithCount:(int)respond.count];
         }
        
     }];
@@ -381,7 +388,7 @@
     else
     {
         _selectOrderData = data;
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您要确定收货吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您确定要收货吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alert show];
     }
 }
