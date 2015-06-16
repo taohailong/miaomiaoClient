@@ -24,9 +24,10 @@ typedef void (^LocationBk)(BOOL success,float longitude,float latitude);
 -(NSString*)getUserAccount;
 
 -(void)startLocationWithBk:(LocationBk)bk;
+-(float)figureoutDistanceFromLongitude:(float)longitude Latitude:(float)latitude;
+
 -(void)checkGID;
 -(void)setShopID:(NSString *)shopID WithLongitude:(float)longitude WithLatitude:(float)latitude;
--(float)figureoutDistanceFromLongitude:(float)longitude Latitude:(float)latitude;
 
 
 -(void)savePushToken:(NSString*)push;

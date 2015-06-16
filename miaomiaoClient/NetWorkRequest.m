@@ -20,7 +20,7 @@
 #import "JSONKit.h"
 #import "OrderData.h"
 #import "DiscountData.h"
-
+#import "THActivityView.h"
 
 #define HTTPADD(X) X = [NSString stringWithFormat:@"%@&%@",X, [NSString stringWithFormat:@"uid=%@&gid=%@&chn=ios&user_token=%@",[OpenUDID value],[[NSUserDefaults  standardUserDefaults] objectForKey:UGID]?[[NSUserDefaults  standardUserDefaults] objectForKey:UGID]:@"",[[NSUserDefaults  standardUserDefaults] objectForKey:UTOKEN]?[[NSUserDefaults  standardUserDefaults] objectForKey:UTOKEN]:@""]]
 
@@ -438,6 +438,7 @@
 
 -(void)throughLocationGetShopWithlatitude:(float)latitude WithLong:(float)longitude WithBk:(NetCallback)completeBk
 {
+    
     NSString* url = [NSString stringWithFormat:@"http://%@/app/commy/near?lat=%f&lng=%f",HTTPHOST,latitude,longitude];
     HTTPADD(url);
     
@@ -519,7 +520,6 @@
         
         [formate setDateStyleString:@"HH:mm"];
 
-        
         if (status==NetWorkSuccess) {
             
             ShopInfoData* data = [[ShopInfoData alloc]init];
@@ -939,7 +939,8 @@
             NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
             [def removeObjectForKey:UTOKEN];
             [def synchronize];
-            
+            THActivityView* warnView = [[THActivityView alloc]initWithString:@"登录失效,请重新登录！"];
+            [warnView show];
             block(NetWorkErrorTokenInvalid,dataDic,nil);
         }
         else

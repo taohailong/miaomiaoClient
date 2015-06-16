@@ -50,13 +50,16 @@
 
 #define IOS_VERSION_8_OR_ABOVE (([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)? (YES):(NO))
 
-
-#if 1
-//#if DEBUG
+#if DEBUG
+//#if 0
 #define HTTPHOST @"182.92.168.2:8088"
-//#define HTTPHOST @"mbianli.com:8099"
 #else
 #define HTTPHOST @"www.mbianli.com"
+//#if ENTERPISE
+//#define HTTPHOST @"182.92.168.2:8088"
+//#else
+//#define HTTPHOST @"www.mbianli.com"
+//#endif
 #endif
 
 

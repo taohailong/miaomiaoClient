@@ -8,7 +8,17 @@
 
 #import "UserManager.h"
 #import "NetWorkRequest.h"
+#define BAIDUMAP 0
+
+#if BAIDUMAP
+#import <BaiduMapAPI/BMKLocationService.h>
+#import <BaiduMapAPI/BMKMapManager.h>
+#else
 #import <CoreLocation/CoreLocation.h>
+#endif
+
+#import<BaiduMapAPI/BMKGeometry.h>
+
 #import "DiscountCoverView.h"
 #define USHOPID @"shop_id"
 #define UACCOUNT @"user_account"
@@ -17,12 +27,23 @@
 #define LATITUDE @"latitude"
 
 //#define PUSHOK @"isPush"
-@interface UserManager()<CLLocationManagerDelegate,UIAlertViewDelegate>
+
+#if BAIDUMAP
+@interface UserManager()<BMKLocationServiceDelegate,UIAlertViewDelegate,BMKGeneralDelegate>
+#else
+@interface UserManager()<UIAlertViewDelegate,CLLocationManagerDelegate>
+#endif
 {
     NSString* _token;
     LocationBk _locationBk;
     BOOL _isLog;
-    CLLocationManager*  _mylocationManager ;
+   
+#if BAIDUMAP
+    BMKMapManager* _mapManager;
+    BMKLocationService* _mylocationManager ;
+#else
+    CLLocationManager*  _mylocationManager;
+#endif
 }
 @end
 
@@ -83,34 +104,98 @@
     self.shopID = shopIDs;
 }
 
--(float)figureoutDistanceFromLongitude:(float)longitude Latitude:(float)latitude
-{
 
-     NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
-    float originalLat = [[def objectForKey:LATITUDE] floatValue];
-    float originalLong = [[def objectForKey:LONGITUDE] floatValue];
+#pragma mark--------------------Location-----------------
+
+#if BAIDUMAP
+
+-(void)startLocationWithBk:(LocationBk)bk
+{
+    _locationBk = bk;
     
-    if (originalLat==0) {
-        return 0;
+    _mapManager = [[BMKMapManager alloc]init];
+    BOOL ret = [_mapManager start:@"please enter your key" generalDelegate:self];
+    
+    if (!ret) {
+        NSLog(@"manager start failed!");
     }
+
+    [BMKLocationService setLocationDesiredAccuracy:kCLLocationAccuracyBest];
+    //指定最小距离更新(米)，默认：kCLDistanceFilterNone
+    [BMKLocationService setLocationDistanceFilter:10.f];
+//    _mylocationManager = [[CLLocationManager alloc] init];
     
-    CLLocation *orig=[[CLLocation alloc] initWithLatitude:originalLat  longitude:originalLong] ;
-    
-    CLLocation* dist= [[CLLocation alloc] initWithLatitude:latitude longitude:longitude] ;
-    
-    CLLocationDistance kilometers=[orig distanceFromLocation:dist]/1000;
-    return kilometers;
+    _mylocationManager = [[BMKLocationService alloc]init];
+    _mylocationManager.delegate = self;
+    [_mylocationManager startUserLocationService];
 }
 
+- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
+{
+    NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
+    
+    CLLocationDegrees latitude = userLocation.location.coordinate.latitude;
+    CLLocationDegrees longitude = userLocation.location.coordinate.longitude;
+    if (_locationBk) {
+        _locationBk(YES,longitude,latitude);
+    }
+    
+    [_mylocationManager stopUserLocationService];
+    _mylocationManager = nil;
+
+}
+
+-(void)didFailToLocateUserWithError:(NSError *)error
+{
+    if(IOS_VERSION(8.0))
+    {
+        if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorizedWhenInUse)
+        {
+            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请检查是否开启系统定位权限" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+            [alert show];
+            
+        }
+    }
+    
+    [_mylocationManager stopUserLocationService];
+    _mylocationManager = nil;
+    
+    if (_locationBk) {
+        _locationBk(NO,0,0);
+    }
+}
+
+
+
+- (void)onGetNetworkState:(int)iError
+{
+    if (0 == iError) {
+        NSLog(@"联网成功");
+    }
+    else{
+        NSLog(@"onGetNetworkState %d",iError);
+    }
+    _mapManager = nil;
+}
+
+- (void)onGetPermissionState:(int)iError
+{
+    if (0 == iError) {
+        NSLog(@"授权成功");
+    }
+    else {
+        NSLog(@"onGetPermissionState %d",iError);
+    }
+     _mapManager = nil;
+}
+
+#else
 
 -(void)startLocationWithBk:(LocationBk)bk
 {
     _locationBk = bk;
     
     _mylocationManager = [[CLLocationManager alloc] init];
-    
-//    BOOL ye = [CLLocationManager locationServicesEnabled];
-    
     
     _mylocationManager.delegate = self;
     //设置定位的精度
@@ -121,7 +206,7 @@
     if ([_mylocationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])
     {
         [_mylocationManager requestWhenInUseAuthorization];// 前台定位
-       
+        
         //[mylocationManager requestAlwaysAuthorization];// 前后台同时定位
     }
     [_mylocationManager startUpdatingLocation];
@@ -132,10 +217,16 @@
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     CLLocation * currentLocation = [locations lastObject];
-    CLLocationDegrees latitude=currentLocation.coordinate.latitude;
-    CLLocationDegrees longitude=currentLocation.coordinate.longitude;
-    NSLog(@"didUpdateLocations当前位置的纬度:%f--经度%f",latitude,longitude);
-
+    
+    NSDictionary* testdic = BMKConvertBaiduCoorFrom(currentLocation.coordinate,BMK_COORDTYPE_GPS);
+    
+    CLLocationCoordinate2D lo = BMKCoorDictionaryDecode(testdic);
+    NSLog(@"didUpdateLocations当前位置的纬度:%f--经度%f",lo.latitude,lo.longitude);
+//    lat 40.036264,long 116.320227
+//    didUpdateLocations当前位置的纬度:40.037400--经度116.320080
+    CLLocationDegrees latitude = lo.latitude;
+    CLLocationDegrees longitude = lo.longitude;
+    
     if (_locationBk) {
         _locationBk(YES,longitude,latitude);
     }
@@ -147,7 +238,6 @@
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
     
-    
     if(IOS_VERSION(8.0))
     {
         if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorizedWhenInUse)
@@ -158,17 +248,38 @@
         }
     }
 
-    
     [manager stopUpdatingLocation];
     _mylocationManager = nil;
     
     if (_locationBk) {
         _locationBk(NO,0,0);
     }
-
 }
+#endif
 
+-(float)figureoutDistanceFromLongitude:(float)longitude Latitude:(float)latitude
+{
+    
+    NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+    float originalLat = [[def objectForKey:LATITUDE] floatValue];
+    float originalLong = [[def objectForKey:LONGITUDE] floatValue];
+    
+    if (originalLat==0) {
+        return 0;
+    }
+    
+    BMKMapPoint point1 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(originalLat,originalLong));
+    BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(latitude,longitude));
+    CLLocationDistance kilometers = BMKMetersBetweenMapPoints(point1,point2)/1000;
 
+    
+//    CLLocation *orig=[[CLLocation alloc] initWithLatitude:originalLat  longitude:originalLong] ;
+//    
+//    CLLocation* dist= [[CLLocation alloc] initWithLatitude:latitude longitude:longitude] ;
+//    
+//    CLLocationDistance kilometers=[orig distanceFromLocation:dist]/1000;
+    return kilometers;
+}
 
 
 

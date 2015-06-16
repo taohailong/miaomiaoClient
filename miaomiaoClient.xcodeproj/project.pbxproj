@@ -232,6 +232,10 @@
 		C78224C71AFB5ECB000A0AB4 /* LastViewOnTable.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224C61AFB5ECB000A0AB4 /* LastViewOnTable.m */; };
 		C78224CC1AFB5ED2000A0AB4 /* UIImage+ZoomImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224C91AFB5ED2000A0AB4 /* UIImage+ZoomImage.m */; };
 		C78224CD1AFB5ED2000A0AB4 /* DateFormateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224CB1AFB5ED2000A0AB4 /* DateFormateManager.m */; };
+		C782FB171B2FD374001F621D /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C782FB161B2FD374001F621D /* BaiduMapAPI.framework */; };
+		C782FB181B2FD382001F621D /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C782FB161B2FD374001F621D /* BaiduMapAPI.framework */; };
+		C782FB1B1B2FFF6E001F621D /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C782FB1A1B2FFF6E001F621D /* LocationManager.m */; };
+		C782FB1C1B300415001F621D /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C782FB1A1B2FFF6E001F621D /* LocationManager.m */; };
 		C79F18AC1B17285E006AB215 /* ConfirmAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79F18AB1B17285E006AB215 /* ConfirmAddressCell.m */; };
 		C79F18AF1B172938006AB215 /* ConfirmAddressOneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79F18AE1B172938006AB215 /* ConfirmAddressOneCell.m */; };
 		C79F18B21B1736BC006AB215 /* CommitFillCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79F18B11B1736BC006AB215 /* CommitFillCell.m */; };
@@ -579,6 +583,9 @@
 		C78224C91AFB5ED2000A0AB4 /* UIImage+ZoomImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ZoomImage.m"; sourceTree = "<group>"; };
 		C78224CA1AFB5ED2000A0AB4 /* DateFormateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateFormateManager.h; sourceTree = "<group>"; };
 		C78224CB1AFB5ED2000A0AB4 /* DateFormateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateFormateManager.m; sourceTree = "<group>"; };
+		C782FB161B2FD374001F621D /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = Baidu/BaiduMapAPI.framework; sourceTree = "<group>"; };
+		C782FB191B2FFF6E001F621D /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
+		C782FB1A1B2FFF6E001F621D /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
 		C79F18AA1B17285E006AB215 /* ConfirmAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmAddressCell.h; sourceTree = "<group>"; };
 		C79F18AB1B17285E006AB215 /* ConfirmAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfirmAddressCell.m; sourceTree = "<group>"; };
 		C79F18AD1B172938006AB215 /* ConfirmAddressOneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmAddressOneCell.h; sourceTree = "<group>"; };
@@ -611,6 +618,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C782FB181B2FD382001F621D /* BaiduMapAPI.framework in Frameworks */,
 				C74313B81B1ED89C00E2A068 /* CoreText.framework in Frameworks */,
 				C74313B91B1ED89C00E2A068 /* CoreLocation.framework in Frameworks */,
 				C74313BA1B1ED89C00E2A068 /* libc++.dylib in Frameworks */,
@@ -632,6 +640,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C782FB171B2FD374001F621D /* BaiduMapAPI.framework in Frameworks */,
 				C742E7E01B16C41000EB0A60 /* CoreText.framework in Frameworks */,
 				C759B9A11B031B3000681E22 /* CoreLocation.framework in Frameworks */,
 				C7BADC291B01FD930083252D /* libc++.dylib in Frameworks */,
@@ -770,6 +779,7 @@
 		C78223BB1AFB55A8000A0AB4 = {
 			isa = PBXGroup;
 			children = (
+				C782FB161B2FD374001F621D /* BaiduMapAPI.framework */,
 				C742E7DF1B16C41000EB0A60 /* CoreText.framework */,
 				C759B9A01B031B3000681E22 /* CoreLocation.framework */,
 				C7BADC281B01FD930083252D /* libc++.dylib */,
@@ -889,6 +899,8 @@
 				C76ADB691AFC6CD6008DF9A4 /* WeChatSDK_1.5 */,
 				C76ADB661AFC5CB7008DF9A4 /* OpenUDID.h */,
 				C76ADB671AFC5CB7008DF9A4 /* OpenUDID.m */,
+				C782FB191B2FFF6E001F621D /* LocationManager.h */,
+				C782FB1A1B2FFF6E001F621D /* LocationManager.m */,
 				C74278D91B05CE6C00B7307A /* JSONKit.h */,
 				C74278DA1B05CE6C00B7307A /* JSONKit.m */,
 				C78224C21AFB5EC2000A0AB4 /* THActivityView.h */,
@@ -1298,6 +1310,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C782FB1C1B300415001F621D /* LocationManager.m in Sources */,
 				C7E7E10B1B298872001D5FBE /* DiscountCoverView.m in Sources */,
 				C7E7E1071B293FCF001D5FBE /* CommitDiscountCell.m in Sources */,
 				C7E7E1051B293F8B001D5FBE /* UICustomActionView.m in Sources */,
@@ -1426,6 +1439,7 @@
 				C74810651B208C260069FAB4 /* ThreeLabelCell.m in Sources */,
 				C78224AF1AFB5D9E000A0AB4 /* NSData+GIF.m in Sources */,
 				C74810501B2019D00069FAB4 /* OrderInfoStatistics.m in Sources */,
+				C782FB1B1B2FFF6E001F621D /* LocationManager.m in Sources */,
 				C7BADC161B01F5330083252D /* ProductCell.m in Sources */,
 				C78224141AFB5975000A0AB4 /* NSDataEx.m in Sources */,
 				C74278E11B05F8B200B7307A /* UserCenterController.m in Sources */,
@@ -1570,6 +1584,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/zhifubao",
+					"$(PROJECT_DIR)/Baidu",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/miaomiaoClient/miaomiaoClient-Prefix.pch";
@@ -1608,9 +1623,11 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/zhifubao",
+					"$(PROJECT_DIR)/Baidu",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/miaomiaoClient/miaomiaoClient-Prefix.pch";
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "ENTERPISE=1";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -1722,6 +1739,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/zhifubao",
+					"$(PROJECT_DIR)/Baidu",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/miaomiaoClient/miaomiaoClient-Prefix.pch";
@@ -1740,6 +1758,7 @@
 					"$(PROJECT_DIR)/UMessage_Sdk",
 					"$(PROJECT_DIR)/WeChatSDK_1.5",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "b8133b64-43ef-4a6b-89ad-4ad4a43663d2";
 			};
@@ -1755,6 +1774,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/zhifubao",
+					"$(PROJECT_DIR)/Baidu",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/miaomiaoClient/miaomiaoClient-Prefix.pch";
@@ -1773,6 +1793,7 @@
 					"$(PROJECT_DIR)/UMessage_Sdk",
 					"$(PROJECT_DIR)/WeChatSDK_1.5",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "07d144cf-ad4c-44e8-847a-783bbd5e6a20";
 			};

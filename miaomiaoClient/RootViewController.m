@@ -24,6 +24,9 @@
 #import "SearchProductController.h"
 #import "THActivityView.h"
 #import "ProductCoverView.h"
+#import "LocationManager.h"
+
+
 
 @interface RootViewController ()<ShopSelectProtocol,ShopCategoryProtocol,NavigationTieleViewProtocol,UIAlertViewDelegate,ShopProductListProtocol>
 {
