@@ -20,6 +20,7 @@ typedef enum _OrderStatus {
 @property(nonatomic,strong)NSString* orderAddress;
 @property(nonatomic,strong)NSString* orderTime;
 @property(nonatomic,strong)NSString* orderID;
+@property(nonatomic,strong)NSString* shopID;
 @property(nonatomic,strong)NSString* telPhone;
 @property(nonatomic,strong)NSString* mobilePhone;
 @property(nonatomic,strong)NSString* shopName;

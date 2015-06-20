@@ -15,6 +15,7 @@
 #import "DiscountController.h"
 #import "UserManager.h"
 #import "THActivityView.h"
+#import "SpreadViewController.h"
 
 @interface UserCenterController()<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate,UIActionSheetDelegate>
 {
@@ -45,8 +46,6 @@
         
     }
 
-    
-    
     _table.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
@@ -120,7 +119,12 @@
                 text = @"我的收货地址";
                 imageStr = @"userCenter_address";
                 break;
-  
+                
+            case 4:
+                text = @"推荐码";
+                imageStr = @"userCenter_spread";
+
+                break;
             default:
                 text = @"";
                 break;
@@ -167,7 +171,9 @@
             case 3:
                  [self showAddressView];
                 break;
-
+            case 4:
+                [self showSpeardViewController];
+                break;
             default:
                 break;
         }
@@ -233,9 +239,13 @@
     UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
     SuggestViewController* suggestView = [story instantiateViewControllerWithIdentifier:@"SuggestViewController"];
     [self.navigationController pushViewController:suggestView animated:YES];
-
 }
 
+-(void)showSpeardViewController
+{
+    SpreadViewController* showSpreadView = [[SpreadViewController alloc]init];
+    [self.navigationController pushViewController:showSpreadView animated:YES];
+}
 
 #pragma mark------------delegate--------------------
 

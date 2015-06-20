@@ -736,6 +736,7 @@
     THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
     
     [req getValidDiscountTicketWithBk:^(id respond, NetWorkStatus status) {
+        
         [loadView removeFromSuperview];
         if (status == NetWorkSuccess) {
             [wself reloadTableAfterGetDiscountData:respond];

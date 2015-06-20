@@ -38,6 +38,31 @@
 @implementation NetWorkRequest
 
 
+#pragma mark----------spread-----------
+
+-(void)verifySpreadCode:(NSString*)code WithCompleteBk:(NetCallback)completeBk
+{
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/user/confirmInviteCode?code=%@",HTTPHOST,code];
+    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    HTTPADD(url);
+    
+    [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
+        
+        if (status==NetWorkSuccess) {
+            completeBk(sourceDic,status);
+        }
+        else if (status==NetWorkErrorTokenInvalid)
+        {
+            completeBk(nil,status);
+        }
+        else
+        {
+            completeBk(sourceDic,status);
+        }
+    }];
+}
+
+
 #pragma mark-----------discount ticket----------------
 
 -(void)getDiscountTicketListWithIndex:(int)index WithBk:(NetCallback)completeBk
@@ -79,7 +104,6 @@
         {
             completeBk(sourceDic,status);
         }
-        
     }];
 }
 
@@ -109,14 +133,12 @@
                 discount.minMoney = [dic[@"fullCutPrice"] intValue]/100.0;
                 [backArr addObject:discount];
             }
-            
             completeBk(backArr,status);
         }
         else if (status==NetWorkErrorTokenInvalid)
         {
             completeBk(nil,status);
         }
-        
         else
         {
             completeBk(sourceDic,status);
@@ -232,6 +254,7 @@
                 OrderData* order = [[OrderData alloc]init];
                 order.orderAddress = dic[@"address"];
                 order.orderID = dic[@"id"];
+                order.shopID = dic[@"shop_id"];
                 double timeLength = [dic[@"create_time"] doubleValue]/1000;
                 order.orderTime = [manager  formateFloatTimeValueToString:timeLength] ;
                 order.orderNu = dic[@"order_id"];
@@ -274,11 +297,10 @@
 }
 
 
--(void)confirmOrderWithOrderID:(NSString*)orderID WithBk:(NetCallback)completeBk
+-(void)confirmOrderWithOrder:(OrderData*)order WithBk:(NetCallback)completeBk
 {
-    UserManager* user = [UserManager shareUserManager];
     
-    NSString* url = [NSString stringWithFormat:@"http://%@/app/order/order_confirm?order_id=%@&shop_id=%@",HTTPHOST,orderID,user.shopID];
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/order/order_confirm?order_id=%@&shop_id=%@",HTTPHOST,order.orderNu,order.shopID];
     HTTPADD(url);
 //     __weak NetWorkRequest* wself = self;
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
@@ -295,18 +317,17 @@
         
         else
         {
-            completeBk(nil,status);
+            completeBk(sourceDic,status);
         }
         
     }];
 
 }
 
-
--(void)cancelOrderWithOrderID:(NSString*)orderID WithBk:(NetCallback)completeBk
+-(void)cancelOrderWithOrder:(OrderData*)order WithBk:(NetCallback)completeBk
 {
-    UserManager* user = [UserManager shareUserManager];
-    NSString* url = [NSString stringWithFormat:@"http://%@/app/order/order_cancel?order_id=%@&shop_id=%@",HTTPHOST,orderID,user.shopID];
+    
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/order/order_cancel?order_id=%@&shop_id=%@",HTTPHOST,order.orderNu,order.shopID];
     HTTPADD(url);
 //     __weak NetWorkRequest* wself = self;
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
@@ -330,11 +351,10 @@
     
 }
 
--(void)remindOrderWithOrderID:(NSString*)orderID WithBk:(NetCallback)completeBk
+-(void)remindOrderWithOrder:(OrderData*)order WithBk:(NetCallback)completeBk
 {
     
-    UserManager* user = [UserManager shareUserManager];
-    NSString* url = [NSString stringWithFormat:@"http://%@/app/order/order_remindShopping?order_id=%@&shop_id=%@",HTTPHOST,orderID,user.shopID];
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/order/order_remindShopping?order_id=%@&shop_id=%@",HTTPHOST,order.orderNu,order.shopID];
     HTTPADD(url);
 //      __weak NetWorkRequest* wself = self;
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
@@ -945,7 +965,9 @@
         }
         else
         {
-           block(NetWorkErrorCanntConnect,dataDic,nil);
+           NSMutableString* errStr = [[NSMutableString alloc]initWithString:dataDic[@"msg"]];
+            
+           block(NetWorkErrorCanntConnect,(id)errStr,nil);
         }
         
     }];

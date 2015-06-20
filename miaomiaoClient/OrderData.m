@@ -11,6 +11,7 @@
 @implementation OrderData
 @synthesize orderAddress,orderID,orderStatue,orderTime,telPhone,messageStr,mobilePhone,payWay,productArr,shopName,discountMoney,totalMoney,countOfProduct,orderNu,orderTakeOver;
 @synthesize orderStatusType;
+@synthesize shopID;
 
 -(NSString*)getPayMethod
 {

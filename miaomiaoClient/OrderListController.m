@@ -403,11 +403,10 @@
     THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
 
     NetWorkRequest* request = [[NetWorkRequest alloc]init];
-    [request confirmOrderWithOrderID:order.orderNu WithBk:^(id respond, NetWorkStatus status) {
-        
-        NSString* str = nil;
+    [request confirmOrderWithOrder:order WithBk:^(id respond, NetWorkStatus status) {
         
         [loadView removeFromSuperview];
+          NSString* str = nil;
         if (status==NetWorkSuccess) {
             str = @"确认订单成功！";
             worder.orderStatusType = OrderStatusConfirm;
@@ -416,7 +415,8 @@
         }
         else
         {
-           str = @"确认失败！";
+           str = (NSString*)respond;
+//            str = @"确认订单失败！";
         }
         
         THActivityView* showStr = [[THActivityView alloc]initWithString:str];
@@ -432,7 +432,7 @@
     THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
 
     NetWorkRequest* request = [[NetWorkRequest alloc]init];
-    [request cancelOrderWithOrderID:order.orderNu WithBk:^(id respond, NetWorkStatus status) {
+    [request cancelOrderWithOrder:order WithBk:^(id respond, NetWorkStatus status) {
         NSString* str = nil;
         
         [loadView removeFromSuperview];
@@ -459,7 +459,7 @@
 {
     THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
     NetWorkRequest* request = [[NetWorkRequest alloc]init];
-    [request remindOrderWithOrderID:order.orderNu WithBk:^(id respond, NetWorkStatus status) {
+    [request remindOrderWithOrder:order WithBk:^(id respond, NetWorkStatus status) {
         NSString* str = nil;
         
         [loadView removeFromSuperview];

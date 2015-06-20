@@ -238,15 +238,15 @@
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
     
-    if(IOS_VERSION(8.0))
-    {
-        if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorizedWhenInUse)
-        {
-            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请检查是否开启系统定位权限" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-            [alert show];
-           
-        }
-    }
+//    if(IOS_VERSION(8.0))
+//    {
+//        if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorizedWhenInUse)
+//        {
+//            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请检查是否开启系统定位权限" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+//            [alert show];
+//           
+//        }
+//    }
 
     [manager stopUpdatingLocation];
     _mylocationManager = nil;

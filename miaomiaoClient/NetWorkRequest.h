@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-@class ShopProductData,ShopCategoryData,ShopInfoData,DiscountData;
+@class ShopProductData,ShopCategoryData,ShopInfoData,DiscountData,OrderData;
+
 typedef enum _OrderPayWay {
     OrderPayInCash = 0,
     OrderPayInWx = 1,
@@ -26,9 +27,16 @@ typedef  enum _NetWorkStatus{
 
 typedef void (^NetCallback)(id respond,NetWorkStatus status);
 @interface NetWorkRequest : NSObject
+
+
 //数据
 -(void)startAsynchronous;
 -(void)cancel;
+
+
+//推荐码
+-(void)verifySpreadCode:(NSString*)code WithCompleteBk:(NetCallback)completeBk;
+
 
 //代金券
 -(void)getDiscountTicketListWithIndex:(int)index WithBk:(NetCallback)completeBk;
@@ -42,10 +50,10 @@ typedef void (^NetCallback)(id respond,NetWorkStatus status);
 -(void)commitOrderWithProducts:(NSMutableArray*)arr WithMessage:(NSString*)mes WithPayWay:(OrderPayWay)way WithDiscount:(DiscountData*)discount WithAddress:(NSString*)add WithShopID:(NSString*)shop WithBk:(NetCallback)completeBk;
 -(void)getAllOrdersWithFromIndex:(int)index WithBk:(NetCallback)completeBk;
 
--(void)confirmOrderWithOrderID:(NSString*)orderID WithBk:(NetCallback)completeBk;
--(void)cancelOrderWithOrderID:(NSString*)orderID WithBk:(NetCallback)completeBk;
+-(void)confirmOrderWithOrder:(OrderData*)order WithBk:(NetCallback)completeBk;
+-(void)cancelOrderWithOrder:(OrderData*)order WithBk:(NetCallback)completeBk;
 
--(void)remindOrderWithOrderID:(NSString*)orderID WithBk:(NetCallback)completeBk;
+-(void)remindOrderWithOrder:(OrderData*)order WithBk:(NetCallback)completeBk;
 
 //商铺、商品
 

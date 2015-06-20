@@ -495,7 +495,7 @@
     THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
     
     NetWorkRequest* request = [[NetWorkRequest alloc]init];
-    [request confirmOrderWithOrderID:worder.orderNu WithBk:^(id respond, NetWorkStatus status) {
+    [request confirmOrderWithOrder:worder WithBk:^(id respond, NetWorkStatus status) {
         
         NSString* str = nil;
         
@@ -508,7 +508,7 @@
         }
         else
         {
-            str = @"确认失败！";
+            str = respond;
         }
         
         THActivityView* showStr = [[THActivityView alloc]initWithString:str];
@@ -523,7 +523,7 @@
     THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
     
     NetWorkRequest* request = [[NetWorkRequest alloc]init];
-    [request cancelOrderWithOrderID:worder.orderNu WithBk:^(id respond, NetWorkStatus status) {
+    [request cancelOrderWithOrder:worder WithBk:^(id respond, NetWorkStatus status) {
         NSString* str = nil;
         
         [loadView removeFromSuperview];
@@ -552,7 +552,7 @@
 {
     THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
     NetWorkRequest* request = [[NetWorkRequest alloc]init];
-    [request remindOrderWithOrderID:_orderData.orderNu WithBk:^(id respond, NetWorkStatus status) {
+    [request remindOrderWithOrder:_orderData WithBk:^(id respond, NetWorkStatus status) {
         NSString* str = nil;
         
         [loadView removeFromSuperview];

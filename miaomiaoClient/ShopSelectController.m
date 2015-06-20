@@ -366,6 +366,11 @@
         NSDictionary* dic = arr[0];
         locationLabel.text = dic[@"distance"];
     }
+    else
+    {
+        locationLabel.text = @"周围没有商铺,请搜索商铺!";
+        return;
+    }
     _dataArr = arr;
     if (flag) {
         free(flag);
@@ -421,7 +426,8 @@
         }
         else
         {
-#if DEBUG
+//#if DEBUG
+#if 0
             longitude = 116.416989;
             latitude = 40.082632;
             [wself getShopThroughLatitude:latitude Withlongitude:longitude];

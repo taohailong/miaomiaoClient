@@ -65,7 +65,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return section==0?2:1;
+    return 1;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -87,7 +87,7 @@
     }
     
     
-    if (indexPath.row==0) {
+    if (indexPath.row==1) {
         cell.textLabel.text = @"检查更新";
         cell.imageView.image = [UIImage imageNamed:@"setView_update"];
     }
@@ -114,9 +114,9 @@
         [actionSheet showInView:self.view];
     
     }
-    else if (indexPath.row==0)
+    else if (indexPath.row==1)
     {
-        [self checkVersion];
+//        [self checkVersion];
     }
     else
     {

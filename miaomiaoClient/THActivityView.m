@@ -8,6 +8,11 @@
 
 #import "THActivityView.h"
 //#import "YFGIFImageView.h"
+@interface THActivityView()
+{
+}
+@end
+
 @implementation THActivityView
 
 - (id)initWithFrame:(CGRect)frame
@@ -223,18 +228,25 @@
 
 -(void)show
 {
-    UIWindow* window =  [UIApplication sharedApplication].keyWindow;
+    UIWindow* window =  [UIApplication sharedApplication].delegate.window;
     self.center = CGPointMake(window.center.x, window.center.y-20);
     [window addSubview:self];
+
+//    NSLog(@"key %@ window %@",[UIApplication sharedApplication].keyWindow,window);
     
-    [UIView animateWithDuration:1.8 animations:^{
-        self.alpha = .99;
-        
-    } completion:^(BOOL finished) {
-        [self removeFromSuperview];
-        // [self release];
-    }];
+    dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 1.8 * NSEC_PER_SEC);
+    dispatch_after(time, dispatch_get_main_queue(), ^{
+          [self removeFromSuperview];
+    });
+
     
+//    [UIView animateWithDuration:1.8 animations:^{
+//        self.alpha = .99;
+//        
+//    } completion:^(BOOL finished) {
+//        [self removeFromSuperview];
+//    }];
+//    
 }
 
 -(id)initWithString:(NSString*)str
@@ -245,11 +257,12 @@
     {
         size.width = [UIScreen mainScreen].bounds.size.width;
     }
+
     self = [super initWithFrame:CGRectMake(0, 0, size.width, size.height+15)];
     if (self)
     {
         self.backgroundColor = [UIColor blackColor];
-        self.alpha = 0.95;
+//        self.alpha = 0.95;
         
         self.layer.cornerRadius = 6;
         self.layer.masksToBounds = YES;
@@ -335,7 +348,7 @@
 
 -(void)dealloc
 {
-
+    NSLog(@"VIEW dealloc");
 }
 /*
 // Only override drawRect: if you perform custom drawing.
