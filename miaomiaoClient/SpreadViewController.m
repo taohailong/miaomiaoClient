@@ -61,12 +61,22 @@
 
 -(void)performVerifyCode
 {
+    [_contentField resignFirstResponder];
     THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
     NetWorkRequest* request = [[NetWorkRequest alloc]init];
     [request verifySpreadCode:_contentField.text WithCompleteBk:^(id respond, NetWorkStatus status) {
         [loadView removeFromSuperview];
+        NSString* title = nil;
         
-        
+        if (status == NetWorkSuccess) {
+            title = @"验证成功！";
+        }
+        else
+        {
+           title = @"验证失败！";
+        }
+        THActivityView* warnView = [[THActivityView alloc]initWithString:title];
+        [warnView show];
     }];
     [request startAsynchronous];
 }

@@ -340,12 +340,15 @@
         [self showLogView:^{
             
             CommitOrderController* order = [[CommitOrderController alloc]initWithProductArr:shopCarArr WithTotalMoney:[shareData getTotalMoney]];
+            [order setPayWayMethod:CashPayCommit];
+//            [order setPayWayMethod:Ali_WxPayCommit];
             [wself.navigationController pushViewController:order animated:YES];
         } ];
         return;
     }
     
     CommitOrderController* order = [[CommitOrderController alloc]initWithProductArr:shopCarArr WithTotalMoney:[shareData getTotalMoney]];
+    [order setPayWayMethod:All_payCommit];
     [self.navigationController pushViewController:order animated:YES];
 }
 

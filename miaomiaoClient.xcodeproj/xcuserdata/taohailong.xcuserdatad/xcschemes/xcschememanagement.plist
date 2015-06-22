@@ -11,6 +11,16 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
+		<key>miaomiaoClient copy 2.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>miaomiaoClient copy.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 		<key>miaomiaoClient.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -45,6 +55,16 @@
 			<true/>
 		</dict>
 		<key>C78223DC1AFB55A9000A0AB4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C797CC971B3811C500A49FDB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C797CD2C1B3811D700A49FDB</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -238,6 +238,136 @@
 		C782FB181B2FD382001F621D /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C782FB161B2FD374001F621D /* BaiduMapAPI.framework */; };
 		C782FB1B1B2FFF6E001F621D /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C782FB1A1B2FFF6E001F621D /* LocationManager.m */; };
 		C782FB1C1B300415001F621D /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C782FB1A1B2FFF6E001F621D /* LocationManager.m */; };
+		C797CD2E1B3811D700A49FDB /* SDWebImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224931AFB5D9E000A0AB4 /* SDWebImageDecoder.m */; };
+		C797CD2F1B3811D700A49FDB /* OrderProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C742B5F21B09B93700D29ABB /* OrderProductCell.m */; };
+		C797CD301B3811D700A49FDB /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = C78223FF1AFB5975000A0AB4 /* base64.m */; };
+		C797CD311B3811D700A49FDB /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C782248B1AFB5D9E000A0AB4 /* MKAnnotationView+WebCache.m */; };
+		C797CD321B3811D700A49FDB /* ShopCategoryData.m in Sources */ = {isa = PBXBuildFile; fileRef = C759B9B11B035E7D00681E22 /* ShopCategoryData.m */; };
+		C797CD331B3811D700A49FDB /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C78223CF1AFB55A8000A0AB4 /* RootViewController.m */; };
+		C797CD341B3811D700A49FDB /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = C782246E1AFB5D95000A0AB4 /* ASIDataCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C797CD351B3811D700A49FDB /* DiscountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C700CD961B254832001E3404 /* DiscountCell.m */; };
+		C797CD361B3811D700A49FDB /* ShopCarShareData.m in Sources */ = {isa = PBXBuildFile; fileRef = C7FAE2381B1EA65B00F6A71D /* ShopCarShareData.m */; };
+		C797CD371B3811D700A49FDB /* OrderInfoTopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C74313D71B1EFC2700E2A068 /* OrderInfoTopCell.m */; };
+		C797CD381B3811D700A49FDB /* OrderInfoProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C748104C1B1FE9130069FAB4 /* OrderInfoProductCell.m */; };
+		C797CD391B3811D700A49FDB /* CommitDiscountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C75F0F1F1B2829F2007E8613 /* CommitDiscountCell.m */; };
+		C797CD3A1B3811D700A49FDB /* ThreeLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C74810641B208C260069FAB4 /* ThreeLabelCell.m */; };
+		C797CD3B1B3811D700A49FDB /* NSData+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = C782248D1AFB5D9E000A0AB4 /* NSData+GIF.m */; };
+		C797CD3C1B3811D700A49FDB /* OrderInfoStatistics.m in Sources */ = {isa = PBXBuildFile; fileRef = C748104F1B2019D00069FAB4 /* OrderInfoStatistics.m */; };
+		C797CD3D1B3811D700A49FDB /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C782FB1A1B2FFF6E001F621D /* LocationManager.m */; };
+		C797CD3E1B3811D700A49FDB /* ProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BADC151B01F5330083252D /* ProductCell.m */; };
+		C797CD3F1B3811D700A49FDB /* NSDataEx.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224081AFB5975000A0AB4 /* NSDataEx.m */; };
+		C797CD401B3811D700A49FDB /* UserCenterController.m in Sources */ = {isa = PBXBuildFile; fileRef = C74278E01B05F8B200B7307A /* UserCenterController.m */; };
+		C797CD411B3811D700A49FDB /* CommitOrderController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7510DAA1B0483FA00C237AB /* CommitOrderController.m */; };
+		C797CD421B3811D700A49FDB /* OneImageTwoLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C748105B1B2087250069FAB4 /* OneImageTwoLabelCell.m */; };
+		C797CD431B3811D700A49FDB /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C749AEC91B0F6BC000F82FF2 /* AddressCell.m */; };
+		C797CD441B3811D700A49FDB /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = C782247C1AFB5D95000A0AB4 /* ASINetworkQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C797CD451B3811D700A49FDB /* ShopSelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = C759B9A81B032F8C00681E22 /* ShopSelectController.m */; };
+		C797CD461B3811D700A49FDB /* ShopInfoData.m in Sources */ = {isa = PBXBuildFile; fileRef = C759B9A51B0325E500681E22 /* ShopInfoData.m */; };
+		C797CD471B3811D700A49FDB /* FourLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C74810671B208FA70069FAB4 /* FourLabelCell.m */; };
+		C797CD481B3811D700A49FDB /* LastViewOnTable.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224C61AFB5ECB000A0AB4 /* LastViewOnTable.m */; };
+		C797CD491B3811D700A49FDB /* SDWebImageCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224911AFB5D9E000A0AB4 /* SDWebImageCompat.m */; };
+		C797CD4A1B3811D700A49FDB /* OrderHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C742B5EC1B09B89D00D29ABB /* OrderHeadCell.m */; };
+		C797CD4B1B3811D700A49FDB /* OrderInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = C74313D41B1EF80200E2A068 /* OrderInfoController.m */; };
+		C797CD4C1B3811D700A49FDB /* TwoLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C74810611B208B620069FAB4 /* TwoLabelCell.m */; };
+		C797CD4D1B3811D700A49FDB /* OrderInfoContent.m in Sources */ = {isa = PBXBuildFile; fileRef = C74810521B201DFD0069FAB4 /* OrderInfoContent.m */; };
+		C797CD4E1B3811D700A49FDB /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C782248F1AFB5D9E000A0AB4 /* SDImageCache.m */; };
+		C797CD4F1B3811D700A49FDB /* UIImage+MultiFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224A21AFB5D9E000A0AB4 /* UIImage+MultiFormat.m */; };
+		C797CD501B3811D700A49FDB /* GeneralSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C726DBD31B0DC80300ED26A6 /* GeneralSelectCell.m */; };
+		C797CD511B3811D700A49FDB /* CommitFillCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79F18B11B1736BC006AB215 /* CommitFillCell.m */; };
+		C797CD521B3811D700A49FDB /* THActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224C31AFB5EC2000A0AB4 /* THActivityView.m */; };
+		C797CD531B3811D700A49FDB /* UIImage+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224A01AFB5D9E000A0AB4 /* UIImage+GIF.m */; };
+		C797CD541B3811D700A49FDB /* DiscountCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E7E1091B2964C8001D5FBE /* DiscountCoverView.m */; };
+		C797CD551B3811D700A49FDB /* SDWebImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224951AFB5D9E000A0AB4 /* SDWebImageDownloader.m */; };
+		C797CD561B3811D700A49FDB /* NSString+ZhengZe.m in Sources */ = {isa = PBXBuildFile; fileRef = C759B99E1B03175000681E22 /* NSString+ZhengZe.m */; };
+		C797CD571B3811D700A49FDB /* OneImageOneLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C74810581B20860D0069FAB4 /* OneImageOneLabelCell.m */; };
+		C797CD581B3811D700A49FDB /* MD5DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224061AFB5975000A0AB4 /* MD5DataSigner.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C797CD591B3811D700A49FDB /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C749AECD1B0F732300F82FF2 /* SettingViewController.m */; };
+		C797CD5A1B3811D700A49FDB /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C782249E1AFB5D9E000A0AB4 /* UIButton+WebCache.m */; };
+		C797CD5B1B3811D700A49FDB /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = C782240E1AFB5975000A0AB4 /* RSADataVerifier.m */; };
+		C797CD5C1B3811D700A49FDB /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224721AFB5D95000A0AB4 /* ASIDownloadCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C797CD5D1B3811D700A49FDB /* CustomSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79F18B41B1738E3006AB215 /* CustomSelectCell.m */; };
+		C797CD5E1B3811D700A49FDB /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = C782247A1AFB5D95000A0AB4 /* ASIInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C797CD5F1B3811D700A49FDB /* ProductCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = C742E7DA1B16B40F00EB0A60 /* ProductCoverView.m */; };
+		C797CD601B3811D700A49FDB /* NavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = C74BBBFA1B0ADCCA00EA5F2E /* NavigationTitleView.m */; };
+		C797CD611B3811D700A49FDB /* OneImageThreeLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C748105E1B20898D0069FAB4 /* OneImageThreeLabelCell.m */; };
+		C797CD621B3811D700A49FDB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C78223CC1AFB55A8000A0AB4 /* AppDelegate.m */; };
+		C797CD631B3811D700A49FDB /* ShopCarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AAB1321B09E68500F9082F /* ShopCarCell.m */; };
+		C797CD641B3811D700A49FDB /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C782247F1AFB5D95000A0AB4 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C797CD651B3811D700A49FDB /* ShopCategoryListView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7428BE41B01E49F00F63ADB /* ShopCategoryListView.m */; };
+		C797CD661B3811D700A49FDB /* OrderFootSpecialCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C726DBCA1B0D7BDB00ED26A6 /* OrderFootSpecialCell.m */; };
+		C797CD671B3811D700A49FDB /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C74278DA1B05CE6C00B7307A /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C797CD681B3811D700A49FDB /* DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224021AFB5975000A0AB4 /* DataSigner.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C797CD691B3811D700A49FDB /* AddProductCommonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C74278D71B0593B900B7307A /* AddProductCommonCell.m */; };
+		C797CD6A1B3811D700A49FDB /* ConfirmAddressOneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79F18AE1B172938006AB215 /* ConfirmAddressOneCell.m */; };
+		C797CD6B1B3811D700A49FDB /* SDWebImageDownloaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224971AFB5D9E000A0AB4 /* SDWebImageDownloaderOperation.m */; };
+		C797CD6C1B3811D700A49FDB /* NSAttributedString+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = C742E7E21B16C4D900EB0A60 /* NSAttributedString+Frame.m */; };
+		C797CD6D1B3811D700A49FDB /* UserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BADC181B01F57E0083252D /* UserManager.m */; };
+		C797CD6E1B3811D700A49FDB /* UIImage+ZoomImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224C91AFB5ED2000A0AB4 /* UIImage+ZoomImage.m */; };
+		C797CD6F1B3811D700A49FDB /* ShopCarTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AAB12F1B09D86C00F9082F /* ShopCarTableView.m */; };
+		C797CD701B3811D700A49FDB /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = C782246B1AFB5D95000A0AB4 /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C797CD711B3811D700A49FDB /* SpreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C74BFE611B340F58000B5E12 /* SpreadViewController.m */; };
+		C797CD721B3811D700A49FDB /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = C782240C1AFB5975000A0AB4 /* RSADataSigner.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C797CD731B3811D700A49FDB /* SelectShopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C759B9AE1B0344B200681E22 /* SelectShopCell.m */; };
+		C797CD741B3811D700A49FDB /* CarButtonLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C742E7DD1B16C19E00EB0A60 /* CarButtonLayer.m */; };
+		C797CD751B3811D700A49FDB /* SDWebImagePrefetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C782249C1AFB5D9E000A0AB4 /* SDWebImagePrefetcher.m */; };
+		C797CD761B3811D700A49FDB /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = C77A70961B1C526C00C8FEA4 /* AboutController.m */; };
+		C797CD771B3811D700A49FDB /* LogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C759B99B1B03119E00681E22 /* LogViewController.m */; };
+		C797CD781B3811D700A49FDB /* NetWorkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BADC1A1B01F57E0083252D /* NetWorkRequest.m */; };
+		C797CD791B3811D700A49FDB /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224A41AFB5D9E000A0AB4 /* UIImage+WebP.m */; };
+		C797CD7A1B3811D700A49FDB /* OrderInfoStatusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C74313DA1B1F0E4600E2A068 /* OrderInfoStatusCell.m */; };
+		C797CD7B1B3811D700A49FDB /* ConfirmAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79F18AB1B17285E006AB215 /* ConfirmAddressCell.m */; };
+		C797CD7C1B3811D700A49FDB /* AddressData.m in Sources */ = {isa = PBXBuildFile; fileRef = C7510DAD1B04AA6500C237AB /* AddressData.m */; };
+		C797CD7D1B3811D700A49FDB /* ShopProductData.m in Sources */ = {isa = PBXBuildFile; fileRef = C759B9B31B035E7D00681E22 /* ShopProductData.m */; };
+		C797CD7E1B3811D700A49FDB /* DiscountData.m in Sources */ = {isa = PBXBuildFile; fileRef = C700CD991B257243001E3404 /* DiscountData.m */; };
+		C797CD7F1B3811D700A49FDB /* SuggestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C726DBCD1B0DA76500ED26A6 /* SuggestViewController.m */; };
+		C797CD801B3811D700A49FDB /* CarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C72FFA3F1B15B4F5007C9C3D /* CarButton.m */; };
+		C797CD811B3811D700A49FDB /* OrderListController.m in Sources */ = {isa = PBXBuildFile; fileRef = C74278DD1B05F07200B7307A /* OrderListController.m */; };
+		C797CD821B3811D700A49FDB /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = C76ADB671AFC5CB7008DF9A4 /* OpenUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C797CD831B3811D700A49FDB /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224991AFB5D9E000A0AB4 /* SDWebImageManager.m */; };
+		C797CD841B3811D700A49FDB /* DiscountController.m in Sources */ = {isa = PBXBuildFile; fileRef = C726DBD01B0DC03200ED26A6 /* DiscountController.m */; };
+		C797CD851B3811D700A49FDB /* DateFormateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224CB1AFB5ED2000A0AB4 /* DateFormateManager.m */; };
+		C797CD861B3811D700A49FDB /* ShopCarCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = C72F5EF61B1831A900064946 /* ShopCarCoverView.m */; };
+		C797CD871B3811D700A49FDB /* AddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7510DB01B04B0EE00C237AB /* AddressViewController.m */; };
+		C797CD881B3811D700A49FDB /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224761AFB5D95000A0AB4 /* ASIHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C797CD891B3811D700A49FDB /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = C782240A1AFB5975000A0AB4 /* openssl_wrapper.m */; };
+		C797CD8A1B3811D700A49FDB /* UICustomActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C75F0F191B27E0F8007E8613 /* UICustomActionView.m */; };
+		C797CD8B1B3811D700A49FDB /* ShopProductListView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7428BE11B01E48400F63ADB /* ShopProductListView.m */; };
+		C797CD8C1B3811D700A49FDB /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = C78223FC1AFB5975000A0AB4 /* Order.m */; };
+		C797CD8D1B3811D700A49FDB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C78223C91AFB55A8000A0AB4 /* main.m */; };
+		C797CD8E1B3811D700A49FDB /* DataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224041AFB5975000A0AB4 /* DataVerifier.m */; };
+		C797CD8F1B3811D700A49FDB /* SearchProductController.m in Sources */ = {isa = PBXBuildFile; fileRef = C74BBC001B0B3CA000EA5F2E /* SearchProductController.m */; };
+		C797CD901B3811D700A49FDB /* DiscountActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C75F0F1C1B280954007E8613 /* DiscountActionCell.m */; };
+		C797CD911B3811D700A49FDB /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224A61AFB5D9E000A0AB4 /* UIImageView+WebCache.m */; };
+		C797CD921B3811D700A49FDB /* ShopTableHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = C759B9AB1B033F1C00681E22 /* ShopTableHeadView.m */; };
+		C797CD931B3811D700A49FDB /* OrderData.m in Sources */ = {isa = PBXBuildFile; fileRef = C742B5E91B09B3D600D29ABB /* OrderData.m */; };
+		C797CD941B3811D700A49FDB /* ShopCarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7510DA71B04553700C237AB /* ShopCarView.m */; };
+		C797CD951B3811D700A49FDB /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224741AFB5D95000A0AB4 /* ASIFormDataRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C797CD961B3811D700A49FDB /* AddressEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = C74BBBFD1B0B075B00EA5F2E /* AddressEditController.m */; };
+		C797CD971B3811D700A49FDB /* OrderInfoServerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C74810551B20245B0069FAB4 /* OrderInfoServerCell.m */; };
+		C797CD981B3811D700A49FDB /* OrderFootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C742B5EF1B09B8B800D29ABB /* OrderFootCell.m */; };
+		C797CD991B3811D700A49FDB /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = C78224701AFB5D95000A0AB4 /* ASIDataDecompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C797CD9B1B3811D700A49FDB /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C782FB161B2FD374001F621D /* BaiduMapAPI.framework */; };
+		C797CD9C1B3811D700A49FDB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C742E7DF1B16C41000EB0A60 /* CoreText.framework */; };
+		C797CD9D1B3811D700A49FDB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C759B9A01B031B3000681E22 /* CoreLocation.framework */; };
+		C797CD9E1B3811D700A49FDB /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BADC281B01FD930083252D /* libc++.dylib */; };
+		C797CD9F1B3811D700A49FDB /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BADC261B01FD8C0083252D /* libsqlite3.dylib */; };
+		C797CDA01B3811D700A49FDB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BADC201B01FBA10083252D /* CoreGraphics.framework */; };
+		C797CDA11B3811D700A49FDB /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C78224C01AFB5E6D000A0AB4 /* libz.dylib */; };
+		C797CDA21B3811D700A49FDB /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C78224BE1AFB5E57000A0AB4 /* CFNetwork.framework */; };
+		C797CDA31B3811D700A49FDB /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C76ADB6A1AFC6CD6008DF9A4 /* libWeChatSDK.a */; };
+		C797CDA41B3811D700A49FDB /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C78224191AFB5A12000A0AB4 /* libssl.a */; };
+		C797CDA51B3811D700A49FDB /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C78223F91AFB5826000A0AB4 /* AlipaySDK.framework */; };
+		C797CDA61B3811D700A49FDB /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C78223F71AFB581D000A0AB4 /* SystemConfiguration.framework */; };
+		C797CDA71B3811D700A49FDB /* libUMessage_Sdk_1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C78224AC1AFB5D9E000A0AB4 /* libUMessage_Sdk_1.1.0.a */; };
+		C797CDA81B3811D700A49FDB /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C78224181AFB5A12000A0AB4 /* libcrypto.a */; };
+		C797CDA91B3811D700A49FDB /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C78224A81AFB5D9E000A0AB4 /* libMobClickLibrary.a */; };
+		C797CDAB1B3811D700A49FDB /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7553B981B1D51A700EDA37C /* Icon@2x.png */; };
+		C797CDAC1B3811D700A49FDB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C78223D11AFB55A8000A0AB4 /* Main.storyboard */; };
+		C797CDAD1B3811D700A49FDB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78223D61AFB55A8000A0AB4 /* LaunchScreen.xib */; };
+		C797CDAE1B3811D700A49FDB /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C78223EF1AFB5786000A0AB4 /* AlipaySDK.bundle */; };
+		C797CDAF1B3811D700A49FDB /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C7553B961B1D51A300EDA37C /* Icon.png */; };
+		C797CDB01B3811D700A49FDB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C78223D41AFB55A8000A0AB4 /* Images.xcassets */; };
+		C797CDB11B3811D700A49FDB /* read_me.txt in Resources */ = {isa = PBXBuildFile; fileRef = C76ADB6B1AFC6CD6008DF9A4 /* read_me.txt */; };
 		C79F18AC1B17285E006AB215 /* ConfirmAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79F18AB1B17285E006AB215 /* ConfirmAddressCell.m */; };
 		C79F18AF1B172938006AB215 /* ConfirmAddressOneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79F18AE1B172938006AB215 /* ConfirmAddressOneCell.m */; };
 		C79F18B21B1736BC006AB215 /* CommitFillCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79F18B11B1736BC006AB215 /* CommitFillCell.m */; };
@@ -590,6 +720,10 @@
 		C782FB161B2FD374001F621D /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = Baidu/BaiduMapAPI.framework; sourceTree = "<group>"; };
 		C782FB191B2FFF6E001F621D /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
 		C782FB1A1B2FFF6E001F621D /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
+		C797CD281B3811C600A49FDB /* miaomiaoClient copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "miaomiaoClient copy2-Info.plist"; path = "/Users/taohailong/Desktop/miaomiaoClient/miaomiaoClient copy2-Info.plist"; sourceTree = "<absolute>"; };
+		C797CD2A1B3811C800A49FDB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = "Resources-iPad/miaomiaoClient/Base.lproj/LaunchScreen.xib"; sourceTree = "<group>"; };
+		C797CDB51B3811D700A49FDB /* miaomiaoClient copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "miaomiaoClient copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C797CDB61B3811D700A49FDB /* miaomiaoClient copy3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "miaomiaoClient copy3-Info.plist"; path = "/Users/taohailong/Desktop/miaomiaoClient/miaomiaoClient copy3-Info.plist"; sourceTree = "<absolute>"; };
 		C79F18AA1B17285E006AB215 /* ConfirmAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmAddressCell.h; sourceTree = "<group>"; };
 		C79F18AB1B17285E006AB215 /* ConfirmAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfirmAddressCell.m; sourceTree = "<group>"; };
 		C79F18AD1B172938006AB215 /* ConfirmAddressOneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmAddressOneCell.h; sourceTree = "<group>"; };
@@ -666,6 +800,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C797CD9A1B3811D700A49FDB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C797CD9B1B3811D700A49FDB /* BaiduMapAPI.framework in Frameworks */,
+				C797CD9C1B3811D700A49FDB /* CoreText.framework in Frameworks */,
+				C797CD9D1B3811D700A49FDB /* CoreLocation.framework in Frameworks */,
+				C797CD9E1B3811D700A49FDB /* libc++.dylib in Frameworks */,
+				C797CD9F1B3811D700A49FDB /* libsqlite3.dylib in Frameworks */,
+				C797CDA01B3811D700A49FDB /* CoreGraphics.framework in Frameworks */,
+				C797CDA11B3811D700A49FDB /* libz.dylib in Frameworks */,
+				C797CDA21B3811D700A49FDB /* CFNetwork.framework in Frameworks */,
+				C797CDA31B3811D700A49FDB /* libWeChatSDK.a in Frameworks */,
+				C797CDA41B3811D700A49FDB /* libssl.a in Frameworks */,
+				C797CDA51B3811D700A49FDB /* AlipaySDK.framework in Frameworks */,
+				C797CDA61B3811D700A49FDB /* SystemConfiguration.framework in Frameworks */,
+				C797CDA71B3811D700A49FDB /* libUMessage_Sdk_1.1.0.a in Frameworks */,
+				C797CDA81B3811D700A49FDB /* libcrypto.a in Frameworks */,
+				C797CDA91B3811D700A49FDB /* libMobClickLibrary.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -783,6 +939,7 @@
 		C78223BB1AFB55A8000A0AB4 = {
 			isa = PBXGroup;
 			children = (
+				C797CD271B3811C500A49FDB /* Resources-iPad */,
 				C782FB161B2FD374001F621D /* BaiduMapAPI.framework */,
 				C742E7DF1B16C41000EB0A60 /* CoreText.framework */,
 				C759B9A01B031B3000681E22 /* CoreLocation.framework */,
@@ -797,6 +954,8 @@
 				C78223E01AFB55A9000A0AB4 /* miaomiaoClientTests */,
 				C78223C51AFB55A8000A0AB4 /* Products */,
 				C737E6771B2C452400B7422B /* miaomiaoClient copy-Info.plist */,
+				C797CD281B3811C600A49FDB /* miaomiaoClient copy2-Info.plist */,
+				C797CDB61B3811D700A49FDB /* miaomiaoClient copy3-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -806,6 +965,7 @@
 				C78223C41AFB55A8000A0AB4 /* miaomiaoClient.app */,
 				C78223DD1AFB55A9000A0AB4 /* miaomiaoClientTests.xctest */,
 				C74313D11B1ED89C00E2A068 /* miaomiaoClient copy.app */,
+				C797CDB51B3811D700A49FDB /* miaomiaoClient copy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1150,6 +1310,14 @@
 			path = UMessage_Sdk;
 			sourceTree = SOURCE_ROOT;
 		};
+		C797CD271B3811C500A49FDB /* Resources-iPad */ = {
+			isa = PBXGroup;
+			children = (
+				C797CD291B3811C800A49FDB /* LaunchScreen.xib */,
+			);
+			name = "Resources-iPad";
+			sourceTree = "<group>";
+		};
 		C7E7E1041B29317F001D5FBE /* DiscountTicket */ = {
 			isa = PBXGroup;
 			children = (
@@ -1224,6 +1392,23 @@
 			productReference = C78223DD1AFB55A9000A0AB4 /* miaomiaoClientTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		C797CD2C1B3811D700A49FDB /* miaomiaoClient_Optional */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C797CDB21B3811D700A49FDB /* Build configuration list for PBXNativeTarget "miaomiaoClient_Optional" */;
+			buildPhases = (
+				C797CD2D1B3811D700A49FDB /* Sources */,
+				C797CD9A1B3811D700A49FDB /* Frameworks */,
+				C797CDAA1B3811D700A49FDB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = miaomiaoClient_Optional;
+			productName = miaomiaoClient;
+			productReference = C797CDB51B3811D700A49FDB /* miaomiaoClient copy.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1268,6 +1453,7 @@
 				C78223C31AFB55A8000A0AB4 /* miaomiaoClient */,
 				C78223DC1AFB55A9000A0AB4 /* miaomiaoClientTests */,
 				C743135E1B1ED89C00E2A068 /* miaomiaoClient_Enterpise */,
+				C797CD2C1B3811D700A49FDB /* miaomiaoClient_Optional */,
 			);
 		};
 /* End PBXProject section */
@@ -1306,6 +1492,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C797CDAA1B3811D700A49FDB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C797CDAB1B3811D700A49FDB /* Icon@2x.png in Resources */,
+				C797CDAC1B3811D700A49FDB /* Main.storyboard in Resources */,
+				C797CDAD1B3811D700A49FDB /* LaunchScreen.xib in Resources */,
+				C797CDAE1B3811D700A49FDB /* AlipaySDK.bundle in Resources */,
+				C797CDAF1B3811D700A49FDB /* Icon.png in Resources */,
+				C797CDB01B3811D700A49FDB /* Images.xcassets in Resources */,
+				C797CDB11B3811D700A49FDB /* read_me.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1550,6 +1750,121 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C797CD2D1B3811D700A49FDB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C797CD2E1B3811D700A49FDB /* SDWebImageDecoder.m in Sources */,
+				C797CD2F1B3811D700A49FDB /* OrderProductCell.m in Sources */,
+				C797CD301B3811D700A49FDB /* base64.m in Sources */,
+				C797CD311B3811D700A49FDB /* MKAnnotationView+WebCache.m in Sources */,
+				C797CD321B3811D700A49FDB /* ShopCategoryData.m in Sources */,
+				C797CD331B3811D700A49FDB /* RootViewController.m in Sources */,
+				C797CD341B3811D700A49FDB /* ASIDataCompressor.m in Sources */,
+				C797CD351B3811D700A49FDB /* DiscountCell.m in Sources */,
+				C797CD361B3811D700A49FDB /* ShopCarShareData.m in Sources */,
+				C797CD371B3811D700A49FDB /* OrderInfoTopCell.m in Sources */,
+				C797CD381B3811D700A49FDB /* OrderInfoProductCell.m in Sources */,
+				C797CD391B3811D700A49FDB /* CommitDiscountCell.m in Sources */,
+				C797CD3A1B3811D700A49FDB /* ThreeLabelCell.m in Sources */,
+				C797CD3B1B3811D700A49FDB /* NSData+GIF.m in Sources */,
+				C797CD3C1B3811D700A49FDB /* OrderInfoStatistics.m in Sources */,
+				C797CD3D1B3811D700A49FDB /* LocationManager.m in Sources */,
+				C797CD3E1B3811D700A49FDB /* ProductCell.m in Sources */,
+				C797CD3F1B3811D700A49FDB /* NSDataEx.m in Sources */,
+				C797CD401B3811D700A49FDB /* UserCenterController.m in Sources */,
+				C797CD411B3811D700A49FDB /* CommitOrderController.m in Sources */,
+				C797CD421B3811D700A49FDB /* OneImageTwoLabelCell.m in Sources */,
+				C797CD431B3811D700A49FDB /* AddressCell.m in Sources */,
+				C797CD441B3811D700A49FDB /* ASINetworkQueue.m in Sources */,
+				C797CD451B3811D700A49FDB /* ShopSelectController.m in Sources */,
+				C797CD461B3811D700A49FDB /* ShopInfoData.m in Sources */,
+				C797CD471B3811D700A49FDB /* FourLabelCell.m in Sources */,
+				C797CD481B3811D700A49FDB /* LastViewOnTable.m in Sources */,
+				C797CD491B3811D700A49FDB /* SDWebImageCompat.m in Sources */,
+				C797CD4A1B3811D700A49FDB /* OrderHeadCell.m in Sources */,
+				C797CD4B1B3811D700A49FDB /* OrderInfoController.m in Sources */,
+				C797CD4C1B3811D700A49FDB /* TwoLabelCell.m in Sources */,
+				C797CD4D1B3811D700A49FDB /* OrderInfoContent.m in Sources */,
+				C797CD4E1B3811D700A49FDB /* SDImageCache.m in Sources */,
+				C797CD4F1B3811D700A49FDB /* UIImage+MultiFormat.m in Sources */,
+				C797CD501B3811D700A49FDB /* GeneralSelectCell.m in Sources */,
+				C797CD511B3811D700A49FDB /* CommitFillCell.m in Sources */,
+				C797CD521B3811D700A49FDB /* THActivityView.m in Sources */,
+				C797CD531B3811D700A49FDB /* UIImage+GIF.m in Sources */,
+				C797CD541B3811D700A49FDB /* DiscountCoverView.m in Sources */,
+				C797CD551B3811D700A49FDB /* SDWebImageDownloader.m in Sources */,
+				C797CD561B3811D700A49FDB /* NSString+ZhengZe.m in Sources */,
+				C797CD571B3811D700A49FDB /* OneImageOneLabelCell.m in Sources */,
+				C797CD581B3811D700A49FDB /* MD5DataSigner.m in Sources */,
+				C797CD591B3811D700A49FDB /* SettingViewController.m in Sources */,
+				C797CD5A1B3811D700A49FDB /* UIButton+WebCache.m in Sources */,
+				C797CD5B1B3811D700A49FDB /* RSADataVerifier.m in Sources */,
+				C797CD5C1B3811D700A49FDB /* ASIDownloadCache.m in Sources */,
+				C797CD5D1B3811D700A49FDB /* CustomSelectCell.m in Sources */,
+				C797CD5E1B3811D700A49FDB /* ASIInputStream.m in Sources */,
+				C797CD5F1B3811D700A49FDB /* ProductCoverView.m in Sources */,
+				C797CD601B3811D700A49FDB /* NavigationTitleView.m in Sources */,
+				C797CD611B3811D700A49FDB /* OneImageThreeLabelCell.m in Sources */,
+				C797CD621B3811D700A49FDB /* AppDelegate.m in Sources */,
+				C797CD631B3811D700A49FDB /* ShopCarCell.m in Sources */,
+				C797CD641B3811D700A49FDB /* Reachability.m in Sources */,
+				C797CD651B3811D700A49FDB /* ShopCategoryListView.m in Sources */,
+				C797CD661B3811D700A49FDB /* OrderFootSpecialCell.m in Sources */,
+				C797CD671B3811D700A49FDB /* JSONKit.m in Sources */,
+				C797CD681B3811D700A49FDB /* DataSigner.m in Sources */,
+				C797CD691B3811D700A49FDB /* AddProductCommonCell.m in Sources */,
+				C797CD6A1B3811D700A49FDB /* ConfirmAddressOneCell.m in Sources */,
+				C797CD6B1B3811D700A49FDB /* SDWebImageDownloaderOperation.m in Sources */,
+				C797CD6C1B3811D700A49FDB /* NSAttributedString+Frame.m in Sources */,
+				C797CD6D1B3811D700A49FDB /* UserManager.m in Sources */,
+				C797CD6E1B3811D700A49FDB /* UIImage+ZoomImage.m in Sources */,
+				C797CD6F1B3811D700A49FDB /* ShopCarTableView.m in Sources */,
+				C797CD701B3811D700A49FDB /* ASIAuthenticationDialog.m in Sources */,
+				C797CD711B3811D700A49FDB /* SpreadViewController.m in Sources */,
+				C797CD721B3811D700A49FDB /* RSADataSigner.m in Sources */,
+				C797CD731B3811D700A49FDB /* SelectShopCell.m in Sources */,
+				C797CD741B3811D700A49FDB /* CarButtonLayer.m in Sources */,
+				C797CD751B3811D700A49FDB /* SDWebImagePrefetcher.m in Sources */,
+				C797CD761B3811D700A49FDB /* AboutController.m in Sources */,
+				C797CD771B3811D700A49FDB /* LogViewController.m in Sources */,
+				C797CD781B3811D700A49FDB /* NetWorkRequest.m in Sources */,
+				C797CD791B3811D700A49FDB /* UIImage+WebP.m in Sources */,
+				C797CD7A1B3811D700A49FDB /* OrderInfoStatusCell.m in Sources */,
+				C797CD7B1B3811D700A49FDB /* ConfirmAddressCell.m in Sources */,
+				C797CD7C1B3811D700A49FDB /* AddressData.m in Sources */,
+				C797CD7D1B3811D700A49FDB /* ShopProductData.m in Sources */,
+				C797CD7E1B3811D700A49FDB /* DiscountData.m in Sources */,
+				C797CD7F1B3811D700A49FDB /* SuggestViewController.m in Sources */,
+				C797CD801B3811D700A49FDB /* CarButton.m in Sources */,
+				C797CD811B3811D700A49FDB /* OrderListController.m in Sources */,
+				C797CD821B3811D700A49FDB /* OpenUDID.m in Sources */,
+				C797CD831B3811D700A49FDB /* SDWebImageManager.m in Sources */,
+				C797CD841B3811D700A49FDB /* DiscountController.m in Sources */,
+				C797CD851B3811D700A49FDB /* DateFormateManager.m in Sources */,
+				C797CD861B3811D700A49FDB /* ShopCarCoverView.m in Sources */,
+				C797CD871B3811D700A49FDB /* AddressViewController.m in Sources */,
+				C797CD881B3811D700A49FDB /* ASIHTTPRequest.m in Sources */,
+				C797CD891B3811D700A49FDB /* openssl_wrapper.m in Sources */,
+				C797CD8A1B3811D700A49FDB /* UICustomActionView.m in Sources */,
+				C797CD8B1B3811D700A49FDB /* ShopProductListView.m in Sources */,
+				C797CD8C1B3811D700A49FDB /* Order.m in Sources */,
+				C797CD8D1B3811D700A49FDB /* main.m in Sources */,
+				C797CD8E1B3811D700A49FDB /* DataVerifier.m in Sources */,
+				C797CD8F1B3811D700A49FDB /* SearchProductController.m in Sources */,
+				C797CD901B3811D700A49FDB /* DiscountActionCell.m in Sources */,
+				C797CD911B3811D700A49FDB /* UIImageView+WebCache.m in Sources */,
+				C797CD921B3811D700A49FDB /* ShopTableHeadView.m in Sources */,
+				C797CD931B3811D700A49FDB /* OrderData.m in Sources */,
+				C797CD941B3811D700A49FDB /* ShopCarView.m in Sources */,
+				C797CD951B3811D700A49FDB /* ASIFormDataRequest.m in Sources */,
+				C797CD961B3811D700A49FDB /* AddressEditController.m in Sources */,
+				C797CD971B3811D700A49FDB /* OrderInfoServerCell.m in Sources */,
+				C797CD981B3811D700A49FDB /* OrderFootCell.m in Sources */,
+				C797CD991B3811D700A49FDB /* ASIDataDecompressor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1575,6 +1890,14 @@
 			children = (
 				C78223D71AFB55A8000A0AB4 /* Base */,
 				C749AEC71B0F384800F82FF2 /* zh-Hans */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		C797CD291B3811C800A49FDB /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C797CD2A1B3811C800A49FDB /* Base */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -1847,6 +2170,78 @@
 			};
 			name = Release;
 		};
+		C797CDB31B3811D700A49FDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Weiyuan Huang (QJZJLZ48TX)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Weiyuan Huang (QJZJLZ48TX)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/zhifubao",
+					"$(PROJECT_DIR)/Baidu",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/miaomiaoClient/miaomiaoClient-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/zhifubao/\"",
+				);
+				INFOPLIST_FILE = "miaomiaoClient copy3-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/zhifubao",
+					"$(PROJECT_DIR)/UMAnalytics_Sdk",
+					"$(PROJECT_DIR)/UMessage_Sdk",
+					"$(PROJECT_DIR)/WeChatSDK_1.5",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = miaomiaoClient_Optional/PrivateHeaders;
+				PRODUCT_NAME = "miaomiaoClient copy";
+				PROVISIONING_PROFILE = "b8133b64-43ef-4a6b-89ad-4ad4a43663d2";
+			};
+			name = Debug;
+		};
+		C797CDB41B3811D700A49FDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wuxi Chestnut Company Limited (F86GF7VY4V)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wuxi Chestnut Company Limited (F86GF7VY4V)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/zhifubao",
+					"$(PROJECT_DIR)/Baidu",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/miaomiaoClient/miaomiaoClient-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/zhifubao/\"",
+				);
+				INFOPLIST_FILE = "miaomiaoClient copy3-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/zhifubao",
+					"$(PROJECT_DIR)/UMAnalytics_Sdk",
+					"$(PROJECT_DIR)/UMessage_Sdk",
+					"$(PROJECT_DIR)/WeChatSDK_1.5",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = miaomiaoClient_Optional/PrivateHeaders;
+				PRODUCT_NAME = "miaomiaoClient copy";
+				PROVISIONING_PROFILE = "07d144cf-ad4c-44e8-847a-783bbd5e6a20";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1882,6 +2277,15 @@
 			buildConfigurations = (
 				C78223EB1AFB55A9000A0AB4 /* Debug */,
 				C78223EC1AFB55A9000A0AB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C797CDB21B3811D700A49FDB /* Build configuration list for PBXNativeTarget "miaomiaoClient_Optional" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C797CDB31B3811D700A49FDB /* Debug */,
+				C797CDB41B3811D700A49FDB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

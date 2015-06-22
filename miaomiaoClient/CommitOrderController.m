@@ -34,6 +34,9 @@
     UIButton* _commitBt;
     UILabel* _discountLabel;
     
+    int _currentRow;
+    CommitPayMethod _combinePays;
+    NSArray* _payArr;
     __weak UITextField* _respondField;
     NSDictionary* _addressDic;
     UITableView* _table;
@@ -59,7 +62,46 @@
     return self;
 }
 
+-(void)setPayWayMethod:(CommitPayMethod)method
+{
+    _combinePays = method;
+    switch (method) {
+        case Ali_CashPayCommit:
+             _payArr = @[@"支付宝支付",@"货到付款",@""];
+            _payWay = OrderPayInZfb;
+            break;
+            
+        case AliPayCommit:
+            _payArr = @[@"支付宝支付",@""];
+            _payWay = OrderPayInZfb;
+            break;
+    
+        case Wx_CashPayCommit:
+            _payArr = @[@"微信支付",@"货到付款",@""];
+            _payWay = OrderPayInWx;
+            break;
+ 
+        case WxPayCommit:
+            _payArr = @[@"微信支付",@""];
+            _payWay = OrderPayInWx;
+            break;
+            
+        case Ali_WxPayCommit:
+            _payArr = @[@"支付宝支付",@"微信支付",@""];
+            _payWay = OrderPayInZfb;
+            break;
 
+        case CashPayCommit:
+            _payArr = @[@"货到付款"];
+            _payWay = OrderPayInCash;
+            break;
+
+        default:
+            _payArr = @[@"支付宝",@"微信支付",@"货到付款",@""];
+            _payWay = OrderPayInZfb;
+            break;
+    }
+}
 
 -(void)viewDidLoad
 {
@@ -67,7 +109,7 @@
     
     self.title = @"订单";
     self.view.backgroundColor = [UIColor whiteColor];
-    _payWay = OrderPayInZfb;
+//    _payWay = OrderPayInZfb;
     
     _table = [[UITableView alloc]initWithFrame:self.view.bounds    style:UITableViewStyleGrouped];
     [self.view addSubview:_table];
@@ -167,8 +209,6 @@
         if (err == NetWorkErrorTokenInvalid) {
             return;
         }
-        
-        
         
         if (respond.count) {
             _address = respond[0];
@@ -353,7 +393,23 @@
     
     _commitBt = [UIButton buttonWithType:UIButtonTypeCustom];
     _commitBt.translatesAutoresizingMaskIntoConstraints = NO;
-    [_commitBt setTitle:@"支付宝支付" forState:UIControlStateNormal];
+    
+    NSString* btTitle = nil;
+    switch (_payWay) {
+        case OrderPayInCash:
+            btTitle = @"货到付款";
+            break;
+        case OrderPayInWx:
+            btTitle = @"微信支付";
+            break;
+         case OrderPayInZfb:
+            btTitle = @"支付宝支付";
+            break;
+        default:
+            break;
+    }
+    
+    [_commitBt setTitle:btTitle forState:UIControlStateNormal];
     [_commitBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_commitBt setTitleColor:DEFAULTNAVCOLOR forState:UIControlStateDisabled];
     _commitBt.titleLabel.font = DEFAULTFONT(15);
@@ -446,6 +502,29 @@
 {
     if (section==4)
     {
+        switch (_combinePays) {
+                
+            case AliPayCommit:
+                return _payWay==OrderPayInCash?1:2;
+                
+            case Ali_WxPayCommit:
+                return _payWay==OrderPayInCash?2:3;
+                
+            case Ali_CashPayCommit:
+                return _payWay==OrderPayInCash?2:3;
+                
+            case Wx_CashPayCommit:
+                return _payWay==OrderPayInCash?2:3;
+                
+            case CashPayCommit:
+                return 1;
+   
+            case WxPayCommit:
+                return _payWay==OrderPayInCash?1:2;
+            default:
+                break;
+        }
+        
         return _payWay==OrderPayInCash?3:4;
     }
     else if (section==2)
@@ -563,8 +642,7 @@
     }
     else
     {
-        
-        if (indexPath.row==3)
+        if (indexPath.row == _payArr.count-1 &&_combinePays!=CashPayCommit)
         {
             CommitDiscountCell* cell = [tableView dequeueReusableCellWithIdentifier:@"cell6"];
             if (cell==nil)
@@ -586,7 +664,7 @@
         
             return cell;
         }
-        
+        NSString* cellTitle = _payArr[indexPath.row];
         CustomSelectCell* cell = [tableView dequeueReusableCellWithIdentifier:@"cell5"];
         if (cell==nil) {
             cell = [[CustomSelectCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell5"];
@@ -594,23 +672,17 @@
             cell.textLabel.textColor = DEFAULTGRAYCOLO;
         }
         
+        cell.textLabel.text = cellTitle;
         
-        if(indexPath.row==2)
-        {
-            cell.textLabel.text = @"货到付款" ;
-            cell.accessoryType = _payWay==OrderPayInCash? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
+        if (indexPath.row == _currentRow) {
+           cell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
-        else if (indexPath.row==0)
+        else
         {
-           cell.textLabel.text = @"支付宝";
-           cell.accessoryType = _payWay==OrderPayInZfb? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
+            cell.accessoryType = UITableViewCellAccessoryNone;
         }
-        else if(indexPath.row==1)
-        {
-            cell.textLabel.text = @"微信支付" ;
-            cell.accessoryType = _payWay==OrderPayInWx? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;;
-        }
-         return cell;
+        
+        return cell;
     }
 }
 
@@ -629,29 +701,24 @@
     }
     else if(indexPath.section==4)
     {
-        NSString* btTitle = nil;
+        NSString* btTitle = _payArr[indexPath.row];
         
-        if (indexPath.row==2) {
-            
-            btTitle = @"货到付款";
+        if ([btTitle isEqualToString: @"货到付款"]) {
             _payWay = OrderPayInCash;
-            
         }
-        else if (indexPath.row==0)
+        else if ([btTitle isEqualToString: @"支付宝支付"])
         {
             _payWay = OrderPayInZfb;
-            btTitle = @"支付宝支付";
         }
-        else if(indexPath.row==1)
+        else if([btTitle isEqualToString: @"微信支付"])
         {
-            if ([WXApi isWXAppInstalled]==NO) {
-                
+            if ([WXApi isWXAppInstalled]==NO)
+            {
                THActivityView* warn  = [[THActivityView alloc]initWithString:@"没有安装微信客户端"];
                [warn show];
                return;
             }
             
-            btTitle = @"微信支付";
             _payWay = OrderPayInWx;
         }
         else
@@ -660,6 +727,7 @@
            return;
         }
         
+        _currentRow = indexPath.row;
         [tableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationNone];
         
         [self updateShopCar];

@@ -8,11 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import "ShopProductData.h"
-
+typedef enum _CommitPayMethod
+{
+   AliPayCommit,
+   Ali_WxPayCommit,
+   Ali_CashPayCommit,
+   Wx_CashPayCommit,
+   WxPayCommit,
+   CashPayCommit,
+   All_payCommit
+}CommitPayMethod;
 
 @interface CommitOrderController : UIViewController
 
 //@property(nonatomic,strong)NSString* shopID;
 
 -(id)initWithProductArr:(NSMutableArray*)productArr WithTotalMoney:(float)money;
+-(void)setPayWayMethod:(CommitPayMethod)method;
 @end
