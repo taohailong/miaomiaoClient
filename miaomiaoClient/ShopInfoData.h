@@ -26,7 +26,7 @@ typedef enum _ShopStatusType {
 @property(nonatomic,strong)NSString* closeTime;
 @property(nonatomic,assign)float minPrice;
 
-
+@property(nonatomic,assign)int combinPay;
 @property(nonatomic,strong)NSString* shopID;
 @property(nonatomic,assign)float latitude;
 @property(nonatomic,assign)float longitude;

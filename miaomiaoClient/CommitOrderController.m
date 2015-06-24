@@ -11,7 +11,7 @@
 #import "CommitFillCell.h"
 #import "AddressViewController.h"
 #import "THActivityView.h"
-//#import "DiscountController.h"
+
 #import "OrderListController.h"
 #import "ConfirmAddressCell.h"
 #import "ConfirmAddressOneCell.h"
@@ -22,7 +22,7 @@
 #import "DiscountData.h"
 
 #import "NetWorkRequest.h"
-#import "UserManager.h"
+
 #import "WXApi.h"
 #import "Order.h"
 #import "DataSigner.h"
@@ -59,6 +59,9 @@
     _productArr = productArr;
     _totalMoney = money;
     
+    UserManager* user = [UserManager shareUserManager];
+//    [self setPayWayMethod:user.combinPay];
+    [self setPayWayMethod:All_payCommit];
     return self;
 }
 
@@ -280,7 +283,6 @@
         {
             [wself showOrderListViewContrller];
         }
-        NSLog(@"%@",respond);
     }];
     [req startAsynchronous];
 
@@ -296,24 +298,13 @@
     
     PayReq *request = [[PayReq alloc] init] ;
     request.partnerId = @"1246963001";
-    
-//    request.prepayId= @"wx20150605220715a0e243ee780036192862";
-//    request.package = @"Sign=WXPay";
-//    request.nonceStr= @"f6e06644c3fb17c52be6bd0421b599b9";
-//    request.timeStamp= 1433513235;
-//    request.sign= @"29C74B9BA781281F13DFE7428C521FC2";
-
     request.prepayId= source[@"payInfo"][@"pre_id"];
     request.package = @"Sign=WXPay";
     request.nonceStr=  source[@"payInfo"][@"nonceStr"];
-    
-//    NSNumber* stampNu = [NSNumber numberWithLongLong:[source[@"payInfo"][@"timestamp"] unsignedLongValue]];
-    
     request.timeStamp= [source[@"payInfo"][@"timestamp"] intValue];
     request.sign= source[@"payInfo"][@"sign"];;
     [WXApi sendReq:request];
 }
-
 
 //zhifubao
 
@@ -361,10 +352,7 @@
     [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[separater(0.5)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separater)]];
     
     
-    
-    
     _discountLabel = [[UILabel alloc]init];
-//    _discountLabel.backgroundColor = [UIColor redColor];
     _discountLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_discountLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
 
@@ -388,8 +376,6 @@
     [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_moneyLabel]-6-[_discountLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_moneyLabel,_discountLabel)]];
     _moneyLabel.text = [NSString stringWithFormat:@"总计：¥%.2f",_totalMoney];
 
-    
-    
     
     _commitBt = [UIButton buttonWithType:UIButtonTypeCustom];
     _commitBt.translatesAutoresizingMaskIntoConstraints = NO;
@@ -637,7 +623,6 @@
             UITextField* text = [cell getTextFieldView];
             text.placeholder = @"给卖家留言";
         }
-        
         return cell;
     }
     else
@@ -679,7 +664,7 @@
         }
         else
         {
-            cell.accessoryType = UITableViewCellAccessoryNone;
+           cell.accessoryType = UITableViewCellAccessoryNone;
         }
         
         return cell;
@@ -718,7 +703,6 @@
                [warn show];
                return;
             }
-            
             _payWay = OrderPayInWx;
         }
         else
@@ -760,7 +744,6 @@
     if (section==2||section==4) {
         return 10;
     }
-
     return .5;
 }
 
@@ -791,7 +774,6 @@
       title.text = @"   付款方式";
     }
     return title;
-    return nil;
 }
 
 
@@ -859,7 +841,6 @@
     addView.delegate = self;
     [self.navigationController pushViewController:addView animated:YES];
 }
-
 
 #pragma mark-------------------address delegate--------------------
 

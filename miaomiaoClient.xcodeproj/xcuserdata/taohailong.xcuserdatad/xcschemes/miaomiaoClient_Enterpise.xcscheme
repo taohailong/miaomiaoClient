@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C743135E1B1ED89C00E2A068"
-               BuildableName = "miaomiaoClient copy.app"
+               BuildableName = "miaomiaoClient_Enterpise.app"
                BlueprintName = "miaomiaoClient_Enterpise"
                ReferencedContainer = "container:miaomiaoClient.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C743135E1B1ED89C00E2A068"
-            BuildableName = "miaomiaoClient copy.app"
+            BuildableName = "miaomiaoClient_Enterpise.app"
             BlueprintName = "miaomiaoClient_Enterpise"
             ReferencedContainer = "container:miaomiaoClient.xcodeproj">
          </BuildableReference>
@@ -53,7 +53,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C743135E1B1ED89C00E2A068"
-            BuildableName = "miaomiaoClient copy.app"
+            BuildableName = "miaomiaoClient_Enterpise.app"
             BlueprintName = "miaomiaoClient_Enterpise"
             ReferencedContainer = "container:miaomiaoClient.xcodeproj">
          </BuildableReference>
@@ -72,7 +72,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C743135E1B1ED89C00E2A068"
-            BuildableName = "miaomiaoClient copy.app"
+            BuildableName = "miaomiaoClient_Enterpise.app"
             BlueprintName = "miaomiaoClient_Enterpise"
             ReferencedContainer = "container:miaomiaoClient.xcodeproj">
          </BuildableReference>

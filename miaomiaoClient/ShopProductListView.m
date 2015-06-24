@@ -139,8 +139,10 @@
         _dataArr = _allDataDic[categoryID];
         [self addLoadMoreViewWithCount:_dataArr.count];
         [_table reloadData];
+        if (_dataArr.count) {
+          [_table scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:YES];
+        }
         
-         [_table scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:YES];
         return;
     }
     
@@ -221,7 +223,6 @@
     [_table reloadData];
     
     if (_dataArr.count) {
-        
        [_table scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:YES];
     }
     [self addLoadMoreViewWithCount:dataArr.count];

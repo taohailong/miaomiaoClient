@@ -50,7 +50,7 @@
     UIColor * color = [UIColor whiteColor];
     
     //这里我们设置的是颜色，还可以设置shadow等，具体可以参见api
-    NSDictionary * dict = @{UITextAttributeTextColor:color,UITextAttributeFont:DEFAULTFONT(18)};
+    NSDictionary * dict = @{NSForegroundColorAttributeName:color,NSFontAttributeName:DEFAULTFONT(18)};
     
     self.navigationController.navigationBar.titleTextAttributes = dict;
     
@@ -106,8 +106,6 @@
     
     [super viewDidLoad];
     
-//    _shopCarArr = [[NSMutableArray alloc]init];
-    
     self.navigationItem.titleView = [self navgationTitleView];
     [self setNavigationBarAttribute];
     
@@ -128,11 +126,12 @@
     
     
     UserManager* manager = [UserManager shareUserManager];
-    [self getShopInfoWithShopID:manager.shopID];
     
     if (manager.shopID!=nil) {
-       [self checkLocation];
+        [self checkLocation];
     }
+    [self getShopInfoWithShopID:manager.shopID];
+    
 }
 
 -(void)getShopInfoWithShopID:(NSString*)shop
@@ -215,20 +214,15 @@
     float originalHeight = (shopCarArr.count+1)*45.0;
     float height = SCREENHEIGHT*0.6<originalHeight?SCREENHEIGHT*0.6:originalHeight;
     [_shopCar setCarIconAnimationWithHeight:height];
-    
-    
+
 }
 
 
 -(void)cleanShopCar
 {
-//    for (ShopProductData* obj in _shopCarArr) {
-//        obj.count = 0;
-//    }
-//    [_shopCarArr removeAllObjects];
-//    _totalMoney = 0;
      ShopCarShareData* carData = [ShopCarShareData shareShopCarManager];
     [carData clearCache];
+    _totalMoney = 0;
     [_shopCar setMoneyLabel: 0];
     [_shopCar setCountOfProduct:0];
     [_productListV reloadTable];
@@ -237,56 +231,12 @@
 
 -(void)shopCarChanged:(NSNotification*)noti
 {
-//    ShopProductData* product = (ShopProductData*) noti.object;
-//    if (product==nil) {
-//        return;
-//    }
-//    
-//    [_productListV checkExsitShopCarData:product];
-//    
-//    BOOL exsit = NO;
-//    float totalMoney = 0;
-//    int count = 0;
-//    
-//    for (int i = 0 ;i< _shopCarArr.count;i++) {
-//        
-//        ShopProductData* obj = _shopCarArr[i];
-//        if ([obj.pID isEqualToString:product.pID]) {
-//            exsit = YES;
-//            obj.count = product.count;
-//        }
-//        if (obj.count==0) {
-//            [_shopCarArr removeObject:obj];
-//            i--;
-//            continue;
-//        }
-//        count += obj.count;
-//        totalMoney+= obj.price*obj.count;
-//    }
-//    
-//    if (exsit==NO) {
-//       [_shopCarArr addObject:product];
-//        count += product.count;
-//        totalMoney+= product.price * product.count;
-//    }
-//    
-//    [_productListV reloadTable];
-//
-//    _totalMoney = totalMoney;
-//    [_shopCar setMoneyLabel: totalMoney];
-//    [_shopCar setCountOfProduct:count];
-    
-    
      ShopCarShareData* carData = [ShopCarShareData shareShopCarManager];
-    
-    
     [_shopCar setMoneyLabel:[carData getTotalMoney]];
     [_shopCar setCountOfProduct:[carData getCarCount]];
     
     [_productListV reloadTable];
 }
-
-
 
 
 -(void)searchProductAction
@@ -340,15 +290,14 @@
         [self showLogView:^{
             
             CommitOrderController* order = [[CommitOrderController alloc]initWithProductArr:shopCarArr WithTotalMoney:[shareData getTotalMoney]];
-            [order setPayWayMethod:CashPayCommit];
-//            [order setPayWayMethod:Ali_WxPayCommit];
+
             [wself.navigationController pushViewController:order animated:YES];
         } ];
         return;
     }
     
     CommitOrderController* order = [[CommitOrderController alloc]initWithProductArr:shopCarArr WithTotalMoney:[shareData getTotalMoney]];
-    [order setPayWayMethod:All_payCommit];
+
     [self.navigationController pushViewController:order animated:YES];
 }
 
@@ -417,7 +366,7 @@
     
     UserManager* manager = [UserManager shareUserManager];
     manager.shopID = shop.shopID;
-    
+    [manager parseCombinPay:shop.combinPay];
     [manager setShopID:shop.shopID WithLongitude:shop.longitude WithLatitude:shop.latitude];
     manager.shopMinPrice = shop.minPrice;
 
@@ -428,10 +377,8 @@
     textLabel.text = [NSString stringWithFormat:@"%@",shop.shopName];
     detail.text = [NSString stringWithFormat:@"营业时间:%@-%@",shop.openTime?shop.openTime:@"00:00",shop.closeTime?shop.closeTime:@"24:00"];
     
-  
-    _totalMoney = 0;
     [_shopCar setMinPrice:shop.minPrice];
-    [_shopCar setMoneyLabel:_totalMoney];
+    [self cleanShopCar];
     
     [_productListV clearAllData];
     [_categoryListV initNetDataWithShopID:shop.shopID];

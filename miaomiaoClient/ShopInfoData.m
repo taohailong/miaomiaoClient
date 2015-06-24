@@ -11,4 +11,5 @@
 @implementation ShopInfoData
 @synthesize countCategory,countOrder,closeTime,countProducts,shopAddress,serveArea,shopName,shopStatue,minPrice;
 @synthesize latitude,longitude,shopID,district;
+@synthesize combinPay;
 @end

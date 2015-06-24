@@ -50,7 +50,7 @@
 @implementation UserManager
 @synthesize shopName,phoneNumber,token,shopID,shopAddress;
 @synthesize shopMinPrice;
-
+@synthesize combinPay;
 +(UserManager*)shareUserManager
 {
     static UserManager* shareUser = nil;
@@ -103,6 +103,36 @@
     [def synchronize];
     self.shopID = shopIDs;
 }
+
+-(void)parseCombinPay:(int)pay
+{
+    switch (pay) {
+        case 1:
+            self.combinPay = CashPayCommit;
+            break;
+        case 2:
+            self.combinPay = AliPayCommit;
+            break;
+        case 3:
+            self.combinPay = Ali_CashPayCommit;
+            break;
+        case 4:
+            self.combinPay = WxPayCommit;
+            break;
+        case 5:
+            self.combinPay = Wx_CashPayCommit;
+            break;
+        case 6:
+            self.combinPay = Ali_WxPayCommit;
+            break;
+
+        default:
+            self.combinPay = All_payCommit;
+            break;
+    }
+
+}
+
 
 
 #pragma mark--------------------Location-----------------
@@ -238,15 +268,15 @@
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
     
-//    if(IOS_VERSION(8.0))
-//    {
-//        if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorizedWhenInUse)
-//        {
-//            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请检查是否开启系统定位权限" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-//            [alert show];
-//           
-//        }
-//    }
+    if(IOS_VERSION(8.0))
+    {
+        if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorizedWhenInUse)
+        {
+            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请检查是否开启系统定位权限" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+            [alert show];
+           
+        }
+    }
 
     [manager stopUpdatingLocation];
     _mylocationManager = nil;
@@ -280,10 +310,6 @@
 //    CLLocationDistance kilometers=[orig distanceFromLocation:dist]/1000;
     return kilometers;
 }
-
-
-
-
 
 
 -(BOOL)verifyTokenOnNet:(void(^)(BOOL success, NSError *error))completeBlock

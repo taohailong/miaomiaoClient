@@ -456,7 +456,7 @@
 		C742E7DF1B16C41000EB0A60 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		C742E7E11B16C4D900EB0A60 /* NSAttributedString+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Frame.h"; sourceTree = "<group>"; };
 		C742E7E21B16C4D900EB0A60 /* NSAttributedString+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Frame.m"; sourceTree = "<group>"; };
-		C74313D11B1ED89C00E2A068 /* miaomiaoClient copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "miaomiaoClient copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C74313D11B1ED89C00E2A068 /* miaomiaoClient_Enterpise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = miaomiaoClient_Enterpise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C74313D31B1EF80200E2A068 /* OrderInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderInfoController.h; sourceTree = "<group>"; };
 		C74313D41B1EF80200E2A068 /* OrderInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderInfoController.m; sourceTree = "<group>"; };
 		C74313D61B1EFC2700E2A068 /* OrderInfoTopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderInfoTopCell.h; sourceTree = "<group>"; };
@@ -720,9 +720,8 @@
 		C782FB161B2FD374001F621D /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = Baidu/BaiduMapAPI.framework; sourceTree = "<group>"; };
 		C782FB191B2FFF6E001F621D /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
 		C782FB1A1B2FFF6E001F621D /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
-		C797CD281B3811C600A49FDB /* miaomiaoClient copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "miaomiaoClient copy2-Info.plist"; path = "/Users/taohailong/Desktop/miaomiaoClient/miaomiaoClient copy2-Info.plist"; sourceTree = "<absolute>"; };
 		C797CD2A1B3811C800A49FDB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = "Resources-iPad/miaomiaoClient/Base.lproj/LaunchScreen.xib"; sourceTree = "<group>"; };
-		C797CDB51B3811D700A49FDB /* miaomiaoClient copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "miaomiaoClient copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C797CDB51B3811D700A49FDB /* miaomiaoClient_Optional.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = miaomiaoClient_Optional.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C797CDB61B3811D700A49FDB /* miaomiaoClient copy3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "miaomiaoClient copy3-Info.plist"; path = "/Users/taohailong/Desktop/miaomiaoClient/miaomiaoClient copy3-Info.plist"; sourceTree = "<absolute>"; };
 		C79F18AA1B17285E006AB215 /* ConfirmAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmAddressCell.h; sourceTree = "<group>"; };
 		C79F18AB1B17285E006AB215 /* ConfirmAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfirmAddressCell.m; sourceTree = "<group>"; };
@@ -954,7 +953,6 @@
 				C78223E01AFB55A9000A0AB4 /* miaomiaoClientTests */,
 				C78223C51AFB55A8000A0AB4 /* Products */,
 				C737E6771B2C452400B7422B /* miaomiaoClient copy-Info.plist */,
-				C797CD281B3811C600A49FDB /* miaomiaoClient copy2-Info.plist */,
 				C797CDB61B3811D700A49FDB /* miaomiaoClient copy3-Info.plist */,
 			);
 			sourceTree = "<group>";
@@ -964,8 +962,8 @@
 			children = (
 				C78223C41AFB55A8000A0AB4 /* miaomiaoClient.app */,
 				C78223DD1AFB55A9000A0AB4 /* miaomiaoClientTests.xctest */,
-				C74313D11B1ED89C00E2A068 /* miaomiaoClient copy.app */,
-				C797CDB51B3811D700A49FDB /* miaomiaoClient copy.app */,
+				C74313D11B1ED89C00E2A068 /* miaomiaoClient_Enterpise.app */,
+				C797CDB51B3811D700A49FDB /* miaomiaoClient_Optional.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1354,7 +1352,7 @@
 			);
 			name = miaomiaoClient_Enterpise;
 			productName = miaomiaoClient;
-			productReference = C74313D11B1ED89C00E2A068 /* miaomiaoClient copy.app */;
+			productReference = C74313D11B1ED89C00E2A068 /* miaomiaoClient_Enterpise.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C78223C31AFB55A8000A0AB4 /* miaomiaoClient */ = {
@@ -1406,7 +1404,7 @@
 			);
 			name = miaomiaoClient_Optional;
 			productName = miaomiaoClient;
-			productReference = C797CDB51B3811D700A49FDB /* miaomiaoClient copy.app */;
+			productReference = C797CDB51B3811D700A49FDB /* miaomiaoClient_Optional.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1434,6 +1432,9 @@
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = F86GF7VY4V;
 						TestTargetID = C78223C31AFB55A8000A0AB4;
+					};
+					C797CD2C1B3811D700A49FDB = {
+						DevelopmentTeam = F86GF7VY4V;
 					};
 				};
 			};
@@ -1929,7 +1930,7 @@
 					"\"$(SRCROOT)/zhifubao/\"",
 				);
 				INFOPLIST_FILE = "miaomiaoClient copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1939,8 +1940,9 @@
 					"$(PROJECT_DIR)/WeChatSDK_1.5",
 				);
 				PRIVATE_HEADERS_FOLDER_PATH = miaomiaoClient_Enterpise.app/PrivateHeaders;
-				PRODUCT_NAME = "miaomiaoClient copy";
+				PRODUCT_NAME = miaomiaoClient_Enterpise;
 				PROVISIONING_PROFILE = "ea235f10-06ca-4901-a666-6fe45cb28203";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1965,7 +1967,7 @@
 					"\"$(SRCROOT)/zhifubao/\"",
 				);
 				INFOPLIST_FILE = "miaomiaoClient copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1975,8 +1977,9 @@
 					"$(PROJECT_DIR)/WeChatSDK_1.5",
 				);
 				PRIVATE_HEADERS_FOLDER_PATH = miaomiaoClient_Enterpise.app/PrivateHeaders;
-				PRODUCT_NAME = "miaomiaoClient copy";
+				PRODUCT_NAME = miaomiaoClient_Enterpise;
 				PROVISIONING_PROFILE = "71c0cb51-0071-4c9d-9f35-486e6aaa497e";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -2080,7 +2083,7 @@
 					"\"$(SRCROOT)/zhifubao/\"",
 				);
 				INFOPLIST_FILE = miaomiaoClient/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2092,6 +2095,8 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "b8133b64-43ef-4a6b-89ad-4ad4a43663d2";
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Debug;
 		};
@@ -2115,7 +2120,7 @@
 					"\"$(SRCROOT)/zhifubao/\"",
 				);
 				INFOPLIST_FILE = miaomiaoClient/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2127,6 +2132,8 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "07d144cf-ad4c-44e8-847a-783bbd5e6a20";
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Release;
 		};
@@ -2175,7 +2182,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Weiyuan Huang (QJZJLZ48TX)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Weiyuan Huang (QJZJLZ48TX)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2190,7 +2197,7 @@
 					"\"$(SRCROOT)/zhifubao/\"",
 				);
 				INFOPLIST_FILE = "miaomiaoClient copy3-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2200,9 +2207,11 @@
 					"$(PROJECT_DIR)/WeChatSDK_1.5",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRIVATE_HEADERS_FOLDER_PATH = miaomiaoClient_Optional/PrivateHeaders;
-				PRODUCT_NAME = "miaomiaoClient copy";
-				PROVISIONING_PROFILE = "b8133b64-43ef-4a6b-89ad-4ad4a43663d2";
+				PRIVATE_HEADERS_FOLDER_PATH = miaomiaoClient_Optional.app/PrivateHeaders;
+				PRODUCT_NAME = miaomiaoClient_Optional;
+				PROVISIONING_PROFILE = "8bb94526-5ba6-4cf8-ba46-4e663d6e9ba2";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Debug;
 		};
@@ -2211,7 +2220,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wuxi Chestnut Company Limited (F86GF7VY4V)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wuxi Chestnut Company Limited (F86GF7VY4V)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2226,7 +2235,7 @@
 					"\"$(SRCROOT)/zhifubao/\"",
 				);
 				INFOPLIST_FILE = "miaomiaoClient copy3-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2236,9 +2245,11 @@
 					"$(PROJECT_DIR)/WeChatSDK_1.5",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRIVATE_HEADERS_FOLDER_PATH = miaomiaoClient_Optional/PrivateHeaders;
-				PRODUCT_NAME = "miaomiaoClient copy";
-				PROVISIONING_PROFILE = "07d144cf-ad4c-44e8-847a-783bbd5e6a20";
+				PRIVATE_HEADERS_FOLDER_PATH = miaomiaoClient_Optional.app/PrivateHeaders;
+				PRODUCT_NAME = miaomiaoClient_Optional;
+				PROVISIONING_PROFILE = "626f1923-670a-45eb-b54c-ba68e3874c2d";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Release;
 		};

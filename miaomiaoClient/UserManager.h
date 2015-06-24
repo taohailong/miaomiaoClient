@@ -7,6 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+typedef enum _CommitPayMethod
+{
+    AliPayCommit,
+    Ali_WxPayCommit,
+    Ali_CashPayCommit,
+    Wx_CashPayCommit,
+    WxPayCommit,
+    CashPayCommit,
+    All_payCommit
+}CommitPayMethod;
 
 @interface UserManager : NSObject
 typedef void (^logCallBack)(BOOL success) ;
@@ -20,9 +30,13 @@ typedef void (^LocationBk)(BOOL success,float longitude,float latitude);
 @property(nonatomic,strong)NSString* shopID;
 @property(nonatomic,strong)NSString* shopAddress;
 @property(nonatomic,assign)float shopMinPrice;
+@property(nonatomic,assign)CommitPayMethod combinPay;
+
+
 
 -(NSString*)getUserAccount;
 
+-(void)parseCombinPay:(int)pay;
 -(void)startLocationWithBk:(LocationBk)bk;
 -(float)figureoutDistanceFromLongitude:(float)longitude Latitude:(float)latitude;
 

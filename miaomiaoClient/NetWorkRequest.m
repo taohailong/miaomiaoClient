@@ -424,7 +424,7 @@
                      shop.shopStatue = [temp[@"status"] intValue]?ShopClose:ShopOpen;
                      shop.mobilePhoneNu = temp[@"owner_phone"];
                      shop.minPrice = [temp[@"base_price"] floatValue]/100;
-                     
+                     shop.combinPay = [temp[@"combin_pay"] intValue];
                      
                      double openT = [temp[@"open_time"] doubleValue]/1000;
                      shop.openTime =  [formate formateFloatTimeValueToString:openT];
@@ -495,6 +495,7 @@
                     shop.mobilePhoneNu = temp[@"owner_phone"];
                     shop.minPrice = [temp[@"base_price"] floatValue]/100;
                     
+                    shop.combinPay = [temp[@"combin_pay"] intValue];
                     
                     double openT = [temp[@"open_time"] doubleValue]/1000;
                     shop.openTime =  [formate formateFloatTimeValueToString:openT];
@@ -543,7 +544,9 @@
         if (status==NetWorkSuccess) {
             
             ShopInfoData* data = [[ShopInfoData alloc]init];
-            
+            data.longitude = [sourceDic[@"data"][@"shop"][@"lng"] floatValue];
+            data.latitude = [sourceDic[@"data"][@"shop"][@"lat"] floatValue];
+            data.combinPay = [sourceDic[@"data"][@"shop"][@"combin_pay"] intValue];
             data.shopName = sourceDic[@"data"][@"shop"][@"name"];
             data.shopAddress = sourceDic[@"data"][@"shop"][@"shop_address"];
             data.serveArea = sourceDic[@"data"][@"shop"][@"shop_info"];
@@ -938,7 +941,7 @@
 
 #pragma mark--------------------api----------------------
 
--(void)getMethodRequestStrUrl:(NSString*)url complete:(void(^)(NetWorkStatus status,NSDictionary* sourceDic,NSError* err))block
+-(void)getMethodRequestStrUrl:(NSString*)url complete:(void(^)(NetWorkStatus status,id sourceDic,NSError* err))block
 {
     
     _asi = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
@@ -950,6 +953,7 @@
         NSDictionary* dataDic = [NSJSONSerialization JSONObjectWithData:bkAsi.responseData options:NSJSONReadingMutableContainers error:NULL];
         
         int codeNu = [dataDic[@"code"] intValue];
+        
         if (dataDic&&codeNu==0) {
             
              block(NetWorkSuccess,dataDic,nil);
@@ -963,6 +967,10 @@
             [warnView show];
             block(NetWorkErrorTokenInvalid,dataDic,nil);
         }
+        else if (dataDic==nil)
+        {
+            block(NetWorkErrorCanntConnect,@"服务器错误！",nil);
+        }
         else
         {
            NSMutableString* errStr = [[NSMutableString alloc]initWithString:dataDic[@"msg"]];
@@ -973,8 +981,9 @@
     }];
     
     [_asi setFailedBlock:^{
-        NSLog(@"bkAsi.error %@",bkAsi.error);
-        block( NetWorkErrorCanntConnect,nil,bkAsi.error);
+        
+        NSLog(@"bkAsi.error %@",bkAsi.error.localizedFailureReason);
+        block( NetWorkErrorCanntConnect,@"网络连接失败",bkAsi.error);
     }];
     
 }
