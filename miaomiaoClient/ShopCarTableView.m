@@ -110,7 +110,6 @@
     ShopCarShareData* shareData = [ShopCarShareData shareShopCarManager];
     [shareData addOrChangeShopWithProduct:product];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:PSHOPCARCHANGE object:product];
     [[NSNotificationCenter defaultCenter] postNotificationName:PSEARCHTABLERELOAD object:product];
     if (product.count==0) {
         [_table reloadData];

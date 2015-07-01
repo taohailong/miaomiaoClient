@@ -22,6 +22,39 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOption
 {
+    UITabBarController* tab = (UITabBarController*)self.window.rootViewController;
+    
+    int i = 0;
+    for (UIViewController* v in tab.viewControllers) {
+        
+        NSString* normal = nil;
+        NSString* highlight  = nil;
+        switch (i) {
+            case 0:
+                normal = @"tab_first";
+                highlight = @"tab_first_selected";
+                break;
+            case 1:
+                normal = @"tab_second";
+                highlight = @"tab_second_selected";
+                break;
+            case 2:
+                normal = @"tab_third";
+                highlight = @"tab_third_selected";
+                break;
+            default:
+                normal = @"tab_fourth";
+                highlight = @"tab_fourth_selected";
+                break;
+        }
+        v.tabBarItem.image = [UIImage imageNamed:normal];
+        v.tabBarItem.selectedImage = [UIImage imageNamed:highlight];
+        [v.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:DEFAULTNAVCOLOR} forState:UIControlStateHighlighted];
+        [v.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:DEFAULTGRAYCOLO} forState:UIControlStateNormal];
+
+    }
+    
+  
     
     [MobClick startWithAppkey:@"556c3da367e58e422f000f9b" reportPolicy:BATCH   channelId:nil];
     [MobClick setLogEnabled:NO];
@@ -29,10 +62,8 @@
     
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-//    self.window.tintColor = DEFAULTNAVCOLOR;
     UserManager* manager = [UserManager shareUserManager];
     [manager checkGID];
-    
     [WXApi registerApp:@"wx8c2570b40fc89b39"];
     
 #if ENTERPISE

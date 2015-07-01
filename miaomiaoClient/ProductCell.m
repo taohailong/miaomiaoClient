@@ -172,12 +172,10 @@
     BOOL isAdd = YES;
     if (bt.tag)
     {
-        
         count++;
     }
     else
     {
-        
         isAdd = NO;
         count--;
         count = count<0?0:count;

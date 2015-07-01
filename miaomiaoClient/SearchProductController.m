@@ -307,8 +307,6 @@
     ShopCarShareData* shareData = [ShopCarShareData shareShopCarManager];
     
     [shareData addOrChangeShopWithProduct:product];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:PSHOPCARCHANGE object:product];
 }
 
 -(void)reloadTableView

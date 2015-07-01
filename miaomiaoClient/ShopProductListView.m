@@ -34,7 +34,23 @@
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-    
+    [self creatSubView];
+    return self;
+}
+
+-(id)init
+{
+    self = [super init];
+    [self creatSubView];
+    return self;
+}
+
+
+
+
+
+-(void)creatSubView
+{
     _shopCarPrdouctDic = [[NSMutableDictionary alloc]init];//记录购物车的 @{"categoryid":@{@"shopid":product}}
     _dataArr = [[NSMutableArray alloc]init];
     _allDataDic = [[NSMutableDictionary alloc]init];
@@ -44,7 +60,7 @@
     _table.delegate = self;
     _table.dataSource = self;
     
-//    [self addLoadMoreViewWithCount:0];
+    //    [self addLoadMoreViewWithCount:0];
     if ([_table respondsToSelector:@selector(setSeparatorInset:)]) {
         [_table setSeparatorInset:UIEdgeInsetsZero];
     }
@@ -52,72 +68,19 @@
     if ([_table respondsToSelector:@selector(setLayoutMargins:)]) {
         [_table setLayoutMargins:UIEdgeInsetsZero];
     }
-
+    
     
     _table.translatesAutoresizingMaskIntoConstraints = NO;
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
-    return self;
+
 }
+
 
 -(void)clearAllData
 {
     [_allDataDic removeAllObjects];
 }
-
-//-(void)clearShopCache
-//{
-//    [_shopCarPrdouctDic removeAllObjects];
-//}
-//
-//-(void)checkExsitShopCarData:(ShopProductData*)data
-//{
-//    NSArray* arr = _allDataDic[data.categoryID];
-//    
-//    if ([arr containsObject:data]) {  //是否为当前table 缓存数据
-//        return;
-//    }
-//    for (ShopProductData* obj in arr)
-//    {
-//        if ([data.pID isEqualToString:obj.pID]) {
-//             obj.count = data.count ;
-//            return;
-//        }
-//    }
-//    
-//    
-//    
-//    NSMutableDictionary* categoryDic = _shopCarPrdouctDic[data.categoryID];
-//    
-//    if (categoryDic[data.pID]) {
-//        [categoryDic setObject:data forKey:data.pID];
-//    }
-//    else
-//    {
-//        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//        [_shopCarPrdouctDic setObject:dic forKey:data.categoryID];
-//        [dic setObject:data forKey:data.pID];
-//    }
-//
-//}
-//
-//-(void)changeCurrentTableDataElement:(NSMutableArray*)arr
-//{
-//    NSMutableDictionary* dic = _shopCarPrdouctDic[_currentCategoryID];
-//    if (dic.allKeys.count)
-//    {
-//        [arr enumerateObjectsUsingBlock:^(ShopProductData* obj, NSUInteger idx, BOOL *stop) {
-//            ShopProductData* p = dic[obj.pID];
-//            if (p) {
-//                obj.count = p.count;
-//                [dic removeObjectForKey:obj.pID];
-//            }
-//        }];
-//    }
-//
-//}
-
-
 
 
 
@@ -320,7 +283,7 @@
 {
      ShopCarShareData* carData = [ShopCarShareData shareShopCarManager];
     [carData addOrChangeShopWithProduct:product];
-    [[NSNotificationCenter defaultCenter] postNotificationName:PSHOPCARCHANGE object:product];
+    
 }
 
 

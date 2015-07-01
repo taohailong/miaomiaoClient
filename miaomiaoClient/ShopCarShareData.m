@@ -98,6 +98,8 @@
         }
         
      }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:PSHOPCARCHANGE object:nil];
 }
 
 @end

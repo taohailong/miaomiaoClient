@@ -141,6 +141,13 @@
 }
 
 
+-(void)timerInvalid
+{
+    _verifyBt.enabled = YES;
+    [_timer invalidate];
+}
+
+
 
 -(void)setLogResturnBk:(logCallBack)bk
 {
@@ -180,6 +187,7 @@
         }
         else
         {
+            [wSelf timerInvalid];
             THActivityView* alter = [[THActivityView alloc]initWithString:@"登录失败！"];
             [alter show];
             [loading removeFromSuperview];
@@ -191,7 +199,7 @@
 
 -(void)logViewDismiss
 {
-    [_timer invalidate];
+    [self timerInvalid];
     
     if (self.navigationController) {
         [self.navigationController popViewControllerAnimated:NO];

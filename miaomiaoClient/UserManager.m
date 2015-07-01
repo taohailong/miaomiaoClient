@@ -446,7 +446,11 @@
 
 -(BOOL)isLogin
 {
-    return self.shopName!=nil;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:UTOKEN]==nil)
+    {
+        return NO;
+    }
+    return YES;
 }
 -(void)logInWithPhone:(NSString *)phone Pass:(NSString *)ps logBack:(logCallBack) blockBack
 {

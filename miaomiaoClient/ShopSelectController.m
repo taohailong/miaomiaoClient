@@ -156,9 +156,13 @@
     locationLabel.textColor = FUNCTCOLOR(102, 102, 102);
     locationLabel.font = DEFAULTFONT(15);
     [backView addSubview:locationLabel];
-    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[locationLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(locationLabel)]];
     
-    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_search]-[locationLabel(35)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_search,locationLabel)]];
+    
+    [backView addConstraint:[NSLayoutConstraint constraintWithItem:locationLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:locationBt attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[locationLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(locationLabel)]];
+
+//    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_search]-[locationLabel(35)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_search,locationLabel)]];
     
     _table.tableHeaderView = backView;
 }
