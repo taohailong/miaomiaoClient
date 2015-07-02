@@ -43,12 +43,6 @@
 
 -(void)loadImageViewsWithData:(NSArray*)arr
 {
-//    for (UIView* sub in imageArr) {
-//        [sub removeFromSuperview];
-//    }
-//    
-//    [imageArr removeAllObjects];
-    
     dataArr = arr;
     scroll.contentSize = CGSizeMake(CGRectGetWidth(self.bounds)*dataArr.count,CGRectGetHeight(scroll.frame));
     
@@ -58,6 +52,7 @@
     for (int i =0 ;i<dataArr.count;i++)
     {
         UIImageView* imageView = [[UIImageView alloc]initWithFrame:frame];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
         imageView.userInteractionEnabled = YES;
         [scroll addSubview:imageView];
         [imageArr addObject:imageView];

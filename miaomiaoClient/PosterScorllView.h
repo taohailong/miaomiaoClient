@@ -12,7 +12,6 @@
 
 -(void)posterViewDidSelectAtIndex:(NSInteger)index WithData:(id)data;
 
-
 @end
 @interface PosterScorllView : UIView<UIScrollViewDelegate>
 {
@@ -23,6 +22,7 @@
 }
 @property(nonatomic,weak)id<PosterProtocol>delegate;
 -(void)invalidTimer;
+//arr (图片url)
 -(void)loadImageViewsWithData:(NSArray*)arr
 ;
 @end

@@ -11,6 +11,19 @@ typedef enum _ShopStatusType {
    ShopClose,
    ShopOpen
 }ShopStatusType;
+
+typedef enum _CommitPayMethod
+{
+    AliPayCommit,
+    Ali_WxPayCommit,
+    Ali_CashPayCommit,
+    Wx_CashPayCommit,
+    WxPayCommit,
+    CashPayCommit,
+    All_payCommit
+}CommitPayMethod;
+
+
 @interface ShopInfoData : NSObject
 @property(nonatomic,strong)NSString* shopName;
 @property(nonatomic,strong)NSString* shopAddress;
@@ -22,15 +35,18 @@ typedef enum _ShopStatusType {
 @property(nonatomic,strong)NSString* telPhoneNu;
 @property(nonatomic,strong)NSString* mobilePhoneNu;
 @property(nonatomic,assign)ShopStatusType shopStatue;
-@property(nonatomic,strong)NSString* openTime;
-@property(nonatomic,strong)NSString* closeTime;
+@property(nonatomic,assign)double openTime;
+@property(nonatomic,assign)double closeTime;
 @property(nonatomic,assign)float minPrice;
 
-@property(nonatomic,assign)int combinPay;
+@property(nonatomic,assign)float deliverCharge;
+@property(nonatomic,assign)CommitPayMethod combinPay;
 @property(nonatomic,strong)NSString* shopID;
 @property(nonatomic,assign)float latitude;
 @property(nonatomic,assign)float longitude;
 @property(nonatomic,strong)NSString* district;
 
-
+-(void)parseCombinPay:(int)pay;
+-(NSString*)getOpenTime;
+-(NSString*)getCloseTime;
 @end

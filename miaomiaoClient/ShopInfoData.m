@@ -7,9 +7,65 @@
 //
 
 #import "ShopInfoData.h"
-
+#import "DateFormateManager.h"
 @implementation ShopInfoData
 @synthesize countCategory,countOrder,closeTime,countProducts,shopAddress,serveArea,shopName,shopStatue,minPrice;
 @synthesize latitude,longitude,shopID,district;
-@synthesize combinPay;
+@synthesize combinPay,deliverCharge;
+
+
+-(NSString*)getOpenTime
+{
+    if (self.openTime==0) {
+        return @"00:00";
+    }
+    
+    DateFormateManager* formate = [DateFormateManager shareDateFormateManager];
+    
+    [formate setDateStyleString:@"HH:mm"];
+    return [formate formateFloatTimeValueToString:self.openTime];
+
+}
+
+-(NSString*)getCloseTime
+{
+    if (self.closeTime==0) {
+        return @"24:00";
+    }
+    DateFormateManager* formate = [DateFormateManager shareDateFormateManager];
+    
+    [formate setDateStyleString:@"HH:mm"];
+    return [formate formateFloatTimeValueToString:self.closeTime];
+}
+
+
+-(void)parseCombinPay:(int)pay
+{
+    switch (pay) {
+        case 1:
+            self.combinPay = CashPayCommit;
+            break;
+        case 2:
+            self.combinPay = AliPayCommit;
+            break;
+        case 3:
+            self.combinPay = Ali_CashPayCommit;
+            break;
+        case 4:
+            self.combinPay = WxPayCommit;
+            break;
+        case 5:
+            self.combinPay = Wx_CashPayCommit;
+            break;
+        case 6:
+            self.combinPay = Ali_WxPayCommit;
+            break;
+            
+        default:
+            self.combinPay = All_payCommit;
+            break;
+    }
+    
+}
+
 @end

@@ -30,7 +30,7 @@
     [self addSubview:_textLabel];
     _textLabel.textColor = [UIColor whiteColor];
     
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_textLabel(120)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_textLabel)]];
+//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_textLabel(150)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_textLabel)]];
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_textLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
     
@@ -45,7 +45,7 @@
     [imageView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_textLabel attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_textLabel]-[imageView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_textLabel,imageView)]];
     imageView.image = [UIImage imageNamed:@"navBar_narrow"];

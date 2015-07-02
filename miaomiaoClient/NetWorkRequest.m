@@ -396,10 +396,6 @@
              
              NSMutableArray* returnArr = [[NSMutableArray alloc]init];
              
-             DateFormateManager* formate = [DateFormateManager shareDateFormateManager];
-             [formate setDateStyleString:@"HH:mm"];
-             
-             
              NSArray* arrDic = sourceDic[@"data"][@"communitys"];
              for (NSDictionary* dic in arrDic) {
                  
@@ -427,10 +423,10 @@
                      shop.combinPay = [temp[@"combin_pay"] intValue];
                      
                      double openT = [temp[@"open_time"] doubleValue]/1000;
-                     shop.openTime =  [formate formateFloatTimeValueToString:openT];
+                     shop.openTime =  openT;
                      
                      double closeT = [temp[@"close_time"] doubleValue]/1000;
-                     shop.closeTime = [formate formateFloatTimeValueToString:closeT];
+                     shop.closeTime = closeT;
                      
                      [shopArr addObject:shop];
                  }
@@ -468,9 +464,6 @@
             
             NSMutableArray* returnArr = [[NSMutableArray alloc]init];
             
-            DateFormateManager* formate = [DateFormateManager shareDateFormateManager];
-            [formate setDateStyleString:@"HH:mm"];
-            
             
             NSArray* arrDic = sourceDic[@"data"][@"communitys"];
             for (NSDictionary* dic in arrDic) {
@@ -495,13 +488,12 @@
                     shop.mobilePhoneNu = temp[@"owner_phone"];
                     shop.minPrice = [temp[@"base_price"] floatValue]/100;
                     
-                    shop.combinPay = [temp[@"combin_pay"] intValue];
-                    
+                    [shop parseCombinPay:[temp[@"combin_pay"] intValue]];
                     double openT = [temp[@"open_time"] doubleValue]/1000;
-                    shop.openTime =  [formate formateFloatTimeValueToString:openT];
+                    shop.openTime =  openT;
                     
                     double closeT = [temp[@"close_time"] doubleValue]/1000;
-                    shop.closeTime = [formate formateFloatTimeValueToString:closeT];
+                    shop.closeTime = closeT;
                     
                     [shopArr addObject:shop];
                 }
@@ -537,16 +529,12 @@
     HTTPADD(url);
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
         
-        DateFormateManager* formate = [DateFormateManager shareDateFormateManager];
-        
-        [formate setDateStyleString:@"HH:mm"];
-
-        if (status==NetWorkSuccess) {
+         if (status==NetWorkSuccess) {
             
             ShopInfoData* data = [[ShopInfoData alloc]init];
             data.longitude = [sourceDic[@"data"][@"shop"][@"lng"] floatValue];
             data.latitude = [sourceDic[@"data"][@"shop"][@"lat"] floatValue];
-            data.combinPay = [sourceDic[@"data"][@"shop"][@"combin_pay"] intValue];
+             [data parseCombinPay:[sourceDic[@"data"][@"shop"][@"combin_pay"] intValue]];
             data.shopName = sourceDic[@"data"][@"shop"][@"name"];
             data.shopAddress = sourceDic[@"data"][@"shop"][@"shop_address"];
             data.serveArea = sourceDic[@"data"][@"shop"][@"shop_info"];
@@ -554,10 +542,10 @@
             if (sourceDic[@"data"][@"shop"][@"open_time"]) {
                 
                 double openT = [sourceDic[@"data"][@"shop"][@"open_time"] doubleValue]/1000;
-                data.openTime =  [formate formateFloatTimeValueToString:openT];
+                data.openTime =  openT;
                 
                 double closeT = [sourceDic[@"data"][@"shop"][@"close_time"] doubleValue]/1000;
-                data.closeTime = [formate formateFloatTimeValueToString:closeT];
+                data.closeTime = closeT;
             }
             
             data.mobilePhoneNu = sourceDic[@"data"][@"shop"][@"owner_phone"];

@@ -48,9 +48,12 @@
 @end
 
 @implementation UserManager
-@synthesize shopName,phoneNumber,token,shopID,shopAddress;
-@synthesize shopMinPrice;
-@synthesize combinPay;
+@synthesize token,shopID;
+@synthesize shop;
+//@synthesize shopName,phoneNumber,shopAddress;
+//@synthesize shopMinPrice;
+//@synthesize deliverCharge;
+//@synthesize combinPay;
 +(UserManager*)shareUserManager
 {
     static UserManager* shareUser = nil;
@@ -67,7 +70,6 @@
 {
     NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
     return [def objectForKey:UACCOUNT];
-
 }
 
 
@@ -91,8 +93,6 @@
 }
 
 
-
-
 -(void)setShopID:(NSString *)shopIDs WithLongitude:(float)longitude WithLatitude:(float)latitude
 {
     NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
@@ -103,36 +103,6 @@
     [def synchronize];
     self.shopID = shopIDs;
 }
-
--(void)parseCombinPay:(int)pay
-{
-    switch (pay) {
-        case 1:
-            self.combinPay = CashPayCommit;
-            break;
-        case 2:
-            self.combinPay = AliPayCommit;
-            break;
-        case 3:
-            self.combinPay = Ali_CashPayCommit;
-            break;
-        case 4:
-            self.combinPay = WxPayCommit;
-            break;
-        case 5:
-            self.combinPay = Wx_CashPayCommit;
-            break;
-        case 6:
-            self.combinPay = Ali_WxPayCommit;
-            break;
-
-        default:
-            self.combinPay = All_payCommit;
-            break;
-    }
-
-}
-
 
 
 #pragma mark--------------------Location-----------------

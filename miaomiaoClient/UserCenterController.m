@@ -27,16 +27,32 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
+
+-(void)setNavigationBarAttribute
+{
+    UIColor * color = DEFAULTGRAYCOLO;
+    NSDictionary * dict = @{NSForegroundColorAttributeName:color};
+    
+    self.navigationController.navigationBar.titleTextAttributes = dict;
+    [self.navigationController.navigationBar setTintColor:color];
+    
+    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+}
+
+
+
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-//    self.title = @"个人中心";
+    [self setNavigationBarAttribute];
     self.view.backgroundColor = [UIColor whiteColor];
 //    self.navigationController.navigationBarHidden = YES;
     [self creatHeadView];
@@ -116,22 +132,39 @@
     
     
     UIButton* orderBt = [UIButton buttonWithType:UIButtonTypeCustom];
+    orderBt.titleLabel.font = DEFAULTFONT(16);
     orderBt.translatesAutoresizingMaskIntoConstraints = NO;
     [orderBt addTarget:self action:@selector(showOrderListView) forControlEvents:UIControlEventTouchUpInside];
     [orderBt setTitleColor:DEFAULTBLACK forState:UIControlStateNormal];
     [self.view addSubview:orderBt];
+    [orderBt setImage:[UIImage imageNamed:@"userCenter_Order"]
+                forState:UIControlStateNormal];
+    
+    [orderBt setTitleEdgeInsets:UIEdgeInsetsMake(40, -31, -6, 0)];
+    [orderBt setImageEdgeInsets:UIEdgeInsetsMake(0, 18, 24, 0)];
+    
     [orderBt setTitle:@"全部订单" forState:UIControlStateNormal];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[redView]-10-[orderBt]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(redView,orderBt)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[redView]-10-[orderBt(60)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(redView,orderBt)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[orderBt(90)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(orderBt)]];
+
    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:orderBt attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:0.5 constant:0]];
     
     
     UIButton* discountBt = [UIButton buttonWithType:UIButtonTypeCustom];
+    discountBt.titleLabel.font = DEFAULTFONT(16);
     discountBt.translatesAutoresizingMaskIntoConstraints = NO;
     [discountBt setTitleColor:DEFAULTBLACK forState:UIControlStateNormal];
     [self.view addSubview:discountBt];
     [discountBt addTarget:self action:@selector(showDiscountView) forControlEvents:UIControlEventTouchUpInside];
     [discountBt setTitle:@"我的优惠券" forState:UIControlStateNormal];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[redView]-10-[discountBt]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(redView,discountBt)]];
+    [discountBt setImage:[UIImage imageNamed:@"userCenter_discount"]
+       forState:UIControlStateNormal];
+    
+    [discountBt setTitleEdgeInsets:UIEdgeInsetsMake(40, -31, -6, 0)];
+    [discountBt setImageEdgeInsets:UIEdgeInsetsMake(0, 18, 24, 0)];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[redView]-10-[discountBt(60)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(redView,discountBt)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[discountBt(90)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(discountBt)]];
+    
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:discountBt attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.5 constant:0]];
     
     UIView* separateView = [[UIView alloc]init];
@@ -353,6 +386,7 @@
 -(void)showLogView:(void(^)(void))block
 {
     LogViewController* log = [self.storyboard instantiateViewControllerWithIdentifier:@"LogViewController"];
+    log.hidesBottomBarWhenPushed = YES;
     [log setLogResturnBk:^(BOOL success) {
         
         if (success) {

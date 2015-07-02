@@ -22,6 +22,9 @@
 {
     [_textView becomeFirstResponder];
 }
+
+
+
 -(void)viewDidLoad
 {
     [super viewDidLoad];

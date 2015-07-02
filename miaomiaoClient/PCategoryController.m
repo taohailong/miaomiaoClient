@@ -33,34 +33,42 @@
     seachBt.backgroundColor = [UIColor redColor];
     [seachBt setTitle:@"搜索商品" forState:UIControlStateNormal];
     
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[seachBt]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-74-[seachBt(35)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[seachBt]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-70-[seachBt(30)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
     
     UIView* separateView =  [[UIView alloc]init];
     separateView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:separateView];
     separateView.backgroundColor = DEFAULTGRAYCOLO;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[separateView]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separateView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[seachBt]-10-[separateView(0.5)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt,separateView)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[seachBt]-5-[separateView(0.5)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt,separateView)]];
     
     
     
     _productListV = [[ShopProductListView alloc]init];
     _productListV.backgroundColor = [UIColor greenColor];
     _productListV.translatesAutoresizingMaskIntoConstraints = NO;
+    _productListV.delegate = self;
     [self.view addSubview:_productListV];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[separateView]-0-[_productListV]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separateView,_productListV)]];
-
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[separateView]-0-[_productListV]-49-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separateView,_productListV)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_productListV]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_productListV)]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_productListV attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.7 constant:0]];
+    
+    
+    
     
     _categoryListV = [[ShopCategoryListView alloc]init];
     _categoryListV.translatesAutoresizingMaskIntoConstraints = NO;
+    _categoryListV.delegate = self;
     [self.view addSubview:_categoryListV];
     
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[separateView]-0-[_categoryListV]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separateView,_categoryListV)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[separateView]-0-[_categoryListV]-49-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separateView,_categoryListV)]];
 
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_productListV]-[_categoryListV]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_productListV,_categoryListV)]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_categoryListV attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_productListV attribute:NSLayoutAttributeWidth multiplier:3/7 constant:0]];
-
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_categoryListV]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_categoryListV)]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_categoryListV attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.3 constant:0]];
+    
+    UserManager* manager =[UserManager shareUserManager];
+    [_categoryListV initNetDataWithShopID:manager.shopID];
 }
 
 
@@ -70,7 +78,7 @@
 
 -(UIView*)navgationTitleView
 {
-    NavigationTitleView* titleView = [[NavigationTitleView alloc]initWithFrame:CGRectMake(0, 0, 200, 42)];
+    NavigationTitleView* titleView = [[NavigationTitleView alloc]initWithFrame:CGRectMake(0, 0, 250, 42)];
     titleView.delegate = self;
     return titleView;
 }
@@ -104,20 +112,17 @@
 {
     UserManager* manager = [UserManager shareUserManager];
     manager.shopID = shop.shopID;
-    [manager parseCombinPay:shop.combinPay];
+    
     [manager setShopID:shop.shopID WithLongitude:shop.longitude WithLatitude:shop.latitude];
-    manager.shopMinPrice = shop.minPrice;
+   
     
     
     NavigationTitleView* title = (NavigationTitleView*)self.navigationItem.titleView;
     UILabel* textLabel = [title getTextLabel];
     UILabel* detail = [title getDetailLabel];
     textLabel.text = [NSString stringWithFormat:@"%@",shop.shopName];
-    detail.text = [NSString stringWithFormat:@"营业时间:%@-%@",shop.openTime?shop.openTime:@"00:00",shop.closeTime?shop.closeTime:@"24:00"];
-    
-//    [_shopCar setMinPrice:shop.minPrice];
-//    [self cleanShopCar];
-    
+    detail.text = [NSString stringWithFormat:@"营业时间:%@-%@",[shop getOpenTime],[shop getCloseTime]];
+        
     [_productListV clearAllData];
     [_categoryListV initNetDataWithShopID:shop.shopID];
     

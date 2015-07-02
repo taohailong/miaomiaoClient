@@ -7,16 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-typedef enum _CommitPayMethod
-{
-    AliPayCommit,
-    Ali_WxPayCommit,
-    Ali_CashPayCommit,
-    Wx_CashPayCommit,
-    WxPayCommit,
-    CashPayCommit,
-    All_payCommit
-}CommitPayMethod;
+#import "ShopInfoData.h"
 
 @interface UserManager : NSObject
 typedef void (^logCallBack)(BOOL success) ;
@@ -24,19 +15,22 @@ typedef void (^logCallBack)(BOOL success) ;
 typedef void (^LocationBk)(BOOL success,float longitude,float latitude);
 
 +(UserManager*)shareUserManager;
-@property(nonatomic,strong)NSString* shopName;
-@property(nonatomic,strong)NSString* phoneNumber;
+@property(nonatomic,strong)ShopInfoData* shop;
 @property(nonatomic,strong)NSString* token;
 @property(nonatomic,strong)NSString* shopID;
-@property(nonatomic,strong)NSString* shopAddress;
-@property(nonatomic,assign)float shopMinPrice;
-@property(nonatomic,assign)CommitPayMethod combinPay;
+//@property(nonatomic,strong)NSString* shopName;
+//@property(nonatomic,strong)NSString* phoneNumber;
+
+
+//@property(nonatomic,strong)NSString* shopAddress;
+//@property(nonatomic,assign)float shopMinPrice;
+//@property(nonatomic,assign)float deliverCharge;
+//@property(nonatomic,assign)CommitPayMethod combinPay;
 
 
 
 -(NSString*)getUserAccount;
 
--(void)parseCombinPay:(int)pay;
 -(void)startLocationWithBk:(LocationBk)bk;
 -(float)figureoutDistanceFromLongitude:(float)longitude Latitude:(float)latitude;
 

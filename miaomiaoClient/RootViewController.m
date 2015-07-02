@@ -35,13 +35,13 @@
 
 -(void)setNavigationBarAttribute
 {
+//    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+//    
+//    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     UIColor * color = [UIColor whiteColor];
-    
-    //这里我们设置的是颜色，还可以设置shadow等，具体可以参见api
     NSDictionary * dict = @{NSForegroundColorAttributeName:color,NSFontAttributeName:DEFAULTFONT(18)};
     
     self.navigationController.navigationBar.titleTextAttributes = dict;
-    
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
 }
 
@@ -63,17 +63,17 @@
     
     UIButton* seachBt = [UIButton buttonWithType:UIButtonTypeCustom];
     seachBt.translatesAutoresizingMaskIntoConstraints = NO;
+    [seachBt setImage:[UIImage imageNamed:@"root_search"] forState:UIControlStateNormal];
     [self.view addSubview:seachBt];
-    seachBt.backgroundColor = [UIColor redColor];
     [seachBt setTitle:@"搜索商品" forState:UIControlStateNormal];
     
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[seachBt]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-74-[seachBt(35)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[seachBt]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-70-[seachBt(30)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
     
     UICollectionViewFlowLayout* flow = [[UICollectionViewFlowLayout alloc]init];
 
     _collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:flow];
-    _collectionView.backgroundColor = [UIColor orangeColor];
+    _collectionView.backgroundColor = FUNCTCOLOR(243, 243, 243);
     [_collectionView registerClass:[PCollectionCell class] forCellWithReuseIdentifier:@"PCollectionCell"];
     [_collectionView registerClass:[AdvertiseCollectionCell class] forCellWithReuseIdentifier:@"AdvertiseCollectionCell"];
     
@@ -87,15 +87,15 @@
 
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_collectionView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_collectionView)]];
     
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[seachBt]-10-[_collectionView]-48-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt,_collectionView)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[seachBt]-5-[_collectionView]-48-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt,_collectionView)]];
     
     
     
 //    UIBarButtonItem* leftBar = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"root_set"] style:UIBarButtonItemStyleDone target:self action:@selector(showUserCenter)];
 //    self.navigationItem.leftBarButtonItem = leftBar;
 //    
-//    UIBarButtonItem* rightBar = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"root_search"] style:UIBarButtonItemStylePlain target:self action:@selector(searchProductAction)];
-//    self.navigationItem.rightBarButtonItem = rightBar;
+    UIBarButtonItem* rightBar = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"root_right"] style:UIBarButtonItemStylePlain target:self action:@selector(searchProductAction)];
+    self.navigationItem.rightBarButtonItem = rightBar;
     
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shopCarChanged:) name:PSHOPCARCHANGE object:nil];
@@ -155,9 +155,9 @@
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return CGSizeMake(SCREENWIDTH, 140);
+        return CGSizeMake(SCREENWIDTH, 145);
     }
-    return CGSizeMake(SCREENWIDTH/3-1, 140);
+    return CGSizeMake(SCREENWIDTH/3-1, 145);
 }
 
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
@@ -251,6 +251,7 @@
     }
     ShopSelectController* shops = [[ShopSelectController alloc]init];
     shops.delegate = self;
+    shops.hidesBottomBarWhenPushed = YES;
    [self.navigationController pushViewController:shops animated:YES];
     
     if (hiddenBack) {
@@ -283,16 +284,16 @@
     
     UserManager* manager = [UserManager shareUserManager];
     manager.shopID = shop.shopID;
-    [manager parseCombinPay:shop.combinPay];
+//    [manager parseCombinPay:shop.combinPay];
     [manager setShopID:shop.shopID WithLongitude:shop.longitude WithLatitude:shop.latitude];
-    manager.shopMinPrice = shop.minPrice;
+
 
     
     NavigationTitleView* title = (NavigationTitleView*)self.navigationItem.titleView;
     UILabel* textLabel = [title getTextLabel];
     UILabel* detail = [title getDetailLabel];
     textLabel.text = [NSString stringWithFormat:@"%@",shop.shopName];
-    detail.text = [NSString stringWithFormat:@"营业时间:%@-%@",shop.openTime?shop.openTime:@"00:00",shop.closeTime?shop.closeTime:@"24:00"];
+    detail.text = [NSString stringWithFormat:@"营业时间:%@-%@",[shop getOpenTime],[shop getCloseTime]];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

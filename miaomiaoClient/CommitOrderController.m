@@ -232,7 +232,7 @@
         return;
     }
     UserManager* manager = [UserManager shareUserManager];
-    if (manager.shopMinPrice>_totalMoney) {
+    if (manager.shop.minPrice>_totalMoney) {
         THActivityView* warnView = [[THActivityView alloc]initWithString:@"总价低于起送价格！"];
         [warnView show];
         return;
@@ -451,9 +451,9 @@
     }
     
     NSString* btTitle = nil;
-    if (_totalMoney < manager.shopMinPrice)
+    if (_totalMoney < manager.shop.minPrice)
     {
-        btTitle = [NSString stringWithFormat:@"还差%.2f元起送", manager.shopMinPrice-_totalMoney];
+        btTitle = [NSString stringWithFormat:@"还差%.2f元起送", manager.shop.minPrice-_totalMoney];
         _commitBt.enabled = NO;
     }
     else
@@ -714,7 +714,7 @@
         
         [self updateShopCar];
         UserManager* manager = [UserManager shareUserManager];
-        if (_totalMoney < manager.shopMinPrice) {
+        if (_totalMoney < manager.shop.minPrice) {
             return;
         }
 

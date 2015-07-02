@@ -36,12 +36,14 @@
     
     _titleLabel = [[UILabel alloc]init];
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _titleLabel.font = [UIFont systemFontOfSize:15];
+    _titleLabel.font = DEFAULTFONT(16);
+    _titleLabel.textColor = DEFAULTBLACK;
     [_backView addSubview:_titleLabel];
     
     _endLabe = [[UILabel alloc]init];
     _endLabe.translatesAutoresizingMaskIntoConstraints = NO;
-    _endLabe.font = [UIFont systemFontOfSize:15];
+    _endLabe.font = DEFAULTFONT(12);
+    _endLabe.textColor = DEFAULTGRAYCOLO;
     [_backView addSubview:_endLabe];
 
 

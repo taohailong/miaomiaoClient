@@ -91,16 +91,8 @@
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = FUNCTCOLOR(243, 243, 243);
-//        UIView* separateView = [[UIView alloc]init];
-//        separateView.backgroundColor = FUNCTCOLOR(229, 229, 229);
-//        separateView.translatesAutoresizingMaskIntoConstraints = NO;
-//        [cell.contentView addSubview:separateView];
-//        [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[separateView(0.5)]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separateView)]];
-//        
-//        [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[separateView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separateView)]];
+
 
         cell.textLabel.font = DEFAULTFONT(16);
         cell.textLabel.textColor = DEFAULTBLACK;
@@ -123,7 +115,6 @@
         ShopCategoryData* data = _dataArr[indexPath.row];
         [self.delegate didSelectCategoryIndexWith:data.categoryID WithShopID:data.shopID];
     }
-//    [tableView reloadData];
 }
 
 

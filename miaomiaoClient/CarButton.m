@@ -33,7 +33,6 @@
     [content addAttribute:NSFontAttributeName value:DEFAULTFONT(13) range:NSMakeRange(0, str.length)];
     [content addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, str.length)];
     [_countLayer setDrawString:content];
-
 }
 
 

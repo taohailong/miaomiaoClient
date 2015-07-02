@@ -18,6 +18,27 @@
 		C72F5EF71B1831A900064946 /* ShopCarCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = C72F5EF61B1831A900064946 /* ShopCarCoverView.m */; };
 		C72FFA401B15B4F5007C9C3D /* CarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C72FFA3F1B15B4F5007C9C3D /* CarButton.m */; };
 		C737E6781B2C452400B7422B /* miaomiaoClient copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C737E6771B2C452400B7422B /* miaomiaoClient copy-Info.plist */; };
+		C73C66031B44E95A00B7CF08 /* ShopInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66021B44E95A00B7CF08 /* ShopInfoViewController.m */; };
+		C73C66041B44E95A00B7CF08 /* ShopInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66021B44E95A00B7CF08 /* ShopInfoViewController.m */; };
+		C73C66051B44E95A00B7CF08 /* ShopInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66021B44E95A00B7CF08 /* ShopInfoViewController.m */; };
+		C73C66081B44EB6C00B7CF08 /* ShopHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66071B44EB6C00B7CF08 /* ShopHeadCell.m */; };
+		C73C66091B44EB6C00B7CF08 /* ShopHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66071B44EB6C00B7CF08 /* ShopHeadCell.m */; };
+		C73C660A1B44EB6C00B7CF08 /* ShopHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66071B44EB6C00B7CF08 /* ShopHeadCell.m */; };
+		C73C660D1B44FECC00B7CF08 /* ShopDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C660C1B44FECC00B7CF08 /* ShopDetailCell.m */; };
+		C73C660E1B44FECC00B7CF08 /* ShopDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C660C1B44FECC00B7CF08 /* ShopDetailCell.m */; };
+		C73C660F1B44FECC00B7CF08 /* ShopDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C660C1B44FECC00B7CF08 /* ShopDetailCell.m */; };
+		C73C66121B45199200B7CF08 /* ProuductInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66111B45199200B7CF08 /* ProuductInfoController.m */; };
+		C73C66131B45199200B7CF08 /* ProuductInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66111B45199200B7CF08 /* ProuductInfoController.m */; };
+		C73C66141B45199200B7CF08 /* ProuductInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66111B45199200B7CF08 /* ProuductInfoController.m */; };
+		C73C66171B451F1600B7CF08 /* ProductInfoHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66161B451F1600B7CF08 /* ProductInfoHeadCell.m */; };
+		C73C66181B451F1600B7CF08 /* ProductInfoHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66161B451F1600B7CF08 /* ProductInfoHeadCell.m */; };
+		C73C66191B451F1600B7CF08 /* ProductInfoHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66161B451F1600B7CF08 /* ProductInfoHeadCell.m */; };
+		C73C661C1B45213D00B7CF08 /* ProductInfoDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C661B1B45213D00B7CF08 /* ProductInfoDetailCell.m */; };
+		C73C661D1B45213D00B7CF08 /* ProductInfoDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C661B1B45213D00B7CF08 /* ProductInfoDetailCell.m */; };
+		C73C661E1B45213D00B7CF08 /* ProductInfoDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C661B1B45213D00B7CF08 /* ProductInfoDetailCell.m */; };
+		C73C66211B4533C800B7CF08 /* ShopCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66201B4533C800B7CF08 /* ShopCarViewController.m */; };
+		C73C66221B4533C800B7CF08 /* ShopCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66201B4533C800B7CF08 /* ShopCarViewController.m */; };
+		C73C66231B4533C800B7CF08 /* ShopCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66201B4533C800B7CF08 /* ShopCarViewController.m */; };
 		C74278D81B0593B900B7307A /* AddProductCommonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C74278D71B0593B900B7307A /* AddProductCommonCell.m */; };
 		C74278DB1B05CE6C00B7307A /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C74278DA1B05CE6C00B7307A /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C74278DE1B05F07200B7307A /* OrderListController.m in Sources */ = {isa = PBXBuildFile; fileRef = C74278DD1B05F07200B7307A /* OrderListController.m */; };
@@ -444,6 +465,20 @@
 		C72FFA3E1B15B4F5007C9C3D /* CarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarButton.h; sourceTree = "<group>"; };
 		C72FFA3F1B15B4F5007C9C3D /* CarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarButton.m; sourceTree = "<group>"; };
 		C737E6771B2C452400B7422B /* miaomiaoClient copy-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "miaomiaoClient copy-Info.plist"; sourceTree = "<group>"; };
+		C73C66011B44E95A00B7CF08 /* ShopInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopInfoViewController.h; sourceTree = "<group>"; };
+		C73C66021B44E95A00B7CF08 /* ShopInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopInfoViewController.m; sourceTree = "<group>"; };
+		C73C66061B44EB6C00B7CF08 /* ShopHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopHeadCell.h; sourceTree = "<group>"; };
+		C73C66071B44EB6C00B7CF08 /* ShopHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopHeadCell.m; sourceTree = "<group>"; };
+		C73C660B1B44FECC00B7CF08 /* ShopDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopDetailCell.h; sourceTree = "<group>"; };
+		C73C660C1B44FECC00B7CF08 /* ShopDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailCell.m; sourceTree = "<group>"; };
+		C73C66101B45199200B7CF08 /* ProuductInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProuductInfoController.h; sourceTree = "<group>"; };
+		C73C66111B45199200B7CF08 /* ProuductInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProuductInfoController.m; sourceTree = "<group>"; };
+		C73C66151B451F1600B7CF08 /* ProductInfoHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductInfoHeadCell.h; sourceTree = "<group>"; };
+		C73C66161B451F1600B7CF08 /* ProductInfoHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductInfoHeadCell.m; sourceTree = "<group>"; };
+		C73C661A1B45213D00B7CF08 /* ProductInfoDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductInfoDetailCell.h; sourceTree = "<group>"; };
+		C73C661B1B45213D00B7CF08 /* ProductInfoDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductInfoDetailCell.m; sourceTree = "<group>"; };
+		C73C661F1B4533C800B7CF08 /* ShopCarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopCarViewController.h; sourceTree = "<group>"; };
+		C73C66201B4533C800B7CF08 /* ShopCarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopCarViewController.m; sourceTree = "<group>"; };
 		C74278D61B0593B900B7307A /* AddProductCommonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddProductCommonCell.h; sourceTree = "<group>"; };
 		C74278D71B0593B900B7307A /* AddProductCommonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddProductCommonCell.m; sourceTree = "<group>"; };
 		C74278D91B05CE6C00B7307A /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
@@ -1013,6 +1048,18 @@
 				C768F33F1B42B17600FF0A1A /* AdvertiseCollectionCell.m */,
 				C768F3431B42B19300FF0A1A /* PCollectionCell.h */,
 				C768F3441B42B19300FF0A1A /* PCollectionCell.m */,
+				C73C66011B44E95A00B7CF08 /* ShopInfoViewController.h */,
+				C73C66021B44E95A00B7CF08 /* ShopInfoViewController.m */,
+				C73C66061B44EB6C00B7CF08 /* ShopHeadCell.h */,
+				C73C66071B44EB6C00B7CF08 /* ShopHeadCell.m */,
+				C73C660B1B44FECC00B7CF08 /* ShopDetailCell.h */,
+				C73C660C1B44FECC00B7CF08 /* ShopDetailCell.m */,
+				C73C66101B45199200B7CF08 /* ProuductInfoController.h */,
+				C73C66111B45199200B7CF08 /* ProuductInfoController.m */,
+				C73C66151B451F1600B7CF08 /* ProductInfoHeadCell.h */,
+				C73C66161B451F1600B7CF08 /* ProductInfoHeadCell.m */,
+				C73C661A1B45213D00B7CF08 /* ProductInfoDetailCell.h */,
+				C73C661B1B45213D00B7CF08 /* ProductInfoDetailCell.m */,
 				C768F3391B42842200FF0A1A /* PCategoryController.h */,
 				C768F33A1B42842200FF0A1A /* PCategoryController.m */,
 				C742E7D91B16B40F00EB0A60 /* ProductCoverView.h */,
@@ -1033,6 +1080,8 @@
 				C759B9A51B0325E500681E22 /* ShopInfoData.m */,
 				C7BADC141B01F5330083252D /* ProductCell.h */,
 				C7BADC151B01F5330083252D /* ProductCell.m */,
+				C73C661F1B4533C800B7CF08 /* ShopCarViewController.h */,
+				C73C66201B4533C800B7CF08 /* ShopCarViewController.m */,
 				C759B99A1B03119E00681E22 /* LogViewController.h */,
 				C759B99B1B03119E00681E22 /* LogViewController.m */,
 				C7510DA91B0483FA00C237AB /* CommitOrderController.h */,
@@ -1552,6 +1601,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C73C660E1B44FECC00B7CF08 /* ShopDetailCell.m in Sources */,
 				C782FB1C1B300415001F621D /* LocationManager.m in Sources */,
 				C7E7E10B1B298872001D5FBE /* DiscountCoverView.m in Sources */,
 				C7E7E1071B293FCF001D5FBE /* CommitDiscountCell.m in Sources */,
@@ -1572,6 +1622,7 @@
 				C7AEEB921B21872E00E92233 /* OrderInfoStatusCell.m in Sources */,
 				C7AEEB931B21872E00E92233 /* OrderInfoProductCell.m in Sources */,
 				C7AEEB941B21872E00E92233 /* OrderInfoStatistics.m in Sources */,
+				C73C66131B45199200B7CF08 /* ProuductInfoController.m in Sources */,
 				C7AEEB951B21872E00E92233 /* OrderInfoContent.m in Sources */,
 				C7AEEB961B21872E00E92233 /* OrderInfoServerCell.m in Sources */,
 				C74313601B1ED89C00E2A068 /* SDWebImageDecoder.m in Sources */,
@@ -1609,11 +1660,13 @@
 				C74313801B1ED89C00E2A068 /* ASIDownloadCache.m in Sources */,
 				C74313811B1ED89C00E2A068 /* CustomSelectCell.m in Sources */,
 				C74313821B1ED89C00E2A068 /* ASIInputStream.m in Sources */,
+				C73C66091B44EB6C00B7CF08 /* ShopHeadCell.m in Sources */,
 				C74313831B1ED89C00E2A068 /* ProductCoverView.m in Sources */,
 				C74313841B1ED89C00E2A068 /* NavigationTitleView.m in Sources */,
 				C74313851B1ED89C00E2A068 /* AppDelegate.m in Sources */,
 				C74313861B1ED89C00E2A068 /* ShopCarCell.m in Sources */,
 				C74313871B1ED89C00E2A068 /* Reachability.m in Sources */,
+				C73C66181B451F1600B7CF08 /* ProductInfoHeadCell.m in Sources */,
 				C74313881B1ED89C00E2A068 /* ShopCategoryListView.m in Sources */,
 				C74313891B1ED89C00E2A068 /* OrderFootSpecialCell.m in Sources */,
 				C743138A1B1ED89C00E2A068 /* JSONKit.m in Sources */,
@@ -1628,9 +1681,12 @@
 				C74313921B1ED89C00E2A068 /* ShopCarTableView.m in Sources */,
 				C74313931B1ED89C00E2A068 /* ASIAuthenticationDialog.m in Sources */,
 				C74313941B1ED89C00E2A068 /* RSADataSigner.m in Sources */,
+				C73C66041B44E95A00B7CF08 /* ShopInfoViewController.m in Sources */,
+				C73C66221B4533C800B7CF08 /* ShopCarViewController.m in Sources */,
 				C74313951B1ED89C00E2A068 /* SelectShopCell.m in Sources */,
 				C74313961B1ED89C00E2A068 /* CarButtonLayer.m in Sources */,
 				C74313971B1ED89C00E2A068 /* SDWebImagePrefetcher.m in Sources */,
+				C73C661D1B45213D00B7CF08 /* ProductInfoDetailCell.m in Sources */,
 				C74313981B1ED89C00E2A068 /* AboutController.m in Sources */,
 				C74313991B1ED89C00E2A068 /* LogViewController.m in Sources */,
 				C768F3411B42B17600FF0A1A /* AdvertiseCollectionCell.m in Sources */,
@@ -1672,6 +1728,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C73C660D1B44FECC00B7CF08 /* ShopDetailCell.m in Sources */,
 				C78224B21AFB5D9E000A0AB4 /* SDWebImageDecoder.m in Sources */,
 				C742B5F31B09B93700D29ABB /* OrderProductCell.m in Sources */,
 				C78224101AFB5975000A0AB4 /* base64.m in Sources */,
@@ -1692,6 +1749,7 @@
 				C782FB1B1B2FFF6E001F621D /* LocationManager.m in Sources */,
 				C7BADC161B01F5330083252D /* ProductCell.m in Sources */,
 				C78224141AFB5975000A0AB4 /* NSDataEx.m in Sources */,
+				C73C66121B45199200B7CF08 /* ProuductInfoController.m in Sources */,
 				C74278E11B05F8B200B7307A /* UserCenterController.m in Sources */,
 				C7510DAB1B0483FA00C237AB /* CommitOrderController.m in Sources */,
 				C748105C1B2087250069FAB4 /* OneImageTwoLabelCell.m in Sources */,
@@ -1729,11 +1787,13 @@
 				C78223CD1AFB55A8000A0AB4 /* AppDelegate.m in Sources */,
 				C7AAB1331B09E68500F9082F /* ShopCarCell.m in Sources */,
 				C78224881AFB5D95000A0AB4 /* Reachability.m in Sources */,
+				C73C66081B44EB6C00B7CF08 /* ShopHeadCell.m in Sources */,
 				C7428BE51B01E49F00F63ADB /* ShopCategoryListView.m in Sources */,
 				C726DBCB1B0D7BDB00ED26A6 /* OrderFootSpecialCell.m in Sources */,
 				C74278DB1B05CE6C00B7307A /* JSONKit.m in Sources */,
 				C78224111AFB5975000A0AB4 /* DataSigner.m in Sources */,
 				C74278D81B0593B900B7307A /* AddProductCommonCell.m in Sources */,
+				C73C66171B451F1600B7CF08 /* ProductInfoHeadCell.m in Sources */,
 				C79F18AF1B172938006AB215 /* ConfirmAddressOneCell.m in Sources */,
 				C78224B41AFB5D9E000A0AB4 /* SDWebImageDownloaderOperation.m in Sources */,
 				C742E7E31B16C4D900EB0A60 /* NSAttributedString+Frame.m in Sources */,
@@ -1748,9 +1808,12 @@
 				C78224B61AFB5D9E000A0AB4 /* SDWebImagePrefetcher.m in Sources */,
 				C77A70971B1C526C00C8FEA4 /* AboutController.m in Sources */,
 				C759B99C1B03119E00681E22 /* LogViewController.m in Sources */,
+				C73C66031B44E95A00B7CF08 /* ShopInfoViewController.m in Sources */,
+				C73C66211B4533C800B7CF08 /* ShopCarViewController.m in Sources */,
 				C7BADC1C1B01F57E0083252D /* NetWorkRequest.m in Sources */,
 				C78224BA1AFB5D9E000A0AB4 /* UIImage+WebP.m in Sources */,
 				C74313DB1B1F0E4700E2A068 /* OrderInfoStatusCell.m in Sources */,
+				C73C661C1B45213D00B7CF08 /* ProductInfoDetailCell.m in Sources */,
 				C79F18AC1B17285E006AB215 /* ConfirmAddressCell.m in Sources */,
 				C7510DAE1B04AA6500C237AB /* AddressData.m in Sources */,
 				C768F3401B42B17600FF0A1A /* AdvertiseCollectionCell.m in Sources */,
@@ -1800,6 +1863,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C73C660F1B44FECC00B7CF08 /* ShopDetailCell.m in Sources */,
 				C797CD2E1B3811D700A49FDB /* SDWebImageDecoder.m in Sources */,
 				C797CD2F1B3811D700A49FDB /* OrderProductCell.m in Sources */,
 				C797CD301B3811D700A49FDB /* base64.m in Sources */,
@@ -1820,6 +1884,7 @@
 				C797CD3D1B3811D700A49FDB /* LocationManager.m in Sources */,
 				C797CD3E1B3811D700A49FDB /* ProductCell.m in Sources */,
 				C797CD3F1B3811D700A49FDB /* NSDataEx.m in Sources */,
+				C73C66141B45199200B7CF08 /* ProuductInfoController.m in Sources */,
 				C797CD401B3811D700A49FDB /* UserCenterController.m in Sources */,
 				C797CD411B3811D700A49FDB /* CommitOrderController.m in Sources */,
 				C797CD421B3811D700A49FDB /* OneImageTwoLabelCell.m in Sources */,
@@ -1857,11 +1922,13 @@
 				C797CD621B3811D700A49FDB /* AppDelegate.m in Sources */,
 				C797CD631B3811D700A49FDB /* ShopCarCell.m in Sources */,
 				C797CD641B3811D700A49FDB /* Reachability.m in Sources */,
+				C73C660A1B44EB6C00B7CF08 /* ShopHeadCell.m in Sources */,
 				C797CD651B3811D700A49FDB /* ShopCategoryListView.m in Sources */,
 				C797CD661B3811D700A49FDB /* OrderFootSpecialCell.m in Sources */,
 				C797CD671B3811D700A49FDB /* JSONKit.m in Sources */,
 				C797CD681B3811D700A49FDB /* DataSigner.m in Sources */,
 				C797CD691B3811D700A49FDB /* AddProductCommonCell.m in Sources */,
+				C73C66191B451F1600B7CF08 /* ProductInfoHeadCell.m in Sources */,
 				C797CD6A1B3811D700A49FDB /* ConfirmAddressOneCell.m in Sources */,
 				C797CD6B1B3811D700A49FDB /* SDWebImageDownloaderOperation.m in Sources */,
 				C797CD6C1B3811D700A49FDB /* NSAttributedString+Frame.m in Sources */,
@@ -1876,9 +1943,12 @@
 				C797CD751B3811D700A49FDB /* SDWebImagePrefetcher.m in Sources */,
 				C797CD761B3811D700A49FDB /* AboutController.m in Sources */,
 				C797CD771B3811D700A49FDB /* LogViewController.m in Sources */,
+				C73C66051B44E95A00B7CF08 /* ShopInfoViewController.m in Sources */,
+				C73C66231B4533C800B7CF08 /* ShopCarViewController.m in Sources */,
 				C797CD781B3811D700A49FDB /* NetWorkRequest.m in Sources */,
 				C797CD791B3811D700A49FDB /* UIImage+WebP.m in Sources */,
 				C797CD7A1B3811D700A49FDB /* OrderInfoStatusCell.m in Sources */,
+				C73C661E1B45213D00B7CF08 /* ProductInfoDetailCell.m in Sources */,
 				C797CD7B1B3811D700A49FDB /* ConfirmAddressCell.m in Sources */,
 				C797CD7C1B3811D700A49FDB /* AddressData.m in Sources */,
 				C768F3421B42B17600FF0A1A /* AdvertiseCollectionCell.m in Sources */,
