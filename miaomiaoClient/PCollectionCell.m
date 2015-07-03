@@ -18,11 +18,11 @@
     _productImageView.contentMode = UIViewContentModeScaleAspectFit;
     _productImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_productImageView];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[_productImageView]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_productImageView)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[_productImageView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_productImageView)]];
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[_productImageView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_productImageView)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[_productImageView(80)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_productImageView)]];
     
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_productImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_productImageView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_productImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_productImageView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
     
     
     

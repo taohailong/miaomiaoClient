@@ -78,7 +78,7 @@
 {
     __weak DiscountController* wself = self;
     NetWorkRequest* req = [[NetWorkRequest alloc]init];
-    [req getDiscountTicketListWithIndex:_dataArr.count WithBk:^(NSArray* respond, NetWorkStatus status) {
+    [req getDiscountTicketListWithIndex:_dataArr.count+1 WithBk:^(NSArray* respond, NetWorkStatus status) {
        
         if (status == NetWorkSuccess) {
             [wself addMoreData:respond];

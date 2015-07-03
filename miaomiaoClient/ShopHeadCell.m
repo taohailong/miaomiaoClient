@@ -31,7 +31,7 @@
     verticalSeparate1.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:verticalSeparate1];
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[horizontalSeparate]-5-[verticalSeparate1]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(verticalSeparate1)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[horizontalSeparate]-5-[verticalSeparate1]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(horizontalSeparate,verticalSeparate1)]];
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[verticalSeparate1(1)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(verticalSeparate1)]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:verticalSeparate1 attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
@@ -65,7 +65,7 @@
     _fifthLabel.textColor = DEFAULTBLACK;
     _fifthLabel.font = DEFAULTFONT(13);
     
-    [self setLayout];
+    
     return self;
 }
 
@@ -77,25 +77,25 @@
 
     
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[horizontalSeparate]-10-[_secondLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(horizontalSeparate,_secondLabel)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[horizontalSeparate]-8-[_secondLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(horizontalSeparate,_secondLabel)]];
     
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_secondLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:2/3 constant:0]];
-    
-    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_secondLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:0.5 constant:0]];
     
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_secondLabel]-10-[_fourthLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_secondLabel,_fourthLabel)]];
     
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_fourthLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:2/3 constant:0]];
+    
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_secondLabel]-6-[_fourthLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_secondLabel,_fourthLabel)]];
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_fourthLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:0.5 constant:0]];
 
     
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[horizontalSeparate]-10-[_thirdLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(horizontalSeparate,_thirdLabel)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[horizontalSeparate]-8-[_thirdLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(horizontalSeparate,_thirdLabel)]];
     
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_thirdLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1.5 constant:0]];
     
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_thirdLabel]-10-[_fifthLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_thirdLabel,_fifthLabel)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_thirdLabel]-6-[_fifthLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_thirdLabel,_fifthLabel)]];
     
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_fifthLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1.5 constant:0]];
 

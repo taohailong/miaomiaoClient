@@ -47,8 +47,10 @@
                 highlight = @"tab_fourth_selected";
                 break;
         }
+        i++;
+        v.tabBarItem.selectedImage = [[UIImage imageNamed:highlight] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         v.tabBarItem.image = [UIImage imageNamed:normal];
-        v.tabBarItem.selectedImage = [UIImage imageNamed:highlight];
+       
         [v.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:DEFAULTNAVCOLOR} forState:UIControlStateHighlighted];
         [v.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:DEFAULTGRAYCOLO} forState:UIControlStateNormal];
 

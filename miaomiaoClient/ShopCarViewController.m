@@ -13,6 +13,7 @@
 #import "ShopCarShareData.h"
 #import "UserManager.h"
 #import "THActivityView.h"
+#import "CommitOrderController.h"
 
 @interface ShopCarViewController()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -23,6 +24,13 @@
 }
 @end
 @implementation ShopCarViewController
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self updateShopCar];
+    [_table reloadData];
+}
+
 -(void)viewDidLoad
 {
     [super viewDidLoad];
@@ -135,7 +143,10 @@
         [warnView show];
         return;
     }
-
+    
+    CommitOrderController* readyOrder = [[CommitOrderController alloc]init];
+    readyOrder.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:readyOrder animated:YES];
 }
 
 #pragma mark-tableview

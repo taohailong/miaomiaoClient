@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "ShopProductData.h"
-@interface ProuductInfoController : UIViewController
+@interface ProductInfoController : UIViewController
 -(id)initWithProductData:(ShopProductData*)product;
 @end

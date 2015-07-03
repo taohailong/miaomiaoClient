@@ -21,6 +21,7 @@
     float _totalMoney;
     UITableView* _table;
     __weak ShopCarView* _shopCar;
+    UISearchBar* search;
 //    NSMutableArray* _shopCarArr;
     NSMutableArray* _dataArr;
 }
@@ -39,28 +40,15 @@
 //}
 
 
--(void)viewWillAppear:(BOOL)animated
+-(void)viewDidAppear:(BOOL)animated
 {
-    UIView* topView = (UIView*)[self.navigationController.view viewWithTag:100];
-    if ([topView isKindOfClass:[ShopCarView class]]) {
-        topView.hidden = NO;
-    }
-
+  [search becomeFirstResponder];
     
-//    UIView* topView = [self.navigationController.view.subviews lastObject];
-//    if ([topView isKindOfClass:[ShopCarView class]]) {
-//        _shopCar = (ShopCarView*)topView;
-//        topView.hidden = NO;
-//    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-//    UIView* topView = [self.navigationController.view.subviews lastObject];
-    UIView* topView = (UIView*)[self.navigationController.view viewWithTag:100];
-    if ([topView isKindOfClass:[ShopCarView class]]) {
-        topView.hidden = YES;
-    }
+   [search resignFirstResponder];
 }
 
 
@@ -87,11 +75,11 @@
 
 -(void)creatSearchBar
 {
-    UISearchBar* search = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 44)];
+    search = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 44)];
     search.placeholder = @"搜索商品";
     search.delegate = self;
     _table.tableHeaderView = search;
-    [search becomeFirstResponder];
+   
 }
     
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
@@ -208,7 +196,7 @@
 {
     UserManager* manager = [UserManager shareUserManager];
     THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
-//    character = @"哈";
+
     __weak SearchProductController* wself = self;
     NetWorkRequest* req = [[NetWorkRequest alloc]init];
     [req seachProductWithShopID:manager.shopID WithCharacter:character WithBk:^(NSMutableArray* respond, NetWorkStatus status) {
@@ -229,28 +217,6 @@
         _table.separatorColor = nil;
         [_table reloadData];
     }
-
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        
-//        for (ShopProductData* obj in _dataArr) {
-//            
-//            for (ShopProductData* compare in _shopCarArr) {
-//                if ([compare.pID isEqualToString:obj.pID]) {
-//                    obj.count  = compare.count;
-//                }
-//            }
-//        }
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            
-//            if (_dataArr.count) {
-//                _table.separatorColor = nil;
-//                [_table reloadData];
-//            }
-// 
-//        });
-//    });
-    
-
 }
 
 

@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CustomSelectCell : UITableViewCell
+{
+    BOOL _isNeedSeparate;
+}
 
+-(void)setNeedSeparate:(BOOL)flag;
 @end

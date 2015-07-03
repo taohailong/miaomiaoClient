@@ -13,15 +13,32 @@
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    _scrollView = [[PosterScorllView alloc]initWithFrame:self.contentView.bounds];
-    [self.contentView addSubview:_scrollView];
+    
     return self;
+}
+
+-(void)layoutSubviews
+{
+//    NSLog(@" %@ %@",NSStringFromCGRect(self.frame),NSStringFromCGRect(self.contentView.frame));
+    [super layoutSubviews];
+    [self setScrollView];
+}
+
+-(void)setScrollView
+{
+    if (_scrollView) {
+        return;
+    }
+    _scrollView = [[PosterScorllView alloc]
+                   initWithFrame:self.contentView.bounds];
+    [self.contentView addSubview:_scrollView];
+    [_scrollView loadImageViewsWithData:_picArr];
 }
 
 
 -(void)setProductImages:(NSArray*)arr
 {
-    [_scrollView loadImageViewsWithData:arr];
+    _picArr = arr;
 }
 
 

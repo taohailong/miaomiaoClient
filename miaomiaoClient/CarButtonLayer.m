@@ -28,12 +28,12 @@
     _contentSize = [strAttribute sizeConstrainedToSize:CGSizeMake(100, 50)];
     
     if ( _contentSize.height>_contentSize.width) {
-       self.bounds = CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMinY(self.bounds), _contentSize.height+1, _contentSize.height+1);
+       self.bounds = CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMinY(self.bounds), _contentSize.height+2, _contentSize.height+2);
        self.cornerRadius = _contentSize.height/2;
     }
     else
     {
-        self.bounds = CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMinY(self.bounds), _contentSize.width+2, _contentSize.height+1);
+        self.bounds = CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMinY(self.bounds), _contentSize.width+2, _contentSize.height+2);
         self.cornerRadius = _contentSize.height/2;
     }
     

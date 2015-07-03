@@ -10,12 +10,16 @@
 #import "ShopInfoData.h"
 
 @interface UserManager : NSObject
+{
+    ShopInfoData* _shop;
+}
 typedef void (^logCallBack)(BOOL success) ;
 
 typedef void (^LocationBk)(BOOL success,float longitude,float latitude);
 
+-(void)setCurrentShop:(ShopInfoData*)shops;
 +(UserManager*)shareUserManager;
-@property(nonatomic,strong)ShopInfoData* shop;
+@property(nonatomic,strong,readonly)ShopInfoData* shop;
 @property(nonatomic,strong)NSString* token;
 @property(nonatomic,strong)NSString* shopID;
 //@property(nonatomic,strong)NSString* shopName;

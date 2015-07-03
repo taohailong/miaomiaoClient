@@ -67,7 +67,7 @@
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_fourthLabel]-10-[_fifthLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_fourthLabel,_fifthLabel)]];
     
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_fourthLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_firstLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_fifthLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_firstLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
 
 }
 
@@ -99,7 +99,7 @@
 
 -(void)setFifthLStr:(NSString *)str
 {
-   _fifthLabel.text = [NSString stringWithFormat:@"联系电话:%@",_fifthLabel];
+   _fifthLabel.text = [NSString stringWithFormat:@"联系电话:%@",str];
 }
 
 @end

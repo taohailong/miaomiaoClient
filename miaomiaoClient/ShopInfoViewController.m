@@ -22,11 +22,11 @@
     [super viewDidLoad];
     
     self.title = @"店铺详情";
-    _table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    _table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     [_table registerClass:[ShopDetailCell class] forCellReuseIdentifier:@"ShopDetailCell"];
     
     [_table registerClass:[ShopHeadCell class] forCellReuseIdentifier:@"ShopHeadCell"];
-    
+    _table.separatorColor = [UIColor clearColor];
     _table.translatesAutoresizingMaskIntoConstraints = NO;
     _table.delegate = self;
     _table.dataSource = self;
@@ -56,10 +56,19 @@
     if (indexPath.section == 0) {
         return 120;
     }
-    
-    return 155;
+    return 146;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+
+{
+    return 10;
+}
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -67,6 +76,7 @@
         
         UserManager* manager = [UserManager shareUserManager];
         ShopHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ShopHeadCell"];
+        [cell setLayout];
         UILabel* f = [cell getFirstLabel];
         f.text = manager.shop.shopName;
         
@@ -86,7 +96,7 @@
         [cell setSecondLStr:[NSString stringWithFormat:@"%@-%@",[manager.shop getOpenTime],[manager.shop getCloseTime]]];
         [cell setThirdLStr:[NSString stringWithFormat:@"%.1f",manager.shop.minPrice]];
         [cell setFourthLStr:[NSString stringWithFormat:@"%.1f",manager.shop.minPrice]];
-        [cell setFirstLStr:manager.shop.telPhoneNu];
+        [cell setFifthLStr:manager.shop.telPhoneNu];
         return cell;
     }
 
@@ -95,7 +105,7 @@
 
 -(void)makeTelphone
 {
-    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"联系客服" message:@"是否拨打电话" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"联系商家" message:@"是否拨打电话" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alert show];
 
 }

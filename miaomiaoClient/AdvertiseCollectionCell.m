@@ -7,7 +7,7 @@
 //
 
 #import "AdvertiseCollectionCell.h"
-#import "PosterScorllView.h"
+
 
 @interface AdvertiseCollectionCell ()
 {
@@ -16,11 +16,14 @@
 @end
 
 @implementation AdvertiseCollectionCell
+@synthesize delegate;
+
 -(id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
 //    self.backgroundColor = [UIColor blueColor];
     _scorll = [[PosterScorllView alloc]initWithFrame:self.contentView.bounds];
+    _scorll.delegate = self;
     [self.contentView addSubview:_scorll];
     return self;
 }
@@ -30,5 +33,11 @@
     [_scorll loadImageViewsWithData:arr];
 }
 
+-(void)posterViewDidSelectAtIndex:(NSInteger)index WithData:(id)data
+{
+    if ([self.delegate respondsToSelector:@selector(posterViewDidSelectAtIndex:WithData:)]) {
+        [self.delegate posterViewDidSelectAtIndex:index WithData:data];
+    }
 
+}
 @end

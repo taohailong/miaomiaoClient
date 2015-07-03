@@ -155,7 +155,7 @@
     NetWorkRequest* productReq = [[NetWorkRequest alloc]init];
     __weak ShopProductListView* wSelf = self;
     
-    [productReq shopGetProductWithShopID:_currentShopID withCategory:_currentCategoryID fromIndex:_dataArr.count WithCallBack:^(id backDic, NetWorkStatus error) {
+    [productReq shopGetProductWithShopID:_currentShopID withCategory:_currentCategoryID fromIndex:_dataArr.count+1 WithCallBack:^(id backDic, NetWorkStatus error) {
         
         [fullView removeFromSuperview];
         wSelf.isLoading = NO;

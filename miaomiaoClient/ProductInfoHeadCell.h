@@ -10,7 +10,9 @@
 #import "PosterScorllView.h"
 @interface ProductInfoHeadCell : UITableViewCell<PosterProtocol>
 {
+    NSArray* _picArr;
     PosterScorllView* _scrollView;
 }
 -(void)setProductImages:(NSArray*)arr;
+//-(void)setScrollView;
 @end

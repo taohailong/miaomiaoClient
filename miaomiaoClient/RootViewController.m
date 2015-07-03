@@ -21,8 +21,10 @@
 #import "PCollectionCell.h"
 #import "AdvertiseCollectionCell.h"
 #import "PCollectionHeadView.h"
+#import "ShopInfoViewController.h"
 
-@interface RootViewController ()<ShopSelectProtocol,NavigationTieleViewProtocol,UIAlertViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+
+@interface RootViewController ()<ShopSelectProtocol,NavigationTieleViewProtocol,UIAlertViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,PosterProtocol>
 {
     UICollectionView* _collectionView;
     BOOL _carViewNeedHidden;
@@ -35,9 +37,9 @@
 
 -(void)setNavigationBarAttribute
 {
-//    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-//    
-//    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     UIColor * color = [UIColor whiteColor];
     NSDictionary * dict = @{NSForegroundColorAttributeName:color,NSFontAttributeName:DEFAULTFONT(18)};
     
@@ -62,13 +64,22 @@
     [self setNavigationBarAttribute];
     
     UIButton* seachBt = [UIButton buttonWithType:UIButtonTypeCustom];
+    seachBt.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     seachBt.translatesAutoresizingMaskIntoConstraints = NO;
+    [seachBt setContentEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
     [seachBt setImage:[UIImage imageNamed:@"root_search"] forState:UIControlStateNormal];
+    seachBt.layer.cornerRadius = 4;
+    seachBt.layer.masksToBounds = YES;
+    seachBt.backgroundColor = DEFAULTGRAYCOLO;
     [self.view addSubview:seachBt];
-    [seachBt setTitle:@"搜索商品" forState:UIControlStateNormal];
+    seachBt.titleLabel.font = DEFAULTFONT(15);
+    [seachBt setTitle:@" 搜索商品" forState:UIControlStateNormal];
+    [seachBt setTitleColor:DEFAULTBLACK forState:UIControlStateNormal];
+    [seachBt addTarget:self action:@selector(searchProductAction) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[seachBt]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-70-[seachBt(30)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
+    
     
     UICollectionViewFlowLayout* flow = [[UICollectionViewFlowLayout alloc]init];
 
@@ -94,7 +105,7 @@
 //    UIBarButtonItem* leftBar = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"root_set"] style:UIBarButtonItemStyleDone target:self action:@selector(showUserCenter)];
 //    self.navigationItem.leftBarButtonItem = leftBar;
 //    
-    UIBarButtonItem* rightBar = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"root_right"] style:UIBarButtonItemStylePlain target:self action:@selector(searchProductAction)];
+    UIBarButtonItem* rightBar = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"root_right"] style:UIBarButtonItemStylePlain target:self action:@selector(showShopInfoViewController)];
     self.navigationItem.rightBarButtonItem = rightBar;
     
     
@@ -102,16 +113,24 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notiShowLogView) name:PNEEDLOG object:nil];
     
-//    UserManager* manager = [UserManager shareUserManager];
-//    
-//    if (manager.shopID!=nil) {
-//        [self checkLocation];
-//    }
-//    [self getShopInfoWithShopID:manager.shopID];
+    UserManager* manager = [UserManager shareUserManager];
+    
+    if (manager.shopID!=nil) {
+        [self checkLocation];
+    }
+    [self getShopInfoWithShopID:manager.shopID];
     
 }
 
+#pragma mark-buttonAction
 
+-(void)showShopInfoViewController
+{
+    ShopInfoViewController* shopInfo = [[ShopInfoViewController alloc]init];
+    shopInfo.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:shopInfo animated:YES];
+
+}
 
 
 #pragma mark-----------collectionView ---------------
@@ -174,7 +193,8 @@
 {
     if (indexPath.section == 0) {
         AdvertiseCollectionCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AdvertiseCollectionCell" forIndexPath:indexPath];
-        
+        cell.delegate = self;
+        [cell setImageDataArr:@[@"http://img1.ifensi.com/channelimg/Image/wenjing/29/3s.jpg",@"http://pic1.nipic.com/2008-09-04/2008941547677_2.jpg"]];
         return cell;
     }
     
@@ -241,6 +261,7 @@
 {
     SearchProductController* searchView = [[SearchProductController alloc]init];
     [searchView setTotalMoney:_totalMoney];
+    searchView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:searchView animated:YES];
 }
 
@@ -281,20 +302,23 @@
 //商铺选择 delegate
 -(void)shopSelectOverWithShopID:(ShopInfoData *)shop
 {
-    
     UserManager* manager = [UserManager shareUserManager];
-    manager.shopID = shop.shopID;
-//    [manager parseCombinPay:shop.combinPay];
-    [manager setShopID:shop.shopID WithLongitude:shop.longitude WithLatitude:shop.latitude];
+    [manager setCurrentShop:shop];
 
-
-    
     NavigationTitleView* title = (NavigationTitleView*)self.navigationItem.titleView;
     UILabel* textLabel = [title getTextLabel];
     UILabel* detail = [title getDetailLabel];
     textLabel.text = [NSString stringWithFormat:@"%@",shop.shopName];
     detail.text = [NSString stringWithFormat:@"营业时间:%@-%@",[shop getOpenTime],[shop getCloseTime]];
 }
+
+//广告点击代理方法
+
+-(void)posterViewDidSelectAtIndex:(NSInteger)index WithData:(id)data
+{
+    NSLog(@"%@",data);
+}
+
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -310,6 +334,7 @@
 -(void)showLogView:(void(^)(void))block
 {
     LogViewController* log = [self.storyboard instantiateViewControllerWithIdentifier:@"LogViewController"];
+    log.hidesBottomBarWhenPushed = YES;
     [log setLogResturnBk:^(BOOL success) {
         
         if (success) {
@@ -322,6 +347,7 @@
 -(void)notiShowLogView
 {
     LogViewController* log = [self.storyboard instantiateViewControllerWithIdentifier:@"LogViewController"];
+    log.hidesBottomBarWhenPushed = YES;
     [log setLogResturnBk:^(BOOL success) {}];
     [self.navigationController pushViewController:log animated:YES];
 }

@@ -66,6 +66,19 @@
 }
 
 
+-(ShopInfoData*)shop
+{
+    return _shop;
+}
+
+-(void)setCurrentShop:(ShopInfoData*)shops
+{
+    _shop = shops;
+    self.shopID = _shop.shopID;
+    [self setShopID:shops.shopID WithLongitude:shops.longitude WithLatitude:shops.latitude];
+}
+
+
 -(NSString*)getUserAccount
 {
     NSUserDefaults* def = [NSUserDefaults standardUserDefaults];

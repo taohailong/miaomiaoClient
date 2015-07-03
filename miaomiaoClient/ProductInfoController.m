@@ -6,20 +6,21 @@
 //  Copyright (c) 2015年 miaomiao. All rights reserved.
 //
 
-#import "ProuductInfoController.h"
+#import "ProductInfoController.h"
 #import "ProductInfoDetailCell.h"
 #import "ProductInfoHeadCell.h"
 #import "CarButton.h"
 #import "ShopCarShareData.h"
-@interface ProuductInfoController()<UITableViewDataSource,UITableViewDelegate>
+@interface ProductInfoController()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView* _table;
     UILabel* _countLabel;
     ShopProductData* _product;
+    CarButton* _carBt;
 }
 
 @end
-@implementation ProuductInfoController
+@implementation ProductInfoController
 
 -(id)initWithProductData:(ShopProductData*)product
 {
@@ -31,44 +32,53 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"商品详情";
+    self.view.backgroundColor = [UIColor whiteColor];
     
     
-    CarButton* button = [CarButton buttonWithType:UIButtonTypeCustom];
-    [button setImage:[UIImage imageNamed:@"shopCarIcon"] forState:UIControlStateNormal];
-    
-    ShopCarShareData* shopManager = [ShopCarShareData shareShopCarManager];
-    
-    [button setButtonTitleText:[NSString stringWithFormat:@"%d",[shopManager getCarCount]]];
-    [button addTarget:self action:@selector(showShopList) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem* rightBar = [[UIBarButtonItem alloc]initWithCustomView:button];
+    _carBt = [CarButton buttonWithType:UIButtonTypeCustom];
+    [_carBt setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+//    _carBt.backgroundColor = [UIColor blackColor];
+    _carBt.frame = CGRectMake(0, 0, 45, 45);
+    [_carBt addTarget:self action:@selector(showShopList) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem* rightBar = [[UIBarButtonItem alloc]initWithCustomView:_carBt];
     self.navigationItem.rightBarButtonItem = rightBar;
-    
+    [self updateShopCarBt];
     
     
     _table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     _table.translatesAutoresizingMaskIntoConstraints = NO;
     _table.delegate = self;
     _table.dataSource = self;
+    _table.tableFooterView = [[UIView alloc]init];
     [_table registerClass:[ProductInfoDetailCell class] forCellReuseIdentifier:@"ProductInfoDetailCell"];
     [_table registerClass:[ProductInfoHeadCell class] forCellReuseIdentifier:@"ProductInfoHeadCell"];
     
     [self.view addSubview:_table];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_table]-50-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
 
     
     [self creatFootView];
 }
+
+-(void)updateShopCarBt
+{
+    ShopCarShareData* shopManager = [ShopCarShareData shareShopCarManager];
+    [_carBt setButtonTitleText:[NSString stringWithFormat:@"%d",[shopManager getCarCount]]];
+}
+
 
 -(void)creatFootView
 {
     UIView* separate = [[UIView alloc]init];
     separate.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:separate];
+   
     separate.backgroundColor = DEFAULTGRAYCOLO;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[separate]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separate)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[separate(1)]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separate)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[separate(0.5)]-51-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separate)]];
     
     
     
@@ -99,14 +109,11 @@
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_countLabel(18)]-3-[_addBt]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_countLabel,_addBt)]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_countLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_addBt attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
     
-//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_countLabel(25)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_countLabel)]];
-    
     
     UIButton* _subtractBt = [UIButton buttonWithType:UIButtonTypeCustom];
     
     [_subtractBt setImage:[UIImage imageNamed:@"product_subtractBt"] forState:UIControlStateNormal];
     
-    _subtractBt.hidden = YES;
     [_subtractBt addTarget:self action:@selector(setCountOfProduct:) forControlEvents:UIControlEventTouchUpInside];
     _subtractBt.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:_subtractBt];
@@ -158,6 +165,7 @@
     
     ShopCarShareData* manager = [ShopCarShareData shareShopCarManager];
     [manager  addOrChangeShopWithProduct:_product];
+    [self updateShopCarBt];
 }
 
 
@@ -173,18 +181,28 @@
     return 2;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row ==0) {
+        return 200;
+    }
+    return 75;
+}
+
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
         if (indexPath.row==0) {
             ProductInfoHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ProductInfoHeadCell"];
-            
+            [cell setProductImages:@[_product.pUrl]];
             return cell;
         }
         else
         {
             ProductInfoDetailCell*cell = [tableView dequeueReusableCellWithIdentifier:@"ProductInfoDetailCell"];
+            [cell setProductName:_product.pName];
+            [cell setProductPrice:[NSString stringWithFormat:@"%.1f",_product.price]];
             return cell;
         }
     }

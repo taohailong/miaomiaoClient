@@ -20,6 +20,8 @@
 @interface UserCenterController()<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
 {
     UITableView* _table;
+    UILabel* detailL;
+    UIButton* logBt;
 }
 @end
 @implementation UserCenterController
@@ -27,34 +29,35 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    UserManager* user = [UserManager shareUserManager];
+    if ([user isLogin]) {
+        
+        [logBt setTitle:[user getUserAccount] forState:UIControlStateNormal];
+        detailL.text = @"";
+    }
+    else
+    {
+        [logBt setTitle:@"点击登陆" forState:UIControlStateNormal];
+        detailL.text = @"登录下单更多惊喜";
+    }
+    
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
--(void)setNavigationBarAttribute
-{
-    UIColor * color = DEFAULTGRAYCOLO;
-    NSDictionary * dict = @{NSForegroundColorAttributeName:color};
-    
-    self.navigationController.navigationBar.titleTextAttributes = dict;
-    [self.navigationController.navigationBar setTintColor:color];
-    
-    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-}
 
 
 
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setNavigationBarAttribute];
+    
     self.view.backgroundColor = [UIColor whiteColor];
-//    self.navigationController.navigationBarHidden = YES;
     [self creatHeadView];
     
     
@@ -88,7 +91,7 @@
     
     UILabel*  titleL = [[UILabel alloc]init];
     titleL.translatesAutoresizingMaskIntoConstraints = NO;
-    titleL.font = [UIFont systemFontOfSize:15];
+    titleL.font = DEFAULTFONT(18);
     [redView addSubview:titleL];
     titleL.textColor = [UIColor whiteColor];
     titleL.text = @"我的";
@@ -112,23 +115,31 @@
     [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[userIcon]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(userIcon)]];
     [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[userIcon]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(userIcon)]];
     
-    UIButton* logBt = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    
+    
+    detailL = [[UILabel alloc]init];
+    detailL.translatesAutoresizingMaskIntoConstraints = NO;
+    detailL.font = DEFAULTFONT(11);
+    [redView addSubview:detailL];
+    
+    detailL.textColor = [UIColor whiteColor];
+    [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[detailL]-17-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(detailL)]];
+    [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[userIcon]-10-[detailL]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(userIcon,detailL)]];
+    
+    
+    
+    logBt = [UIButton buttonWithType:UIButtonTypeCustom];
+    logBt.titleLabel.font = DEFAULTFONT(15);
     logBt.translatesAutoresizingMaskIntoConstraints = NO;
     [redView addSubview:logBt];
-    [logBt setTitle:@"点击登陆" forState:UIControlStateNormal];
+    [logBt addTarget:self action:@selector(logBtAction) forControlEvents:UIControlEventTouchUpInside];
     [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[userIcon]-10-[logBt]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(userIcon,logBt)]];
     
-    [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-80-[logBt]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(logBt)]];
+    [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[logBt]-5-[detailL]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(logBt,detailL)]];
+
     
     
-    
-    UILabel* detailL = [[UILabel alloc]init];
-    detailL.translatesAutoresizingMaskIntoConstraints = NO;
-    detailL.font = [UIFont systemFontOfSize:15];
-    [redView addSubview:detailL];
-    detailL.text = @"登录下单更多惊喜";
-    [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[logBt]-10-[detailL]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(logBt,detailL)]];
-    [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[userIcon]-10-[detailL]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(userIcon,detailL)]];
     
     
     UIButton* orderBt = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -351,6 +362,18 @@
 
 -(void)showDiscountView
 {
+    UserManager* manager = [UserManager shareUserManager];
+    
+    if ([manager isLogin] == NO) {
+        UserCenterController* wSelf = self;
+        [self showLogView:^{
+            DiscountController* discountView = [[DiscountController alloc]init];
+            discountView.hidesBottomBarWhenPushed = YES;
+            [wSelf.navigationController pushViewController:discountView animated:YES];
+        }];
+        return;
+    }
+    
     DiscountController* discountView = [[DiscountController alloc]init];
     discountView.hidesBottomBarWhenPushed = YES;
 
@@ -381,6 +404,14 @@
 }
 
 #pragma mark------------delegate--------------------
+
+
+-(void)logBtAction
+{
+    LogViewController* log = [self.storyboard instantiateViewControllerWithIdentifier:@"LogViewController"];
+    log.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:log animated:YES];
+}
 
 
 -(void)showLogView:(void(^)(void))block

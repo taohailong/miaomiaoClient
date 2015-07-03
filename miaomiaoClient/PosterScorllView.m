@@ -41,8 +41,17 @@
 }
 
 
+-(void)creatSubView
+{
+  
+
+}
+
 -(void)loadImageViewsWithData:(NSArray*)arr
 {
+    if (dataArr) {
+        return;
+    }
     dataArr = arr;
     scroll.contentSize = CGSizeMake(CGRectGetWidth(self.bounds)*dataArr.count,CGRectGetHeight(scroll.frame));
     
@@ -53,6 +62,7 @@
     {
         UIImageView* imageView = [[UIImageView alloc]initWithFrame:frame];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [imageView setImageWithURL:[NSURL URLWithString:dataArr[i]] placeholderImage:[UIImage imageNamed:@"Default_Image"]];
         imageView.userInteractionEnabled = YES;
         [scroll addSubview:imageView];
         [imageArr addObject:imageView];
@@ -80,7 +90,7 @@
     
     if ([self.delegate respondsToSelector:@selector(posterViewDidSelectAtIndex:WithData:)]) {
         
-        NSDictionary* dic = dataArr[tapGes.view.tag];
+        id dic = dataArr[tapGes.view.tag];
         [self.delegate posterViewDidSelectAtIndex:tapGes.view.tag WithData:dic];
     }
     

@@ -13,6 +13,6 @@
 
 //@property(nonatomic,strong)NSString* shopID;
 
--(id)initWithProductArr:(NSMutableArray*)productArr WithTotalMoney:(float)money;
+//-(id)initWithProductArr:(NSMutableArray*)productArr WithTotalMoney:(float)money;
 //-(void)setPayWayMethod:(CommitPayMethod)method;
 @end

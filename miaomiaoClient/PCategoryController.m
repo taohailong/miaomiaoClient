@@ -7,13 +7,15 @@
 //
 
 #import "PCategoryController.h"
-#import "PCategoryController.h"
+#import "ProductInfoController.h"
 #import "ShopProductListView.h"
 #import "ShopCategoryListView.h"
 #import "LogViewController.h"
 #import "NavigationTitleView.h"
 #import "UserManager.h"
 #import "ShopInfoData.h"
+
+
 @interface PCategoryController()<ShopCategoryProtocol,ShopProductListProtocol,NavigationTieleViewProtocol>
 {
     ShopProductListView* _productListV;
@@ -21,6 +23,15 @@
 }
 @end
 @implementation PCategoryController
+
+-(void)viewDidAppear:(BOOL)animated
+{
+//  其他界面更改商品数据后 更新
+    [_productListV reloadTable];
+    [self updateNavgationTitleView];
+}
+
+
 
 -(void)viewDidLoad
 {
@@ -83,6 +94,17 @@
     return titleView;
 }
 
+-(void)updateNavgationTitleView
+{
+    UserManager* manager = [UserManager shareUserManager];
+    ShopInfoData* shop = manager.shop;
+    NavigationTitleView* title = (NavigationTitleView*)self.navigationItem.titleView;
+    UILabel* textLabel = [title getTextLabel];
+    UILabel* detail = [title getDetailLabel];
+    textLabel.text = [NSString stringWithFormat:@"%@",shop.shopName];
+    detail.text = [NSString stringWithFormat:@"营业时间:%@-%@",[shop getOpenTime],[shop getCloseTime]];
+}
+
 
 -(void)navigationTitleViewDidTouchWithView:(NavigationTitleView *)titleView
 {
@@ -96,6 +118,9 @@
 //商品 delegate
 -(void)didSelectProductIndex:(ShopProductData *)product
 {
+    ProductInfoController* p = [[ProductInfoController alloc]initWithProductData:product];
+    p.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:p animated:YES];
 //    ProductCoverView* coverView = [[ProductCoverView alloc]initWithSuperView:self.navigationController.view];
 //    [coverView setImageViewWithAnimation:YES Url:product.pUrl];
     
@@ -111,22 +136,17 @@
 -(void)shopSelectOverWithShopID:(ShopInfoData *)shop
 {
     UserManager* manager = [UserManager shareUserManager];
-    manager.shopID = shop.shopID;
+    [manager setCurrentShop:shop];
     
-    [manager setShopID:shop.shopID WithLongitude:shop.longitude WithLatitude:shop.latitude];
-   
-    
-    
-    NavigationTitleView* title = (NavigationTitleView*)self.navigationItem.titleView;
-    UILabel* textLabel = [title getTextLabel];
-    UILabel* detail = [title getDetailLabel];
-    textLabel.text = [NSString stringWithFormat:@"%@",shop.shopName];
-    detail.text = [NSString stringWithFormat:@"营业时间:%@-%@",[shop getOpenTime],[shop getCloseTime]];
+    [self updateNavgationTitleView];
         
     [_productListV clearAllData];
     [_categoryListV initNetDataWithShopID:shop.shopID];
-    
 }
+
+
+
+
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {

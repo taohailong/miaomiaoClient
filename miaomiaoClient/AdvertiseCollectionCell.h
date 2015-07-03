@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface AdvertiseCollectionCell : UICollectionViewCell
+#import "PosterScorllView.h"
+@interface AdvertiseCollectionCell : UICollectionViewCell<PosterProtocol>
+@property(nonatomic,weak)id <PosterProtocol>delegate;
 -(void)setImageDataArr:(NSArray*)arr;
 @end
