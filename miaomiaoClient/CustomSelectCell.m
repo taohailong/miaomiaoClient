@@ -34,7 +34,7 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor); CGContextFillRect(context, rect); //上分割线，
-    CGContextSetStrokeColorWithColor(context, [UIColor grayColor].CGColor);
+    CGContextSetStrokeColorWithColor(context, FUNCTCOLOR(229, 229, 229).CGColor);
     CGContextStrokeRect(context, CGRectMake(1, -1, rect.size.width - 2, 1));
  //下分割线 CGContextSetStrokeColorWithColor(context, [UIColor colorWithHexString:@"e2e2e2"].CGColor); CGContextStrokeRect(context, CGRectMake(5, rect.size.height, rect.size.width - 10, 1));
 }

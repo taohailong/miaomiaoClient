@@ -85,7 +85,7 @@
                 discount.discountCode = dic[@"code"];
                 discount.discountID = dic[@"id"];
                 [discount setDateStamp:[dic[@"end_time"] doubleValue]];
-                
+                [discount setStartDate:[dic[@"start_time"] doubleValue]];
                 [discount setDiscountStatus:[dic[@"status"] intValue]];
                 discount.discountTitle = dic[@"name"];
                 discount.discountMoney = [dic[@"price"] intValue]/100.0;
@@ -127,6 +127,7 @@
                 discount.discountCode = dic[@"code"];
                 discount.discountID = dic[@"id"];
                 [discount setDateStamp:[dic[@"end_time"] doubleValue]];
+                [discount setStartDate:[dic[@"start_time"] doubleValue]];
                 [discount setDiscountStatus:[dic[@"status"] intValue]];
                 discount.discountTitle = dic[@"ext"];
                 discount.discountMoney = [dic[@"price"] intValue]/100.0;
@@ -917,8 +918,6 @@
         }
         
     }];
-
-
 }
 
 

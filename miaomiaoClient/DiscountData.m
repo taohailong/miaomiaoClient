@@ -11,13 +11,24 @@
 @implementation DiscountData
 @synthesize deadTime,minMoney,discountID,discountTitle,discountCode,valid;
 @synthesize discountMoney;
+@synthesize startTime;
 -(void)setDateStamp:(double)time
 {
     time = time/1000;
     DateFormateManager* manager = [DateFormateManager shareDateFormateManager];
-    [manager setDateStyleString:@"YY-MM-dd  HH:mm"];
+    [manager setDateStyleString:@"YY-MM-dd"];
     self.deadTime = [manager formateFloatTimeValueToString:time];
 }
+
+-(void)setStartDate:(double)time
+{
+    time = time/1000;
+    DateFormateManager* manager = [DateFormateManager shareDateFormateManager];
+    [manager setDateStyleString:@"YY-MM-dd"];
+    self.startTime = [manager formateFloatTimeValueToString:time];
+
+}
+
 
 -(void)setDiscountStatus:(int)status
 {
@@ -37,7 +48,6 @@
             self.valid = DiscountStatusValid;
             break;
     }
-
 
 }
 

@@ -37,6 +37,7 @@
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
     
     UIBarButtonItem* rightBar = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"shopInfo_phone"] style:UIBarButtonItemStylePlain target:self action:@selector(makeTelphone)];
+
     self.navigationItem.rightBarButtonItem = rightBar;
 
 }

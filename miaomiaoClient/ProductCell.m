@@ -66,6 +66,7 @@
     
     _addBt = [UIButton buttonWithType:UIButtonTypeCustom];
     _addBt.tag  = 1;
+//    _addBt.backgroundColor = [UIColor redColor];
     [_addBt setImage:[UIImage imageNamed:@"product_addBt"] forState:UIControlStateNormal];
     
     [_addBt addTarget:self action:@selector(setCountOfProduct:) forControlEvents:UIControlEventTouchUpInside];
@@ -76,7 +77,7 @@
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_addBt]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_addBt)]];
     
-    _addBt.layer.cornerRadius = 12.5;
+//    _addBt.layer.cornerRadius = 12.5;
     
     
     
@@ -90,11 +91,13 @@
 //    _countLabel.font = [UIFont boldSystemFontOfSize:15.0];
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_countLabel(18)]-3-[_addBt]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_countLabel,_addBt)]];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_countLabel(25)]-6-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_countLabel)]];
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_countLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_addBt attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_countLabel(25)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_countLabel)]];
     
     
     _subtractBt = [UIButton buttonWithType:UIButtonTypeCustom];
-    
+//    _subtractBt.backgroundColor = [UIColor redColor];
     [_subtractBt setImage:[UIImage imageNamed:@"product_subtractBt"] forState:UIControlStateNormal];
     
     _subtractBt.hidden = YES;
@@ -103,10 +106,11 @@
     [self.contentView addSubview:_subtractBt];
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_subtractBt]-3-[_countLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_subtractBt,_countLabel)]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_subtractBt attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_addBt  attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+
+//    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_subtractBt]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_subtractBt)]];
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_subtractBt]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_subtractBt)]];
-    
-    _subtractBt.layer.cornerRadius = 12.5;
+//    _subtractBt.layer.cornerRadius = 12.5;
 
     
 //    _statueLabel = [[UILabel alloc]init];

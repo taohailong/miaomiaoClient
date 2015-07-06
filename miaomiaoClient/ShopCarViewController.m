@@ -21,6 +21,7 @@
     NSMutableArray* _productArr;
     UITableView* _table;
     __weak UITextField* _respondField;
+    __weak THActivityView* _emptyView;
 }
 @end
 @implementation ShopCarViewController
@@ -55,6 +56,16 @@
     
     [self creatShopCarView];
     [self registeNotificationCenter];
+}
+
+
+#pragma mark-TabBar
+
+
+-(void)goShoppingAction
+{
+    self.tabBarController.selectedIndex = 0;
+
 }
 
 
@@ -121,14 +132,34 @@
     [shareData addOrChangeShopWithProduct:productData];
     
     [self updateShopCar];
-//    [_table reloadData];
 }
 
 -(void)updateShopCar
 {
     ShopCarShareData* shareData = [ShopCarShareData shareShopCarManager];
+    __weak ShopCarViewController* wSelf = self;
+    if([shareData getCarCount] == 0&&_emptyView==nil)
+    {
+        THActivityView* warnView = [[THActivityView alloc]initEmptyDataWarnViewWithString:@"购物车空空的耶～快去下单吧！" WithImage:@"shopCar_emptyImage" WithSuperView:self.view];
+        [warnView addBtWithTitle:@"去下单" WithBk:^{
+             [wSelf goShoppingAction];
+        }];
+        _emptyView = warnView;
+        return;
+    }
+    else if (_emptyView!=nil&&[shareData getCarCount] != 0)
+    {
+        [_emptyView removeFromSuperview];
+    }
+    
+    
     float totalMoney = [shareData getTotalMoney];
-    _moneyLabel.text = [NSString stringWithFormat:@"总计：¥%.2f",totalMoney];
+    NSMutableAttributedString* att = [[NSMutableAttributedString alloc]initWithString:@"总计：" attributes:@{NSForegroundColorAttributeName:DEFAULTBLACK}];
+    
+    NSAttributedString* att1 = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥%.2f",totalMoney] attributes:@{NSForegroundColorAttributeName:DEFAULTNAVCOLOR}];
+    
+    [att appendAttributedString:att1];
+    _moneyLabel.attributedText = att;
 }
 
 

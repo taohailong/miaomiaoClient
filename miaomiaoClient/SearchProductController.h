@@ -9,8 +9,4 @@
 #import <UIKit/UIKit.h>
 
 @interface SearchProductController : UIViewController
-
-
--(void)setTotalMoney:(float)money;
-//-(void)setShopCarArr:(NSMutableArray*)shopArr;
 @end

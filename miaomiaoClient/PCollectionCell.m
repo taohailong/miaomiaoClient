@@ -18,7 +18,7 @@
     _productImageView.contentMode = UIViewContentModeScaleAspectFit;
     _productImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_productImageView];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[_productImageView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_productImageView)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[_productImageView]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_productImageView)]];
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[_productImageView(80)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_productImageView)]];
     
@@ -27,13 +27,13 @@
     
     
     _titleL = [[UILabel alloc]init];
-    _titleL.font = DEFAULTFONT(14);
+    _titleL.font = DEFAULTFONT(15);
     _titleL.translatesAutoresizingMaskIntoConstraints = NO;
-    _titleL.textColor = DEFAULTGRAYCOLO;
-    _titleL.numberOfLines = 0;
+    _titleL.textColor = DEFAULTBLACK;
+//    _titleL.numberOfLines = 0;
     _titleL.lineBreakMode = NSLineBreakByTruncatingTail;
     [self.contentView addSubview:_titleL];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[_titleL]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_titleL)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[_titleL]-2-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_titleL)]];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_productImageView]-5-[_titleL]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_productImageView,_titleL)]];
     
     
@@ -47,26 +47,11 @@
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_titleL]-5-[_priceL]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_titleL,_priceL)]];
     
-   
-    
-    
-    _countLabel = [[UILabel alloc]init];
-    _countLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.contentView addSubview:_countLabel];
-    _countLabel.textColor = DEFAULTNAVCOLOR;
-    _countLabel.textAlignment = NSTextAlignmentCenter;
-    _countLabel.adjustsFontSizeToFitWidth = YES  ;
-    
-    
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_priceL]-10-[_countLabel(18)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_priceL,_countLabel)]];
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_countLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_priceL attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
-    
-    
-    
+
     
     _addBt = [UIButton buttonWithType:UIButtonTypeCustom];
     _addBt.tag  = 1;
+//    _addBt.backgroundColor = [UIColor redColor];
     [_addBt setImage:[UIImage imageNamed:@"product_addBt"] forState:UIControlStateNormal];
     
     [_addBt addTarget:self action:@selector(setCountOfProduct:) forControlEvents:UIControlEventTouchUpInside];
@@ -75,8 +60,21 @@
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_addBt]-8-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_addBt)]];
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_addBt]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_addBt)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_addBt]-8-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_addBt)]];
 
+    
+    _countLabel = [[UILabel alloc]init];
+    _countLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.contentView addSubview:_countLabel];
+    _countLabel.textColor = DEFAULTGRAYCOLO;
+    _countLabel.textAlignment = NSTextAlignmentCenter;
+    _countLabel.adjustsFontSizeToFitWidth = YES  ;
+    _countLabel.font = DEFAULTFONT(14);
+    
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_countLabel]-5-[_addBt]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_addBt,_countLabel)]];
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_countLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_priceL attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    
     return self;
 }
 

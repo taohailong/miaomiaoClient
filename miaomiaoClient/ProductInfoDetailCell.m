@@ -33,7 +33,7 @@
 
 -(void)setProductName:(NSString*)name
 {
-    NSMutableAttributedString* att = [[NSMutableAttributedString alloc]initWithString:@"商品名称:" attributes:@{NSFontAttributeName:DEFAULTFONT(16),NSForegroundColorAttributeName:DEFAULTBLACK}];
+    NSMutableAttributedString* att = [[NSMutableAttributedString alloc]initWithString:@"商品名称：" attributes:@{NSFontAttributeName:DEFAULTFONT(16),NSForegroundColorAttributeName:DEFAULTBLACK}];
     
     NSAttributedString* nameAtt = [[NSAttributedString alloc]initWithString:name attributes:@{NSFontAttributeName:DEFAULTFONT(15),NSForegroundColorAttributeName:DEFAULTGRAYCOLO}];
     [att appendAttributedString:nameAtt];
@@ -43,7 +43,7 @@
 
 -(void)setProductPrice:(NSString*)price
 {
-    NSMutableAttributedString* att = [[NSMutableAttributedString alloc]initWithString:@"商品价格:" attributes:@{NSFontAttributeName:DEFAULTFONT(16),NSForegroundColorAttributeName:DEFAULTBLACK}];
+    NSMutableAttributedString* att = [[NSMutableAttributedString alloc]initWithString:@"商品价格：" attributes:@{NSFontAttributeName:DEFAULTFONT(16),NSForegroundColorAttributeName:DEFAULTBLACK}];
     
     NSAttributedString* nameAtt = [[NSAttributedString alloc]initWithString:price attributes:@{NSFontAttributeName:DEFAULTFONT(15),NSForegroundColorAttributeName:DEFAULTGRAYCOLO}];
     [att appendAttributedString:nameAtt];

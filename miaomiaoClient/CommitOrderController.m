@@ -137,7 +137,7 @@
     
     [self creatShopCarView];
 //    [self getAddress];
-//    [self requestDiscountData];
+    [self requestDiscountData];
     [self registeNotificationCenter];
 }
 
@@ -328,12 +328,12 @@
     
     [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-16-[_moneyLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_moneyLabel)]];
     [footView addConstraint:[NSLayoutConstraint constraintWithItem:_moneyLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:footView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+    
+    
 //    [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_moneyLabel]-6-[_discountLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_moneyLabel,_discountLabel)]];
     
     
-    ShopCarShareData* managerData = [ShopCarShareData shareShopCarManager];
-    _moneyLabel.text = [NSString stringWithFormat:@"总计：¥%.2f",[managerData getTotalMoney]];
-
+    [self updateShopCar];
     
     _commitBt = [UIButton buttonWithType:UIButtonTypeCustom];
     _commitBt.translatesAutoresizingMaskIntoConstraints = NO;
@@ -388,20 +388,26 @@
     
 //    UserManager* manager = [UserManager shareUserManager];
     
-    if (_currentDiscount&&_payWay!=OrderPayInCash)
-    {
+//    if (_currentDiscount&&_payWay!=OrderPayInCash)
+//    {
         float disountMoney = totalMoney-_currentDiscount.discountMoney;
         
         disountMoney = disountMoney>0?disountMoney:0.01;
-        _moneyLabel.text = [NSString stringWithFormat:@"总计：¥%.2f",disountMoney];
+        
+        NSMutableAttributedString* att = [[NSMutableAttributedString alloc]initWithString:@"总计：" attributes:@{NSForegroundColorAttributeName:DEFAULTBLACK}];
+        
+        NSAttributedString* att1 = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥%.2f",disountMoney] attributes:@{NSForegroundColorAttributeName:DEFAULTNAVCOLOR}];
+        
+        [att appendAttributedString:att1];
+        _moneyLabel.attributedText = att;
         
 //        _discountLabel.attributedText = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥%.2f",totalMoney] attributes:@{NSStrikethroughStyleAttributeName:[NSNumber numberWithInteger:NSUnderlineStyleSingle]}];
-    }
-    else
-    {
-//        _discountLabel.attributedText = [[NSAttributedString alloc]initWithString:@""];
-        _moneyLabel.text = [NSString stringWithFormat:@"总计：¥%.2f",totalMoney];
-    }
+//    }
+//    else
+//    {
+////        _discountLabel.attributedText = [[NSAttributedString alloc]initWithString:@""];
+//        _moneyLabel.text = [NSString stringWithFormat:@"总计：¥%.2f",totalMoney];
+//    }
     
     NSString* btTitle = nil;
     switch (_payWay)
@@ -489,6 +495,7 @@
         if (_address==nil)
         {
             ConfirmAddressOneCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ConfirmAddressOneCell"];
+            cell.backgroundColor = FUNCTCOLOR(216, 228, 237);
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             UILabel* titleLabel = [cell getTitleLabel];
             titleLabel.font = DEFAULTFONT(15);
@@ -499,6 +506,7 @@
         else
         {
            ConfirmAddressCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ConfirmAddressCell"];
+            cell.backgroundColor = FUNCTCOLOR(229, 228, 250);
             UILabel* titleL = [cell getTitleLabel];
             titleL.font = DEFAULTFONT(15);
             titleL.text = [NSString stringWithFormat:@"%@",_address.phoneNu];
@@ -519,23 +527,27 @@
         CommitPDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CommitPDetailCell"];
         
         if (arr.count == indexPath.row) {
+            
            cell.textLabel.text = [NSString stringWithFormat:@"商品总价：¥%.1f",[dataManager  getTotalMoney]];
+           cell.textLabel.textColor = FUNCTCOLOR(189, 189, 189);
         }
         else if (arr.count+1 == indexPath.row)
         {
-           cell.textLabel.text = [NSString stringWithFormat:@"优惠券：¥%.1f",_currentDiscount.discountMoney];
+           cell.textLabel.text = [NSString stringWithFormat:@"代金券：¥%.1f",_currentDiscount.discountMoney];
+          cell.textLabel.textColor = DEFAULTNAVCOLOR;
            
         }
         else if (arr.count+2 == indexPath.row)
         {
             UserManager* uManager = [UserManager shareUserManager];
             cell.textLabel.text = [NSString stringWithFormat:@"配送费：¥%.1f",uManager.shop.minPrice];
+            cell.textLabel.textColor = FUNCTCOLOR(189, 189, 189);
         }
         else
         {
             ShopProductData* pData = arr[indexPath.row];
-            cell.textLabel.text = [NSString stringWithFormat:@"商品名称：%@X%d",pData.pName,pData.count];
-          
+            cell.textLabel.text = [NSString stringWithFormat:@"商品名称：%@ X%d",pData.pName,pData.count];
+           cell.textLabel.textColor = FUNCTCOLOR(189, 189, 189);
         }
         return cell;
     
@@ -570,13 +582,6 @@
             cell.textLabel.textColor = DEFAULTGRAYCOLO;
         }
         
-        if (indexPath.row==0) {
-            [cell setNeedSeparate:NO];
-        }
-        else
-        {
-            [cell setNeedSeparate:YES];
-        }
         cell.textLabel.text = cellTitle;
         
         if (indexPath.row == _currentRow) {

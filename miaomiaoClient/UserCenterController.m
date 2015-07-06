@@ -29,7 +29,7 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    [self setNavigationBarAttribute:NO];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -46,10 +46,32 @@
         [logBt setTitle:@"点击登陆" forState:UIControlStateNormal];
         detailL.text = @"登录下单更多惊喜";
     }
-    
-//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+     [self setNavigationBarAttribute:YES];
+   
 }
 
+-(void)setNavigationBarAttribute:(BOOL)flag
+{
+    UIColor * color = nil;
+    if (flag)
+    {
+        color = [UIColor whiteColor];
+        [self.navigationController.navigationBar setTintColor:color];
+        [self.navigationController.navigationBar setBarTintColor:DEFAULTNAVCOLOR];
+         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
+    else
+    {
+        color = FUNCTCOLOR(64, 64, 64);
+        [self.navigationController.navigationBar setTintColor:color];
+        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    }
+    NSDictionary * dict = @{NSForegroundColorAttributeName:color,NSFontAttributeName:DEFAULTFONT(18)};
+    
+    self.navigationController.navigationBar.titleTextAttributes = dict;
+    
+}
 
 
 
@@ -181,11 +203,19 @@
     UIView* separateView = [[UIView alloc]init];
     separateView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:separateView];
-    separateView.backgroundColor  = [UIColor grayColor];
+    separateView.backgroundColor  = FUNCTCOLOR(221, 221, 221);
      [self.view addConstraint:[NSLayoutConstraint constraintWithItem:separateView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[separateView(0.5)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separateView)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[redView]-15-[separateView(50)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(redView,separateView)]];
+    
+    UIView* horizontalSe = [[UIView alloc]init];
+    horizontalSe.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:horizontalSe];
+    horizontalSe.backgroundColor  = FUNCTCOLOR(229, 229, 229);
+//    horizontalSe.backgroundColor  = [UIColor redColor];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[horizontalSe]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(horizontalSe)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-219.5-[horizontalSe(0.5)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(horizontalSe)]];
 }
 
 
@@ -219,7 +249,7 @@
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:str];
     if (cell==nil) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
-        cell.textLabel.textColor = DEFAULTGRAYCOLO;
+        cell.textLabel.textColor = DEFAULTBLACK;
         cell.textLabel.font = DEFAULTFONT(16);
     }
     

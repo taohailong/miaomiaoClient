@@ -35,33 +35,53 @@
 @implementation RootViewController
 
 
--(void)setNavigationBarAttribute
+-(void)setNavigationBarAttribute:(BOOL)flag
 {
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+//    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+//    
+//    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
-    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-    UIColor * color = [UIColor whiteColor];
+    UIColor * color = nil;
+    if (flag)
+    {
+        color = [UIColor whiteColor];
+        [self.navigationController.navigationBar setTintColor:color];
+        [self.navigationController.navigationBar setBarTintColor:DEFAULTNAVCOLOR];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
+    else
+    {
+        color = FUNCTCOLOR(64, 64, 64);
+        [self.navigationController.navigationBar setTintColor:color];
+        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    }
     NSDictionary * dict = @{NSForegroundColorAttributeName:color,NSFontAttributeName:DEFAULTFONT(18)};
-    
+        
     self.navigationController.navigationBar.titleTextAttributes = dict;
-    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
 }
 
 
--(void)viewDidAppear:(BOOL)animated
+-(void)viewWillAppear:(BOOL)animated
 {
+    [self setNavigationBarAttribute:YES];
     UserManager* manager = [UserManager shareUserManager];
     if (manager.shopID==nil) {
         [self showSelectShopView:YES];
     }
 }
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [self setNavigationBarAttribute:NO];
+}
+
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     
     self.navigationItem.titleView = [self navgationTitleView];
-    [self setNavigationBarAttribute];
+   
     
     UIButton* seachBt = [UIButton buttonWithType:UIButtonTypeCustom];
     seachBt.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -70,7 +90,8 @@
     [seachBt setImage:[UIImage imageNamed:@"root_search"] forState:UIControlStateNormal];
     seachBt.layer.cornerRadius = 4;
     seachBt.layer.masksToBounds = YES;
-    seachBt.backgroundColor = DEFAULTGRAYCOLO;
+    seachBt.backgroundColor = FUNCTCOLOR(228, 228, 228);
+    [seachBt setTitleColor:FUNCTCOLOR(163, 163, 163) forState:UIControlStateNormal];
     [self.view addSubview:seachBt];
     seachBt.titleLabel.font = DEFAULTFONT(15);
     [seachBt setTitle:@" 搜索商品" forState:UIControlStateNormal];
@@ -102,25 +123,76 @@
     
     
     
-//    UIBarButtonItem* leftBar = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"root_set"] style:UIBarButtonItemStyleDone target:self action:@selector(showUserCenter)];
-//    self.navigationItem.leftBarButtonItem = leftBar;
-//    
     UIBarButtonItem* rightBar = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"root_right"] style:UIBarButtonItemStylePlain target:self action:@selector(showShopInfoViewController)];
     self.navigationItem.rightBarButtonItem = rightBar;
     
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shopCarChanged:) name:PSHOPCARCHANGE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getShopInfo) name:SHOPROOTCHANGE object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notiShowLogView) name:PNEEDLOG object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tabBarNuChanged) name:PSHOPCARCHANGE object:nil];
+
     
     UserManager* manager = [UserManager shareUserManager];
     
     if (manager.shopID!=nil) {
         [self checkLocation];
     }
-    [self getShopInfoWithShopID:manager.shopID];
-    
+    [self getShopInfo];
 }
+
+
+#pragma mark-TabBar
+
+-(void)tabBarNuChanged
+{
+    ShopCarShareData* shareData = [ShopCarShareData shareShopCarManager];
+    UIViewController* second = self.tabBarController.viewControllers[2];
+    second.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",[shareData getCarCount]];
+}
+
+
+
+#pragma mark-network
+
+-(void)getShopInfo
+{
+    UserManager* manager = [UserManager shareUserManager];
+    if (manager.shopID==nil) {
+        return;
+    }
+    __weak RootViewController* wself = self;
+    THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
+    
+    NetWorkRequest* requ = [[NetWorkRequest alloc]init];
+    [requ getShopInfoWithShopID:manager.shopID WithBk:^(ShopInfoData* respond, NetWorkStatus status) {
+        
+        [loadView removeFromSuperview];
+        if (status==NetWorkSuccess) {
+            [wself getShopProduct:respond];
+        }
+        else if (status == NetWorkErrorCanntConnect)
+        {
+            THActivityView* loadView = [[THActivityView alloc]initWithNetErrorWithSuperView:wself.view];
+            [loadView setErrorBk:^{
+                [wself getShopInfo];
+            }];
+        }
+    }];
+    
+    [requ startAsynchronous];
+}
+
+
+-(void)getShopProduct:(ShopInfoData*)shop
+{
+    UserManager* manager = [UserManager shareUserManager];
+    [manager setCurrentShop:shop];
+    [self updateNavigationView:shop];
+}
+
+
 
 #pragma mark-buttonAction
 
@@ -203,8 +275,8 @@
         
     }];
     [cell setPicUrl:nil];
-    [cell setTitleStr:@"xxxx"];
-    [cell setPriceStr:@"20.00"];
+    [cell setTitleStr:@"哈哈镜哈哈镜哈哈镜"];
+    [cell setPriceStr:@"20.0"];
     return cell;
 }
 
@@ -228,39 +300,9 @@
 }
 
 
-
--(void)getShopInfoWithShopID:(NSString*)shop
-{
-    if (shop==nil) {
-        return;
-    }
-    __weak RootViewController* wself = self;
-    THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
-    
-    NetWorkRequest* requ = [[NetWorkRequest alloc]init];
-    [requ getShopInfoWithShopID:shop WithBk:^(ShopInfoData* respond, NetWorkStatus status) {
-        
-        [loadView removeFromSuperview];
-        if (status==NetWorkSuccess) {
-            [wself shopSelectOverWithShopID:respond];
-        }
-        else if (status == NetWorkErrorCanntConnect)
-        {
-            THActivityView* loadView = [[THActivityView alloc]initWithNetErrorWithSuperView:wself.view];
-            [loadView setErrorBk:^{
-                [wself getShopInfoWithShopID:shop];
-            }];
-        }
-    }];
-
-    [requ startAsynchronous];
-}
-
-
 -(void)searchProductAction
 {
     SearchProductController* searchView = [[SearchProductController alloc]init];
-    [searchView setTotalMoney:_totalMoney];
     searchView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:searchView animated:YES];
 }
@@ -291,6 +333,16 @@
 }
 
 
+-(void)updateNavigationView:(ShopInfoData*)shop
+{
+    NavigationTitleView* title = (NavigationTitleView*)self.navigationItem.titleView;
+    UILabel* textLabel = [title getTextLabel];
+    UILabel* detail = [title getDetailLabel];
+    textLabel.text = [NSString stringWithFormat:@"%@",shop.shopName];
+    detail.text = [NSString stringWithFormat:@"营业时间:%@-%@",[shop getOpenTime],[shop getCloseTime]];
+
+}
+
 -(void)navigationTitleViewDidTouchWithView:(NavigationTitleView *)titleView
 {
     [self showSelectShopView:NO];
@@ -304,13 +356,14 @@
 {
     UserManager* manager = [UserManager shareUserManager];
     [manager setCurrentShop:shop];
-
-    NavigationTitleView* title = (NavigationTitleView*)self.navigationItem.titleView;
-    UILabel* textLabel = [title getTextLabel];
-    UILabel* detail = [title getDetailLabel];
-    textLabel.text = [NSString stringWithFormat:@"%@",shop.shopName];
-    detail.text = [NSString stringWithFormat:@"营业时间:%@-%@",[shop getOpenTime],[shop getCloseTime]];
+    [self updateNavigationView:shop];
+    [self getShopInfo];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SHOPCATEGORYCHANGED object:nil];
+//    
 }
+
+
+
 
 //广告点击代理方法
 

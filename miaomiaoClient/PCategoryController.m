@@ -14,9 +14,10 @@
 #import "NavigationTitleView.h"
 #import "UserManager.h"
 #import "ShopInfoData.h"
+#import "ShopSelectController.h"
+#import "SearchProductController.h"
 
-
-@interface PCategoryController()<ShopCategoryProtocol,ShopProductListProtocol,NavigationTieleViewProtocol>
+@interface PCategoryController()<ShopCategoryProtocol,ShopProductListProtocol,NavigationTieleViewProtocol,ShopSelectProtocol>
 {
     ShopProductListView* _productListV;
     ShopCategoryListView* _categoryListV;
@@ -28,7 +29,12 @@
 {
 //  其他界面更改商品数据后 更新
     [_productListV reloadTable];
-    [self updateNavgationTitleView];
+    
+    UserManager* user = [UserManager shareUserManager];
+    if (user.specifyCategory != nil) {
+        [self showSpecifyCategoryWithCategory:user.specifyCategory];
+        user.specifyCategory = nil;
+    }
 }
 
 
@@ -38,19 +44,42 @@
     [super viewDidLoad];
     self.navigationItem.titleView = [self navgationTitleView];
     
+//    UIButton* seachBt = [UIButton buttonWithType:UIButtonTypeCustom];
+//    seachBt.translatesAutoresizingMaskIntoConstraints = NO;
+//    [self.view addSubview:seachBt];
+//    seachBt.backgroundColor = [UIColor redColor];
+//    [seachBt setTitle:@"搜索商品" forState:UIControlStateNormal];
+//    
+//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[seachBt]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
+//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-70-[seachBt(30)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
+    
+    
     UIButton* seachBt = [UIButton buttonWithType:UIButtonTypeCustom];
+    seachBt.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     seachBt.translatesAutoresizingMaskIntoConstraints = NO;
+    [seachBt setContentEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+    [seachBt setImage:[UIImage imageNamed:@"root_search"] forState:UIControlStateNormal];
+    seachBt.layer.cornerRadius = 4;
+    seachBt.layer.masksToBounds = YES;
+    seachBt.backgroundColor = FUNCTCOLOR(228, 228, 228);
+    [seachBt setTitleColor:FUNCTCOLOR(163, 163, 163) forState:UIControlStateNormal];
     [self.view addSubview:seachBt];
-    seachBt.backgroundColor = [UIColor redColor];
-    [seachBt setTitle:@"搜索商品" forState:UIControlStateNormal];
+    seachBt.titleLabel.font = DEFAULTFONT(15);
+    [seachBt setTitle:@" 搜索商品" forState:UIControlStateNormal];
+    [seachBt setTitleColor:DEFAULTBLACK forState:UIControlStateNormal];
+    [seachBt addTarget:self action:@selector(searchProductAction) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[seachBt]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-70-[seachBt(30)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
+
+    
+    
+    
     
     UIView* separateView =  [[UIView alloc]init];
     separateView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:separateView];
-    separateView.backgroundColor = DEFAULTGRAYCOLO;
+    separateView.backgroundColor = FUNCTCOLOR(210, 210, 210);
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[separateView]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separateView)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[seachBt]-5-[separateView(0.5)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt,separateView)]];
     
@@ -66,8 +95,6 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_productListV attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.7 constant:0]];
     
     
-    
-    
     _categoryListV = [[ShopCategoryListView alloc]init];
     _categoryListV.translatesAutoresizingMaskIntoConstraints = NO;
     _categoryListV.delegate = self;
@@ -78,14 +105,40 @@
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_categoryListV]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_categoryListV)]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_categoryListV attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.3 constant:0]];
     
-    UserManager* manager =[UserManager shareUserManager];
-    [_categoryListV initNetDataWithShopID:manager.shopID];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getNetCategoryData) name:SHOPCATEGORYCHANGED object:nil];
+    [self getNetCategoryData];
 }
 
 
 
+-(void)searchProductAction
+{
+    SearchProductController* searchView = [[SearchProductController alloc]init];
+    searchView.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:searchView animated:YES];
+}
 
-#pragma mark-------------navigationTitleDelegate-----－－－－－－－
+
+
+#pragma mark-netApi
+
+-(void)getNetCategoryData
+{
+    UserManager* manager =[UserManager shareUserManager];
+    [_categoryListV initNetDataWithShopID:manager.shopID WithSpecifyCategory:manager.specifyCategory];
+    [self updateNavgationTitleView];
+}
+
+
+#pragma mark-specifyCategory
+
+-(void)showSpecifyCategoryWithCategory:(NSString*)category
+{
+    [_categoryListV showSpecifyCategory:category];
+}
+
+
+#pragma mark--------navigationTitleDelegate----
 
 -(UIView*)navgationTitleView
 {
@@ -108,8 +161,10 @@
 
 -(void)navigationTitleViewDidTouchWithView:(NavigationTitleView *)titleView
 {
-    
-//    [self showSelectShopView:NO];
+    ShopSelectController* shops = [[ShopSelectController alloc]init];
+    shops.delegate = self;
+    shops.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:shops animated:YES];
 }
 
 
@@ -131,6 +186,7 @@
 {
     UserManager* user = [UserManager shareUserManager];
     [_productListV setCategoryIDToGetData:categoryID WithShopID:user.shopID];
+    user.specifyCategory = nil;
 }
 //商铺选择 delegate
 -(void)shopSelectOverWithShopID:(ShopInfoData *)shop
@@ -141,7 +197,8 @@
     [self updateNavgationTitleView];
         
     [_productListV clearAllData];
-    [_categoryListV initNetDataWithShopID:shop.shopID];
+    [_categoryListV initNetDataWithShopID:shop.shopID WithSpecifyCategory:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SHOPROOTCHANGE object:nil];
 }
 
 

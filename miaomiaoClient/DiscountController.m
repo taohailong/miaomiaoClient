@@ -11,7 +11,7 @@
 #import "NetWorkRequest.h"
 #import "THActivityView.h"
 #import "LastViewOnTable.h"
-
+#import "DiscountActionCell.h"
 @interface DiscountController()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView* _table;
@@ -126,7 +126,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 140;
+    return 95;
 }
 
 
@@ -137,19 +137,34 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString* str = @"cellstr";
-    DiscountCell* cell = [tableView dequeueReusableCellWithIdentifier:str];
-    if (cell == nil) {
-        cell = [[DiscountCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
-    }
     DiscountData* data = _dataArr[indexPath.row];
-    [cell setTicketStatus:data.valid];
-    [cell setTicketName:data.discountTitle];
-    [cell setTitleLabelAttribute:[NSString stringWithFormat:@"%.1f",data.discountMoney]];
-    UILabel* secondLabel = [cell getSecondLabel];
-    secondLabel.text = [NSString stringWithFormat:@"有效期%@",data.deadTime];
     
-    [cell setTicketMinMoney:data.minMoney];
+    DiscountActionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (cell == nil) {
+        cell = [[DiscountActionCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        [cell setLayout];
+    }
+
+    [cell setTitleLabelAttribute:[NSString stringWithFormat:@"%.0f",data.discountMoney]];
+    
+    UILabel* secondLabel = [cell getSecondLabel];
+    if (data.minMoney==0) {
+        secondLabel.text = @"代金券";
+    }
+    else
+    {
+        NSString* str = [NSString stringWithFormat:@"【满%d元使用】",(int)data.minMoney];
+        NSMutableAttributedString* att = [[NSMutableAttributedString alloc]initWithString:@"代金券"];
+        NSAttributedString* discount = nil;
+        discount = [[NSAttributedString alloc]initWithString:str attributes:@{NSForegroundColorAttributeName:FUNCTCOLOR(255, 166, 60),NSFontAttributeName:DEFAULTFONT(13)}];
+        [att appendAttributedString:discount];
+        secondLabel.attributedText = att;
+    }
+    
+    UILabel* fourthLabel = [cell getFourthLabel];
+    fourthLabel.text = [NSString stringWithFormat:@"有效期至：%@至%@",data.startTime,data.deadTime];
+
+    [cell setTicketStatus:data.valid];
     return  cell;
 }
 

@@ -18,27 +18,27 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     horizontalSeparate = [[UIView alloc]init];
     horizontalSeparate.translatesAutoresizingMaskIntoConstraints = NO;
-    horizontalSeparate.backgroundColor = [UIColor whiteColor];
+    horizontalSeparate.backgroundColor = FUNCTCOLOR(221, 221, 221);
+
     [self.contentView addSubview:horizontalSeparate];
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[horizontalSeparate]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(horizontalSeparate)]];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-70-[horizontalSeparate(1)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(horizontalSeparate)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-70-[horizontalSeparate(0.5)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(horizontalSeparate)]];
     
     verticalSeparate1 = [[UIView alloc]init];
     verticalSeparate1.translatesAutoresizingMaskIntoConstraints = NO;
-    verticalSeparate1.backgroundColor = [UIColor whiteColor];
+    verticalSeparate1.backgroundColor = FUNCTCOLOR(210, 210, 210);
     [self.contentView addSubview:verticalSeparate1];
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[horizontalSeparate]-5-[verticalSeparate1]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(horizontalSeparate,verticalSeparate1)]];
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[verticalSeparate1(1)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(verticalSeparate1)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[verticalSeparate1(0.5)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(verticalSeparate1)]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:verticalSeparate1 attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-    
 
-    self.contentView.backgroundColor = FUNCTCOLOR(229, 228, 250);
-    
     
     _fifthLabel = [[UILabel alloc]init];
     _fifthLabel.translatesAutoresizingMaskIntoConstraints = NO;

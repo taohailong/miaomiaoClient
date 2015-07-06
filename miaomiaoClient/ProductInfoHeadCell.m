@@ -30,7 +30,7 @@
         return;
     }
     _scrollView = [[PosterScorllView alloc]
-                   initWithFrame:self.contentView.bounds];
+                   initWithFrame:CGRectMake(CGRectGetWidth(self.contentView.bounds)/2-65, 10,130, 130)];
     [self.contentView addSubview:_scrollView];
     [_scrollView loadImageViewsWithData:_picArr];
 }

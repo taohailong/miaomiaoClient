@@ -67,9 +67,8 @@
         
         [loadV removeFromSuperview];
         if (status==NetWorkSuccess) {
-            
             if (respond.count==0) {
-                THActivityView* warnView = [[THActivityView alloc]initEmptyDataWarnViewWithString:@"你还没有订单哦，赶快下单吧！" WithSuperView:self.view];
+                THActivityView* warnView = [[THActivityView alloc]initEmptyDataWarnViewWithString:@"您没有订单哦，赶快下单吧！" WithImage:@"warn_emptyImage" WithSuperView:self.view];
                 [warnView addBtWithTitle:@"去下单" WithBk:^{
                     [wSelf backToRoot];
                 }];

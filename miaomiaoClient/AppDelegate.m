@@ -51,8 +51,8 @@
         v.tabBarItem.selectedImage = [[UIImage imageNamed:highlight] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         v.tabBarItem.image = [UIImage imageNamed:normal];
        
-        [v.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:DEFAULTNAVCOLOR} forState:UIControlStateHighlighted];
-        [v.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:DEFAULTGRAYCOLO} forState:UIControlStateNormal];
+        [v.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:DEFAULTNAVCOLOR,NSFontAttributeName:DEFAULTFONT(13)} forState:UIControlStateHighlighted];
+        [v.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:DEFAULTGRAYCOLO,NSFontAttributeName:DEFAULTFONT(13)} forState:UIControlStateNormal];
 
     }
     

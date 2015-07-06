@@ -50,6 +50,7 @@
     _table.translatesAutoresizingMaskIntoConstraints = NO;
     _table.delegate = self;
     _table.dataSource = self;
+    _table.separatorColor = FUNCTCOLOR(221, 221, 221);
     _table.tableFooterView = [[UIView alloc]init];
     [_table registerClass:[ProductInfoDetailCell class] forCellReuseIdentifier:@"ProductInfoDetailCell"];
     [_table registerClass:[ProductInfoHeadCell class] forCellReuseIdentifier:@"ProductInfoHeadCell"];
@@ -110,6 +111,9 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_countLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_addBt attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
     
     
+    _countLabel.text = [NSString stringWithFormat:@"%d",_product.count];
+    
+    
     UIButton* _subtractBt = [UIButton buttonWithType:UIButtonTypeCustom];
     
     [_subtractBt setImage:[UIImage imageNamed:@"product_subtractBt"] forState:UIControlStateNormal];
@@ -127,6 +131,7 @@
     
     UILabel* title = [[UILabel alloc]init];
     title.text = @"添加商品:";
+    title.textColor = DEFAULTBLACK;
     title.translatesAutoresizingMaskIntoConstraints = NO;
     title.font = DEFAULTFONT(16);
     [self.view addSubview:title];
@@ -184,7 +189,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row ==0) {
-        return 200;
+        return 150;
     }
     return 75;
 }
@@ -193,6 +198,7 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
+        
         if (indexPath.row==0) {
             ProductInfoHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ProductInfoHeadCell"];
             [cell setProductImages:@[_product.pUrl]];

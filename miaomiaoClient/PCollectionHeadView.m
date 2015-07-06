@@ -42,7 +42,7 @@
     
     _endLabe = [[UILabel alloc]init];
     _endLabe.translatesAutoresizingMaskIntoConstraints = NO;
-    _endLabe.font = DEFAULTFONT(12);
+    _endLabe.font = DEFAULTFONT(13);
     _endLabe.textColor = DEFAULTGRAYCOLO;
     [_backView addSubview:_endLabe];
 
@@ -73,7 +73,7 @@
     
     [_backView addConstraint:[NSLayoutConstraint constraintWithItem:_titleLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_backView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     
-    [_backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_headView]-5-[_titleLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_headView,_titleLabel)]];
+    [_backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_headView]-8-[_titleLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_headView,_titleLabel)]];
 
     
     [_backView addConstraint:[NSLayoutConstraint constraintWithItem:_accessTypeView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_backView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];

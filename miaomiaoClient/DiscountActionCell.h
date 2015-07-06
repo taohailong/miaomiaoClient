@@ -7,7 +7,8 @@
 //
 
 #import "FourLabelCell.h"
-
+#import "DiscountData.h"
 @interface DiscountActionCell : FourLabelCell
 -(void)setTitleLabelAttribute:(NSString*)str;
+-(void)setTicketStatus:(DiscountTicketStatus)status;
 @end

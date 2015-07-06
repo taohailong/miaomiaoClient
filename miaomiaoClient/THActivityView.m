@@ -284,8 +284,9 @@
 
 #pragma mark-------------empty data warn view---------
 
--(id)initEmptyDataWarnViewWithString:(NSString*)str WithSuperView:(UIView*)superView
+-(id)initEmptyDataWarnViewWithString:(NSString*)str WithImage:(NSString*)imageStr WithSuperView:(UIView*)superView
 {
+    
     self = [super init];
     if (superView == nil) {
         return self;
@@ -300,7 +301,7 @@
     UIImageView* image = [[UIImageView alloc]init];
     image.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:image];
-    image.image = [UIImage imageNamed:@"warn_emptyImage"];
+    image.image = [UIImage imageNamed:imageStr];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:image attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:image attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:-30]];
     
@@ -327,6 +328,9 @@
 
     reloadBt.layer.cornerRadius = 4;
     reloadBt.layer.masksToBounds = YES;
+    reloadBt.layer.borderColor = DEFAULTNAVCOLOR.CGColor;
+    reloadBt.layer.borderWidth = 1;
+    [reloadBt setTitleColor:DEFAULTNAVCOLOR forState:UIControlStateNormal];
     reloadBt.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:reloadBt];
     [reloadBt addTarget:self action:@selector(performReloadAction) forControlEvents:UIControlEventTouchUpInside];
@@ -335,10 +339,10 @@
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:reloadBt attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
    
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[reloadBt(>=100)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(reloadBt)]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[reloadBt(>=120)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(reloadBt)]];
     
     [reloadBt setTitle:btTitle forState:UIControlStateNormal];
-    [reloadBt setBackgroundImage:[UIImage imageNamed:@"button_back_red"] forState:UIControlStateNormal] ;
+//    [reloadBt setBackgroundImage:[UIImage imageNamed:@"button_back_red"] forState:UIControlStateNormal] ;
    
     
     _errorBk = actionBk;

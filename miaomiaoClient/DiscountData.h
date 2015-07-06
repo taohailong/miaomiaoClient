@@ -17,10 +17,12 @@ typedef enum _discountTicketStatus
 @property(nonatomic,assign)float discountMoney;
 @property(nonatomic,strong)NSString* discountTitle;
 @property(nonatomic,strong)NSString* deadTime;
+@property(nonatomic,strong)NSString* startTime;
 @property(nonatomic,strong)NSString* discountID;
 @property(nonatomic,strong)NSString* discountCode;
 @property(nonatomic,assign)float minMoney;
 @property(nonatomic,assign)DiscountTicketStatus valid;
 -(void)setDateStamp:(double)time;
 -(void)setDiscountStatus:(int)status;
+-(void)setStartDate:(double)time;
 @end

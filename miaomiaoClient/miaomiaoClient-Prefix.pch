@@ -17,6 +17,8 @@
 #define UGID @"u_gid"
 #define UTOKEN @"userToken"
 
+#define SHOPCATEGORYCHANGED @"shop_category_Changed"
+#define SHOPROOTCHANGE @"shop_root_changed"
 
 #define PNEEDLOG @"needLogin"
 #define PSHOPCARCHANGE @"shopcar_change"

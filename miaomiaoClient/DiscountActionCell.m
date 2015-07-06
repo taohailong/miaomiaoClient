@@ -10,6 +10,8 @@
 @interface DiscountActionCell()
 {
     UIImageView* _leftImage;
+    UIImageView* _statusImage;
+    UIView* backView;
 }
 @end
 @implementation DiscountActionCell
@@ -22,7 +24,7 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     
-    UIView* backView = [[UIView alloc]init];
+    backView = [[UIView alloc]init];
     backView.translatesAutoresizingMaskIntoConstraints = NO;
     backView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:backView];
@@ -64,15 +66,12 @@
     _leftImage.image = [UIImage imageNamed:@"action_discountCell_separate"];
     [backView addSubview:_leftImage];
     
+    _statusImage = [[UIImageView alloc]init];
+    //_statusImage.backgroundColor = [UIColor redColor];
+    _statusImage.translatesAutoresizingMaskIntoConstraints = NO;
+    [backView addSubview:_statusImage];
     
- 
-//    if ([self respondsToSelector:@selector(setSeparatorInset:)]) {
-//        [self setSeparatorInset:UIEdgeInsetsZero];
-//    }
-//    
-//    if ([self respondsToSelector:@selector(setLayoutMargins:)]) {
-//        [self setLayoutMargins:UIEdgeInsetsZero];
-//    }
+  
 
     return self;
 }
@@ -93,36 +92,38 @@
 
 -(void)setLayout
 {
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_firstLabel(85)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_firstLabel)]];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_firstLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_firstLabel)]];
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_firstLabel(85)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_firstLabel)]];
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_firstLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_firstLabel)]];
     
     
 
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_firstLabel]-0-[_leftImage]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_firstLabel,_leftImage)]];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_leftImage]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_leftImage)]];
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_firstLabel]-0-[_leftImage]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_firstLabel,_leftImage)]];
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_leftImage]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_leftImage)]];
 
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_leftImage]-20-[_secondLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_leftImage,_secondLabel)]];
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_leftImage]-20-[_secondLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_leftImage,_secondLabel)]];
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-6-[_secondLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_secondLabel)]];
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-6-[_secondLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_secondLabel)]];
 
     
     
     
     
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_fourthLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_secondLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
+    [backView addConstraint:[NSLayoutConstraint constraintWithItem:_fourthLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_secondLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_fourthLabel]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_fourthLabel)]];
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_fourthLabel]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_fourthLabel)]];
     
     
     
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_thirdLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_secondLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
+    [backView addConstraint:[NSLayoutConstraint constraintWithItem:_thirdLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_secondLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
 
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_thirdLabel]-10-[_fourthLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_thirdLabel,_fourthLabel)]];
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_thirdLabel]-10-[_fourthLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_thirdLabel,_fourthLabel)]];
     
     
     
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-3-[_statusImage]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_statusImage)]];
     
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_statusImage]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_statusImage)]];
 }
 
 
@@ -135,5 +136,31 @@
     [attribute addAttribute:NSFontAttributeName value:DEFAULTFONT(27) range:NSMakeRange(1, titleStr.length-1)];
     _firstLabel.attributedText = attribute;
 }
+
+
+-(void)setTicketStatus:(DiscountTicketStatus)status
+{
+    if (status == DiscountStatusValid) {
+        _firstLabel.backgroundColor = DEFAULTNAVCOLOR;
+        _statusImage.hidden = YES;
+        _leftImage.image = [UIImage imageNamed:@"discountCell_separate_valid"];
+    }
+    else if (status == DiscountStatusUsed)
+    {
+        _statusImage.hidden = NO;
+        _statusImage.image = [UIImage imageNamed:@"discount_used"];
+        _leftImage.image = [UIImage imageNamed:@"discountCell_separate_invalid"];
+        _firstLabel.backgroundColor = FUNCTCOLOR(210, 210, 210);
+    }
+    else
+    {
+        _statusImage.image = [UIImage imageNamed:@"discount_invalid"];
+        _leftImage.image = [UIImage imageNamed:@"discountCell_separate_invalid"];
+        _statusImage.hidden = NO;
+        _firstLabel.backgroundColor = FUNCTCOLOR(210, 210, 210);
+    }
+}
+
+
 
 @end

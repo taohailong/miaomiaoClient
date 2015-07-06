@@ -50,10 +50,12 @@
 @implementation UserManager
 @synthesize token,shopID;
 @synthesize shop;
+@synthesize specifyCategory;
 //@synthesize shopName,phoneNumber,shopAddress;
 //@synthesize shopMinPrice;
 //@synthesize deliverCharge;
 //@synthesize combinPay;
+
 +(UserManager*)shareUserManager
 {
     static UserManager* shareUser = nil;

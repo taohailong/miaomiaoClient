@@ -17,12 +17,14 @@
 @interface ShopCategoryListView : UIView<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
     long _selectIndex;
-     UITableView* _table;
+    UITableView* _table;
     NSMutableArray* _dataArr;
     NSString* _currentShopID;
+    NSString* _specifyCategory;
 }
 @property(nonatomic,weak)IBOutlet id<ShopCategoryProtocol>delegate;
 
 -(void)setDataArrAndSelectOneRow:(NSMutableArray *)dataArr;
--(void)initNetDataWithShopID:(NSString*)shopID;
+-(void)initNetDataWithShopID:(NSString*)shopID WithSpecifyCategory:(NSString*)cate;
+-(void)showSpecifyCategory:(NSString*)category;
 @end

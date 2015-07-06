@@ -22,6 +22,8 @@ typedef void (^LocationBk)(BOOL success,float longitude,float latitude);
 @property(nonatomic,strong,readonly)ShopInfoData* shop;
 @property(nonatomic,strong)NSString* token;
 @property(nonatomic,strong)NSString* shopID;
+@property(nonatomic,strong)NSString* specifyCategory;
+
 //@property(nonatomic,strong)NSString* shopName;
 //@property(nonatomic,strong)NSString* phoneNumber;
 

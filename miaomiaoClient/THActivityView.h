@@ -41,6 +41,7 @@ typedef void (^LoadErrorBk)(void);
 
 -(void)addBtWithTitle:(NSString*)btTitle WithBk:(void(^)(void))actionBk;
 
--(id)initEmptyDataWarnViewWithString:(NSString*)str WithSuperView:(UIView*)superView;
+-(id)initEmptyDataWarnViewWithString:(NSString*)str WithImage:(NSString*)imageStr WithSuperView:(UIView*)superView
+;
 
 @end

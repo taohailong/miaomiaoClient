@@ -18,7 +18,7 @@
 
 @interface SearchProductController()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 {
-    float _totalMoney;
+
     UITableView* _table;
     __weak ShopCarView* _shopCar;
     UISearchBar* search;
@@ -27,17 +27,6 @@
 }
 @end
 @implementation SearchProductController
-
-
--(void)setTotalMoney:(float)money
-{
-    _totalMoney = money;
-}
-
-//-(void)setShopCarArr:(NSMutableArray*)shopArr
-//{
-//    _shopCarArr = shopArr;
-//}
 
 
 -(void)viewDidAppear:(BOOL)animated

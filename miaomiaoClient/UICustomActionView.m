@@ -111,7 +111,7 @@
     [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[cancelBt]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(cancelBt)]];
     
     
-    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[cancelBt]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(cancelBt)]];
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[cancelBt(32)]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(cancelBt)]];
     
     UIWindow* window =  [UIApplication sharedApplication].keyWindow;
     [window addSubview:self];
@@ -234,7 +234,7 @@
     }
     
     UILabel* fourthLabel = [cell getFourthLabel];
-    fourthLabel.text = [NSString stringWithFormat:@"有效期至：%@",data.deadTime];
+    fourthLabel.text = [NSString stringWithFormat:@"有效期：%@至%@",data.startTime,data.deadTime];
     
     return cell;
     

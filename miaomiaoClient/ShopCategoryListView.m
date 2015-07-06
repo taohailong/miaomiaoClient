@@ -17,7 +17,7 @@
 {
     self = [super initWithCoder:aDecoder];
     [self creatTableView];
-      return self;
+    return self;
 }
 
 -(id)init
@@ -36,7 +36,7 @@
     [self addSubview:_table];
     _table.delegate = self;
     _table.dataSource = self;
-//    _table.separatorColor = FUNCTCOLOR(229, 229, 229);
+    _table.separatorColor = FUNCTCOLOR(221, 221, 221);
     UIView *view =[ [UIView alloc]init];
     view.backgroundColor = [UIColor clearColor];
     _table.tableFooterView = view;
@@ -56,6 +56,32 @@
 
 }
 
+-(void)showSpecifyCategory:(NSString*)category
+{
+    if (_dataArr.count == 0) {
+        return;
+    }
+    int index = 0;
+    if (category != nil) {
+        
+        for (ShopCategoryData* obj in _dataArr) {
+            if ([obj.categoryID isEqualToString:category]) {
+                break;
+            }
+            index++;
+        }
+
+    }
+    
+    [_table selectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    
+    if ([self.delegate respondsToSelector:@selector(didSelectCategoryIndexWith:WithShopID:)]) {
+        
+        ShopCategoryData* data = _dataArr[index];
+        [self.delegate didSelectCategoryIndexWith:data.categoryID WithShopID:_currentShopID];
+    }
+}
+
 
 -(void)setDataArrAndSelectOneRow:(NSMutableArray *)dataArr
 {
@@ -64,13 +90,7 @@
     }
     _dataArr = dataArr;
     [_table reloadData];
-
-    [_table selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-    
-    if ([self.delegate respondsToSelector:@selector(didSelectCategoryIndexWith:WithShopID:)]) {
-        ShopCategoryData* data = _dataArr[0];
-        [self.delegate didSelectCategoryIndexWith:data.categoryID WithShopID:_currentShopID ];
-    }
+    [self showSpecifyCategory:_specifyCategory];
 
 }
 
@@ -118,9 +138,11 @@
 }
 
 
--(void)initNetDataWithShopID:(NSString*)shopID
+-(void)initNetDataWithShopID:(NSString*)shopID WithSpecifyCategory:(NSString*)cate
 {
     _currentShopID = shopID;
+    _specifyCategory = cate;
+    
      THActivityView* loadV = [[THActivityView alloc]initActivityViewWithSuperView:self.superview];
     
     __weak ShopCategoryListView* wself = self;
@@ -128,12 +150,12 @@
     [categoryReq shopGetCategoryWithShopID:shopID callBack:^(NSMutableArray *respond, NetWorkStatus error) {
         
         [loadV removeFromSuperview];
-        
-        if (error != NetWorkSuccess) {
+        if (error != NetWorkSuccess)
+        {
             THActivityView* loadView = [[THActivityView alloc]initWithNetErrorWithSuperView:wself.superview];
             
             [loadView setErrorBk:^{
-                [wself initNetDataWithShopID:shopID];
+                [wself initNetDataWithShopID:shopID WithSpecifyCategory:cate];
             }];
             return ;
         }

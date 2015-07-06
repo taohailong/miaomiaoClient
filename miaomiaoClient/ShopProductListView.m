@@ -210,7 +210,7 @@
     }
     else
     {
-       _table.separatorColor = nil;
+       _table.separatorColor = FUNCTCOLOR(221, 221, 221);
     }
     
     if (count<20) {
