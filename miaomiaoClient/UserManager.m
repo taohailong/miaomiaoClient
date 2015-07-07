@@ -25,7 +25,8 @@
 #define PUSHTOKEN @"push_token"
 #define LONGITUDE @"longitude"
 #define LATITUDE @"latitude"
-
+#define USHOPNAME @"shop_name"
+#define USHOPAREA @"shop_area"
 //#define PUSHOK @"isPush"
 
 #if BAIDUMAP
@@ -77,9 +78,30 @@
 {
     _shop = shops;
     self.shopID = _shop.shopID;
+    
+    if (shops.shopArea) {
+        NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+        [def setObject:shops.shopArea forKey:USHOPAREA];
+        [def setObject:shops.shopName forKey:USHOPNAME];
+        [def synchronize];
+    }
+   
     [self setShopID:shops.shopID WithLongitude:shops.longitude WithLatitude:shops.latitude];
 }
 
+
+-(NSString*)getCurrentShopArea
+{
+    NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+    NSString* area = [def objectForKey:USHOPAREA];
+    return area;
+}
+
+-(NSString*)getCurrentShopName
+{
+    NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+    return [def objectForKey:USHOPNAME];
+}
 
 -(NSString*)getUserAccount
 {
@@ -108,16 +130,6 @@
 }
 
 
--(void)setShopID:(NSString *)shopIDs WithLongitude:(float)longitude WithLatitude:(float)latitude
-{
-    NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
-    [def setObject:[NSNumber numberWithFloat:longitude] forKey:LONGITUDE];
-    
-    [def setObject:[NSNumber numberWithFloat:latitude] forKey:LATITUDE];
-    [def setObject:shopIDs forKey:USHOPID];
-    [def synchronize];
-    self.shopID = shopIDs;
-}
 
 
 #pragma mark--------------------Location-----------------
@@ -331,6 +343,21 @@
 //    [req startAsynchronous];
     return t !=nil;
 }
+
+-(void)setShopID:(NSString *)shopIDs WithLongitude:(float)longitude WithLatitude:(float)latitude
+{
+    NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+    [def setObject:[NSNumber numberWithFloat:longitude] forKey:LONGITUDE];
+    
+    [def setObject:[NSNumber numberWithFloat:latitude] forKey:LATITUDE];
+    [def setObject:shopIDs forKey:USHOPID];
+    [def synchronize];
+    self.shopID = shopIDs;
+}
+
+
+
+
 
 
 -(NSString*)checkTokenExsit

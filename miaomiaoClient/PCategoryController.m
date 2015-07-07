@@ -37,21 +37,46 @@
     }
 }
 
+-(void)setNavigationBarAttribute:(BOOL)flag
+{
+    UIColor * color = nil;
+    if (flag)
+    {
+        color = [UIColor whiteColor];
+        [self.navigationController.navigationBar setTintColor:color];
+        [self.navigationController.navigationBar setBarTintColor:FUNCTCOLOR(254, 87, 84)];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
+    else
+    {
+        if (self.navigationController.viewControllers.count == 1) {
+            return;
+        }
+        color = FUNCTCOLOR(64, 64, 64);
+        [self.navigationController.navigationBar setTintColor:color];
+        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    }
+    NSDictionary * dict = @{NSForegroundColorAttributeName:color,NSFontAttributeName:DEFAULTFONT(18)};
+    
+    self.navigationController.navigationBar.titleTextAttributes = dict;
+}
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self setNavigationBarAttribute:YES];
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [self setNavigationBarAttribute:NO];
+}
 
 
 -(void)viewDidLoad
 {
     [super viewDidLoad];
     self.navigationItem.titleView = [self navgationTitleView];
-    
-//    UIButton* seachBt = [UIButton buttonWithType:UIButtonTypeCustom];
-//    seachBt.translatesAutoresizingMaskIntoConstraints = NO;
-//    [self.view addSubview:seachBt];
-//    seachBt.backgroundColor = [UIColor redColor];
-//    [seachBt setTitle:@"搜索商品" forState:UIControlStateNormal];
-//    
-//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[seachBt]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
-//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-70-[seachBt(30)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
     
     
     UIButton* seachBt = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -149,13 +174,14 @@
 
 -(void)updateNavgationTitleView
 {
-    UserManager* manager = [UserManager shareUserManager];
-    ShopInfoData* shop = manager.shop;
     NavigationTitleView* title = (NavigationTitleView*)self.navigationItem.titleView;
+    
     UILabel* textLabel = [title getTextLabel];
     UILabel* detail = [title getDetailLabel];
-    textLabel.text = [NSString stringWithFormat:@"%@",shop.shopName];
-    detail.text = [NSString stringWithFormat:@"营业时间:%@-%@",[shop getOpenTime],[shop getCloseTime]];
+    
+    UserManager* manager = [UserManager shareUserManager];
+    textLabel.text = [manager getCurrentShopName];
+    detail.text = [NSString stringWithFormat:@"配送至:%@",[manager getCurrentShopArea]];
 }
 
 

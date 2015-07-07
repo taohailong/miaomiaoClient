@@ -12,7 +12,10 @@
 #import "NetWorkRequest.h"
 #import "UserManager.h"
 #import "ShopCarShareData.h"
+#import "ShopCategoryData.h"
 #import "ShopProductData.h"
+#import "ProductInfoController.h"
+#import "CommonWebController.h"
 #import "NavigationTitleView.h"
 #import "ShopInfoData.h"
 #import "SearchProductController.h"
@@ -29,6 +32,10 @@
     UICollectionView* _collectionView;
     BOOL _carViewNeedHidden;
     float _totalMoney;
+    
+    NSArray* _categoryArr;
+    NSArray* _picArr;
+    NSMutableArray* _picUrls;
 }
 @end
 
@@ -46,15 +53,20 @@
     {
         color = [UIColor whiteColor];
         [self.navigationController.navigationBar setTintColor:color];
-        [self.navigationController.navigationBar setBarTintColor:DEFAULTNAVCOLOR];
+        [self.navigationController.navigationBar setBarTintColor:FUNCTCOLOR(254, 87, 84)];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     }
     else
     {
+        if (self.navigationController.viewControllers.count == 1) {
+           
+            return;
+        }
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
         color = FUNCTCOLOR(64, 64, 64);
         [self.navigationController.navigationBar setTintColor:color];
         [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+
     }
     NSDictionary * dict = @{NSForegroundColorAttributeName:color,NSFontAttributeName:DEFAULTFONT(18)};
         
@@ -69,20 +81,19 @@
     if (manager.shopID==nil) {
         [self showSelectShopView:YES];
     }
+    [_collectionView reloadData];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
     [self setNavigationBarAttribute:NO];
 }
 
-
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     
     self.navigationItem.titleView = [self navgationTitleView];
-   
-    
+
     UIButton* seachBt = [UIButton buttonWithType:UIButtonTypeCustom];
     seachBt.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     seachBt.translatesAutoresizingMaskIntoConstraints = NO;
@@ -138,6 +149,7 @@
     
     if (manager.shopID!=nil) {
         [self checkLocation];
+        [self updateNavigationView];
     }
     [self getShopInfo];
 }
@@ -158,6 +170,7 @@
 
 -(void)getShopInfo
 {
+   
     UserManager* manager = [UserManager shareUserManager];
     if (manager.shopID==nil) {
         return;
@@ -166,7 +179,7 @@
     THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
     
     NetWorkRequest* requ = [[NetWorkRequest alloc]init];
-    [requ getShopInfoWithShopID:manager.shopID WithBk:^(ShopInfoData* respond, NetWorkStatus status) {
+    [requ getShopInfoWithShopID:manager.shopID WithBk:^(id respond, NetWorkStatus status) {
         
         [loadView removeFromSuperview];
         if (status==NetWorkSuccess) {
@@ -185,11 +198,23 @@
 }
 
 
--(void)getShopProduct:(ShopInfoData*)shop
+-(void)getShopProduct:(NSDictionary*)data
 {
+    ShopInfoData* shop = data[ROOTSHOP];
     UserManager* manager = [UserManager shareUserManager];
-    [manager setCurrentShop:shop];
-    [self updateNavigationView:shop];
+    [manager setCurrentShop:shop];//顺序
+    
+    
+    _categoryArr = data[ROOTCATEGORY];
+    _picArr = data[ROOTPIC];
+    
+    _picUrls = [[NSMutableArray alloc]init];
+    
+    for (NSDictionary* dic in _picArr) {
+        [_picUrls addObject:dic[@"image"]];
+    }
+    [_collectionView reloadData];
+    
 }
 
 
@@ -209,7 +234,7 @@
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 3;
+    return 1+_categoryArr.count;
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -217,7 +242,8 @@
     if (section==0) {
         return 1;
     }
-    return 6;
+    ShopCategoryData* category = _categoryArr[section-1];
+    return category.products.count;
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
@@ -232,12 +258,13 @@
 -(UICollectionReusableView*)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
     PCollectionHeadView* head = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"PCollectionHeadView" forIndexPath:indexPath];
-
-    [head setTitleLabelStr:@"哈哈镜"];
+    ShopCategoryData* category = _categoryArr[indexPath.section -1];
+    [head setTitleLabelStr:category.categoryName];
     [head setDetailStr:@"查看更多"];
     __weak RootViewController* wSelf = self;
+    __weak ShopCategoryData* wCategory = category;
     [head setHeadBk:^{
-        [wSelf collectionViewDidSelectHeadViewWithData:nil];
+        [wSelf collectionViewDidSelectHeadViewWithData:wCategory];
     }];
     return head;
 }
@@ -246,18 +273,18 @@
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return CGSizeMake(SCREENWIDTH, 145);
+        return CGSizeMake(SCREENWIDTH, SCREENWIDTH*0.4);
     }
-    return CGSizeMake(SCREENWIDTH/3-1, 145);
+    return CGSizeMake((SCREENWIDTH-2)/3, 145);
 }
 
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
-    return 0;
+{//水平间隙
+    return 0.5;
 }
 
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
+{//垂直间隙
     return 1;
 }
 
@@ -266,30 +293,45 @@
     if (indexPath.section == 0) {
         AdvertiseCollectionCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AdvertiseCollectionCell" forIndexPath:indexPath];
         cell.delegate = self;
-        [cell setImageDataArr:@[@"http://img1.ifensi.com/channelimg/Image/wenjing/29/3s.jpg",@"http://pic1.nipic.com/2008-09-04/2008941547677_2.jpg"]];
+        [cell setImageDataArr:_picUrls];
         return cell;
     }
     
+    ShopCategoryData* category = _categoryArr[indexPath.section-1];
+    ShopProductData* product = category.products[indexPath.row];
+    __weak ShopProductData* wProduct = product;
+    __weak RootViewController* wSelf = self;
     PCollectionCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PCollectionCell" forIndexPath:indexPath];
+    
     [cell setCountBk:^(int count) {
-        
+        wProduct.count = count;
+        [wSelf collectionViewProductChanged:wProduct];
     }];
-    [cell setPicUrl:nil];
-    [cell setTitleStr:@"哈哈镜哈哈镜哈哈镜"];
-    [cell setPriceStr:@"20.0"];
+    ShopCarShareData* shareData = [ShopCarShareData shareShopCarManager];
+
+    [cell  setCountText:[shareData getProductCountWithID:product.pID]];
+    [cell setPicUrl:product.pUrl];
+    [cell setTitleStr:product.pName];
+    [cell setPriceStr:[NSString stringWithFormat:@"%.1f",product.price]];
     return cell;
 }
 
 //headView 点击方法
--(void)collectionViewDidSelectHeadViewWithData:(id)data
+-(void)collectionViewDidSelectHeadViewWithData:(ShopCategoryData*)data
 {
-    
+    UserManager* manager = [UserManager shareUserManager];
+    manager.specifyCategory = data.categoryID;
+    self.tabBarController.selectedIndex = 1;
 }
 
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    ShopCategoryData* category = _categoryArr[indexPath.section -1];
+    ShopProductData* product = category.products[indexPath.row];
+    ProductInfoController* infoController = [[ProductInfoController alloc]initWithProductData:product];
+    infoController.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:infoController animated:YES];
 }
 
 
@@ -298,7 +340,6 @@
     ShopCarShareData* shareData = [ShopCarShareData shareShopCarManager];
     [shareData addOrChangeShopWithProduct:data];
 }
-
 
 -(void)searchProductAction
 {
@@ -333,13 +374,16 @@
 }
 
 
--(void)updateNavigationView:(ShopInfoData*)shop
+-(void)updateNavigationView
 {
     NavigationTitleView* title = (NavigationTitleView*)self.navigationItem.titleView;
+
     UILabel* textLabel = [title getTextLabel];
     UILabel* detail = [title getDetailLabel];
-    textLabel.text = [NSString stringWithFormat:@"%@",shop.shopName];
-    detail.text = [NSString stringWithFormat:@"营业时间:%@-%@",[shop getOpenTime],[shop getCloseTime]];
+    
+    UserManager* manager = [UserManager shareUserManager];
+    textLabel.text = [manager getCurrentShopName];
+    detail.text = [NSString stringWithFormat:@"配送至:%@",[manager getCurrentShopArea]];
 
 }
 
@@ -356,20 +400,18 @@
 {
     UserManager* manager = [UserManager shareUserManager];
     [manager setCurrentShop:shop];
-    [self updateNavigationView:shop];
+    [self updateNavigationView];
     [self getShopInfo];
     [[NSNotificationCenter defaultCenter] postNotificationName:SHOPCATEGORYCHANGED object:nil];
-//    
 }
-
-
-
 
 //广告点击代理方法
 
 -(void)posterViewDidSelectAtIndex:(NSInteger)index WithData:(id)data
 {
-    NSLog(@"%@",data);
+    CommonWebController* web = [[CommonWebController alloc]initWithUrl:_picArr[index][@"redirect"]];
+    web.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:web animated:YES];
 }
 
 
@@ -421,7 +463,6 @@
             {
                 UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"当前店铺不在您的附近哦！" delegate:self cancelButtonTitle:@"继续购物" otherButtonTitles:@"重新选择店铺", nil];
                 [alert show];
-                
              }
         }
         

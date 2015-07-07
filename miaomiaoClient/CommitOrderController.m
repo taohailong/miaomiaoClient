@@ -48,7 +48,7 @@
     __weak DiscountData* _currentDiscount;
     
 }
-@property(nonatomic,strong)NSString* leaveMes;
+
 @end
 @implementation CommitOrderController
 @synthesize leaveMes;
@@ -56,9 +56,9 @@
 {
     self = [super init];
     
-//    UserManager* user = [UserManager shareUserManager];
-//    [self setPayWayMethod:user.shop.combinPay];
-    [self setPayWayMethod:All_payCommit];
+    UserManager* user = [UserManager shareUserManager];
+    [self setPayWayMethod:user.shop.combinPay];
+//    [self setPayWayMethod:All_payCommit];
     return self;
 }
 
@@ -103,6 +103,20 @@
     }
 }
 
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    NSNotificationCenter *def = [NSNotificationCenter defaultCenter];
+    [def addObserver:self selector:@selector(showOrderListViewContrller) name:PPAYSUCCESS object:nil];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    NSNotificationCenter *def = [NSNotificationCenter defaultCenter];
+    [def removeObserver:self];
+}
+
+
 -(void)viewDidLoad
 {
     [super viewDidLoad];
@@ -136,7 +150,7 @@
 
     
     [self creatShopCarView];
-//    [self getAddress];
+    [self getAddress];
     [self requestDiscountData];
     [self registeNotificationCenter];
 }
@@ -154,11 +168,12 @@
 
 -(void)getAddress
 {
+    __weak UITableView* wTable = _table;
     __weak CommitOrderController* wself = self;
     NetWorkRequest* req = [[NetWorkRequest alloc]init];
-    [req getAddressWithBk:^(NSArray* respond, NetWorkStatus err) {
-      
-        if (err == NetWorkErrorCanntConnect) {
+    [req getDefaultAddressWithBk:^(id respond, NetWorkStatus status) {
+        
+        if (status == NetWorkErrorCanntConnect) {
             THActivityView* loadView = [[THActivityView alloc]initWithNetErrorWithSuperView:wself.view];
             
             [loadView setErrorBk:^{
@@ -167,15 +182,12 @@
             return ;
         }
         
-        if (err == NetWorkErrorTokenInvalid) {
+        if (status == NetWorkErrorTokenInvalid) {
             return;
         }
-        
-        if (respond.count) {
-            _address = respond[0];
-        }
-        
-        [_table reloadData];
+        _address = respond;
+    
+        [wTable reloadData];
         NSLog(@"req is %@",respond);
     }];
     [req startAsynchronous];
@@ -355,11 +367,11 @@
     
     [_commitBt setTitle:btTitle forState:UIControlStateNormal];
     [_commitBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_commitBt setTitleColor:DEFAULTNAVCOLOR forState:UIControlStateDisabled];
+    [_commitBt setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
     _commitBt.titleLabel.font = DEFAULTFONT(15);
-//    _commitBt.backgroundColor = DEFAULTNAVCOLOR;
+
     [_commitBt setBackgroundImage:[UIImage imageNamed:@"button_back_red"] forState:UIControlStateNormal];
-    [_commitBt setBackgroundImage:[UIImage imageNamed:@"button_back_white"] forState:UIControlStateDisabled];
+    [_commitBt setBackgroundImage:[UIImage imageNamed:@"shopcar_disable_bt"] forState:UIControlStateDisabled];
     
     [_commitBt addTarget:self action:@selector(commitOrderAction) forControlEvents:UIControlEventTouchUpInside];
     [footView addSubview:_commitBt];
@@ -386,7 +398,7 @@
     
    float totalMoney = [shareData getTotalMoney];
     
-//    UserManager* manager = [UserManager shareUserManager];
+    UserManager* manager = [UserManager shareUserManager];
     
 //    if (_currentDiscount&&_payWay!=OrderPayInCash)
 //    {
@@ -401,13 +413,6 @@
         [att appendAttributedString:att1];
         _moneyLabel.attributedText = att;
         
-//        _discountLabel.attributedText = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥%.2f",totalMoney] attributes:@{NSStrikethroughStyleAttributeName:[NSNumber numberWithInteger:NSUnderlineStyleSingle]}];
-//    }
-//    else
-//    {
-////        _discountLabel.attributedText = [[NSAttributedString alloc]initWithString:@""];
-//        _moneyLabel.text = [NSString stringWithFormat:@"总计：¥%.2f",totalMoney];
-//    }
     
     NSString* btTitle = nil;
     switch (_payWay)
@@ -564,7 +569,7 @@
             
             if (_currentDiscount)
             {
-                detailLabel.text = [NSString stringWithFormat:@"%@元",_currentDiscount.discountTitle];
+                detailLabel.text = [NSString stringWithFormat:@"%@",_currentDiscount.discountTitle];
             }
             else
             {

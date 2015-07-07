@@ -34,7 +34,8 @@ typedef void (^LocationBk)(BOOL success,float longitude,float latitude);
 //@property(nonatomic,assign)CommitPayMethod combinPay;
 
 
-
+-(NSString*)getCurrentShopArea;
+-(NSString*)getCurrentShopName;
 -(NSString*)getUserAccount;
 
 -(void)startLocationWithBk:(LocationBk)bk;

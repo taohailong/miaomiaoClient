@@ -18,6 +18,7 @@ typedef void (^CollectionPChanged)(int count);
     UILabel* _countLabel;
    CollectionPChanged _countBk;
 }
+-(void)setCountText:(int)count;
 -(void)setCountBk:(CollectionPChanged)completeBk;
 -(void)setPicUrl:(NSString *)url;
 -(void)setPriceStr:(NSString *)price;

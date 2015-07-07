@@ -103,8 +103,8 @@
 {
     switch ([statue intValue]) {
         case 0:
-            self.orderStatue = @"支付失败";
-//            self.orderStatue = @"待支付";
+           
+            self.orderStatue = @"待支付";
 
             self.orderStatusType = [type isEqualToString:@"ali_native"]? OrderStatus_Zfb_WaitPay:OrderStatus_Wx_WaitPay;
             break;

@@ -22,9 +22,49 @@
     UITableView* _table;
     __weak UITextField* _respondField;
     __weak THActivityView* _emptyView;
+    UIButton* commitBt;
 }
 @end
 @implementation ShopCarViewController
+@synthesize leaveMes;
+
+-(void)setNavigationBarAttribute:(BOOL)flag
+{
+    UIColor * color = nil;
+    if (flag)
+    {
+        color = [UIColor whiteColor];
+        [self.navigationController.navigationBar setTintColor:color];
+        [self.navigationController.navigationBar setBarTintColor:FUNCTCOLOR(254, 87, 84)];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
+    else
+    {
+        if (self.navigationController.viewControllers.count == 1) {
+            return;
+        }
+        color = FUNCTCOLOR(64, 64, 64);
+        [self.navigationController.navigationBar setTintColor:color];
+        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    }
+    NSDictionary * dict = @{NSForegroundColorAttributeName:color,NSFontAttributeName:DEFAULTFONT(18)};
+    
+    self.navigationController.navigationBar.titleTextAttributes = dict;
+}
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self setNavigationBarAttribute:YES];
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [self setNavigationBarAttribute:NO];
+}
+
+
+
 
 -(void)viewDidAppear:(BOOL)animated
 {
@@ -65,7 +105,6 @@
 -(void)goShoppingAction
 {
     self.tabBarController.selectedIndex = 0;
-
 }
 
 
@@ -100,21 +139,16 @@
     [footView addConstraint:[NSLayoutConstraint constraintWithItem:_moneyLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:footView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     
     
-    ShopCarShareData* manager = [ShopCarShareData shareShopCarManager];
-    _moneyLabel.text = [NSString stringWithFormat:@"总计：¥%.2f",[manager getTotalMoney]];
     
-    
-    UIButton* commitBt = [UIButton buttonWithType:UIButtonTypeCustom];
+    commitBt = [UIButton buttonWithType:UIButtonTypeCustom];
     commitBt.translatesAutoresizingMaskIntoConstraints = NO;
     
-    
-    [commitBt setTitle:@"去结算" forState:UIControlStateNormal];
     [commitBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [commitBt setTitleColor:DEFAULTNAVCOLOR forState:UIControlStateDisabled];
+    [commitBt setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
     commitBt.titleLabel.font = DEFAULTFONT(15);
-    //    _commitBt.backgroundColor = DEFAULTNAVCOLOR;
     [commitBt setBackgroundImage:[UIImage imageNamed:@"button_back_red"] forState:UIControlStateNormal];
-    [commitBt setBackgroundImage:[UIImage imageNamed:@"button_back_white"] forState:UIControlStateDisabled];
+    [commitBt setBackgroundImage:[UIImage imageNamed:@"shopcar_disable_bt"] forState:UIControlStateDisabled];
+
     
     [commitBt addTarget:self action:@selector(showCommitViewController) forControlEvents:UIControlEventTouchUpInside];
     [footView addSubview:commitBt];
@@ -160,6 +194,20 @@
     
     [att appendAttributedString:att1];
     _moneyLabel.attributedText = att;
+    
+    UserManager* manager = [UserManager shareUserManager];
+    float flag = manager.shop.minPrice - totalMoney ;
+    if (flag<=0)
+    {
+        commitBt.enabled = YES;
+        [commitBt setTitle:@"去结算" forState:UIControlStateNormal];
+    }
+    else
+    {
+        commitBt.enabled = NO;
+        [commitBt setTitle:[NSString stringWithFormat:@"还差¥%.1f",flag] forState:UIControlStateNormal];
+    }
+    
 }
 
 
@@ -176,6 +224,7 @@
     }
     
     CommitOrderController* readyOrder = [[CommitOrderController alloc]init];
+    readyOrder.leaveMes = self.leaveMes;
     readyOrder.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:readyOrder animated:YES];
 }
@@ -217,9 +266,22 @@
         {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
         }
-        NSMutableAttributedString* strAttribute = [[NSMutableAttributedString alloc]initWithString:@"配送时间：30分钟送达"  attributes:@{NSForegroundColorAttributeName:DEFAULTBLACK}];
-        [strAttribute addAttribute:NSFontAttributeName  value:DEFAULTFONT(15) range:NSMakeRange(0, 5)];
-        [strAttribute addAttributes:@{NSFontAttributeName:DEFAULTFONT(14),NSForegroundColorAttributeName:DEFAULTNAVCOLOR} range:NSMakeRange(5, 6)];
+        
+        UserManager* manager = [UserManager shareUserManager];
+        
+        NSMutableAttributedString* strAttribute = [[NSMutableAttributedString alloc]initWithString:@"配送时间："  attributes:@{NSForegroundColorAttributeName:DEFAULTBLACK,NSFontAttributeName:DEFAULTFONT(15)}];
+        NSString* str = nil;
+        
+        if (manager.shop.shopStatue == ShopClose) {
+             str =  [NSString stringWithFormat:@"明日%@前送达",[manager.shop getOpenTimeAddThirtyMins]];
+        }
+        else
+        {
+           str = @"30分钟送达";
+        }
+        NSAttributedString* att = [[NSAttributedString alloc]initWithString:str attributes:@{NSFontAttributeName:DEFAULTFONT(14),NSForegroundColorAttributeName:DEFAULTNAVCOLOR}];
+        
+        [strAttribute appendAttributedString:att];
         cell.textLabel.attributedText = strAttribute ;
         return cell;
     }
@@ -253,7 +315,7 @@
         CommitFillCell* cell = [tableView dequeueReusableCellWithIdentifier:@"cell3"];
         if (cell==nil) {
             cell = [[CommitFillCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell3" WithFieldBk:^(NSString *text) {
-//                wSelf.leaveMes = text;
+                wSelf.leaveMes = text;
             }];
             UITextField* text = [cell getTextFieldView];
             text.placeholder = @"给卖家留言";
@@ -292,9 +354,6 @@
     return title;
 }
 
-
-
-
 #pragma mark- textField
 
 
@@ -329,7 +388,7 @@
 
 - (void)keyboardHidden:(NSNotification *)aNotification
 {
-    [self accessViewAnimate:-45.0];
+    [self accessViewAnimate:-30.0];
 }
 
 -(void)accessViewAnimate:(float)height
@@ -342,7 +401,6 @@
                 constranint.constant = height;
             }
         }
-        
     } completion:^(BOOL finished) {
         
     }];

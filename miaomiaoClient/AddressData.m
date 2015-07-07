@@ -10,7 +10,7 @@
 
 @implementation AddressData
 @synthesize address,addressID,phoneNu;
-
+@synthesize isDefault;
 
 
 @end

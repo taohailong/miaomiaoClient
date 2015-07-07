@@ -48,7 +48,6 @@
     if (IOS_VERSION(7.0))
     {
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[_table]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
-       
     }
     else
     {
@@ -113,11 +112,7 @@
 }
 
 
-
-
 #pragma mark--------searchBar ---delegate-----------------
-
-
 
 -(void)creatSearchBar
 {
@@ -280,7 +275,7 @@
     UILabel* statusL = [cell getStatusLabel];
     statusL.text = shop.shopStatue==ShopClose?@"打烊":@"营业中";
     cell.titleLabel.text = [NSString stringWithFormat:@"● %@",shop.shopName];
-    cell.secondLabel.text = [NSString stringWithFormat:@"早%@－晚%@ ",shop.openTime,shop.closeTime];
+    cell.secondLabel.text = [NSString stringWithFormat:@"早%@－晚%@ ",[shop getOpenTime],[shop getCloseTime]];
     cell.thirdLabel.text = [NSString stringWithFormat:@"%.1f元起送",shop.minPrice];
     cell.fourthLabel.text = shop.shopAddress;
     

@@ -214,7 +214,7 @@
         {
             [cell setCellImage:[UIImage imageNamed:@"orderInfo_cancel"]];
             button3.hidden = YES;
-            title.text = @"订单支付失败";
+            title.text = @"订单待支付";
             button2.hidden = YES;
             button1.hidden = YES;
 

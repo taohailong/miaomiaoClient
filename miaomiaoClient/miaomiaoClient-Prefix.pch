@@ -54,8 +54,8 @@
 
 #if DEBUG
 //#if 0
-#define HTTPHOST @"182.92.168.2:8088"
-//#define HTTPHOST @"test.mbianli.com:8099"
+//#define HTTPHOST @"182.92.168.2:8088"
+#define HTTPHOST @"test.mbianli.com:8099"
 #else
 #define HTTPHOST @"www.mbianli.com"
 //#if ENTERPISE

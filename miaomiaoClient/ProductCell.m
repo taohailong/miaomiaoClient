@@ -75,22 +75,20 @@
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_addBt]-8-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_addBt)]];
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_addBt]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_addBt)]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_addBt attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_priceL attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
     
-//    _addBt.layer.cornerRadius = 12.5;
     
     
     
     _countLabel = [[UILabel alloc]init];
     _countLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_countLabel];
-//    _countLabel.backgroundColor = DEFAULTNAVCOLOR;
     _countLabel.textColor = DEFAULTNAVCOLOR;
     _countLabel.textAlignment = NSTextAlignmentCenter;
     _countLabel.adjustsFontSizeToFitWidth = YES  ;
-//    _countLabel.font = [UIFont boldSystemFontOfSize:15.0];
+    _countLabel.font = DEFAULTFONT(15);
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_countLabel(18)]-3-[_addBt]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_countLabel,_addBt)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_countLabel]-2-[_addBt]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_countLabel,_addBt)]];
     
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_countLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_addBt attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_countLabel(25)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_countLabel)]];
@@ -105,25 +103,9 @@
        _subtractBt.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_subtractBt];
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_subtractBt]-3-[_countLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_subtractBt,_countLabel)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_subtractBt]-2-[_countLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_subtractBt,_countLabel)]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_subtractBt attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_addBt  attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
 
-//    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_subtractBt]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_subtractBt)]];
-    
-//    _subtractBt.layer.cornerRadius = 12.5;
-
-    
-//    _statueLabel = [[UILabel alloc]init];
-//    _statueLabel.translatesAutoresizingMaskIntoConstraints = NO;
-//    [self addSubview:_statueLabel];
-//    _statueLabel.backgroundColor = DEFAULTNAVCOLOR;
-//    _statueLabel.textColor = [UIColor whiteColor];
-//    _statueLabel.text = @"下架";
-//    _statueLabel.font = [UIFont boldSystemFontOfSize:10.0];
-//    _statueLabel.transform = CGAffineTransformMakeRotation(M_PI_4);
-//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_statueLabel(25)]-1-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_statueLabel)]];
-//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-5-[_statueLabel(15)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_statueLabel)]];
-//
  }
 
 

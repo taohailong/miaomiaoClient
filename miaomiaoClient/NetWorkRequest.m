@@ -37,6 +37,12 @@
 @end;
 @implementation NetWorkRequest
 
+#pragma mark-RootCollectionView
+
+-(void)getRootCollectionDataWithCompleteBk:(NetCallback)completeBk
+{
+   
+}
 
 #pragma mark----------spread-----------
 
@@ -201,10 +207,22 @@
         NSDictionary*dic = @{@"item_id":temp.pID,@"count":[NSString stringWithFormat:@"%d",temp.count]};
         [jsonArr addObject:dic];
     }
+    NSString* startT = nil;
+    NSString* endT = nil;
     
+    UserManager* manager = [UserManager shareUserManager];
+    if (manager.shop.shopStatue == ShopClose) {
+       startT = [manager.shop getOpenTime];
+       endT = [manager.shop getOpenTimeAddThirtyMins];
+    }
+    else
+    {
+       startT = @"00:00";
+        endT = @"08:30";
+    }
     NSString* item = [jsonArr JSONString];
     
-    NSString* url = [NSString stringWithFormat:@"http://%@/app/order/save?shop_id=%@&items=%@&address_id=%@&remarks=%@&act=%@",HTTPHOST,shop,item,add,mes,payWay];
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/order/save?shop_id=%@&items=%@&address_id=%@&remarks=%@&act=%@&express_start=%@&express_end=%@",HTTPHOST,shop,item,add,mes,payWay,startT,endT];
     
     if (discount&&payWay!= OrderPayInCash) {
         url = [NSString stringWithFormat:@"%@&coupon_code=%@&coupon_id=%@",url,discount.discountCode,discount.discountID];
@@ -213,7 +231,6 @@
     HTTPADD(url);
     url= [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-//    __weak NetWorkRequest* wself = self;
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
         
         if (status==NetWorkSuccess)
@@ -354,10 +371,8 @@
 
 -(void)remindOrderWithOrder:(OrderData*)order WithBk:(NetCallback)completeBk
 {
-    
     NSString* url = [NSString stringWithFormat:@"http://%@/app/order/order_remindShopping?order_id=%@&shop_id=%@",HTTPHOST,order.orderNu,order.shopID];
     HTTPADD(url);
-//      __weak NetWorkRequest* wself = self;
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
             
             if (status==NetWorkSuccess) {
@@ -376,10 +391,35 @@
             }
             
         }];
-
 }
 
+-(void)rePayOrderWithOrder:(OrderData*)order WithBk:(NetCallback)completeBk
+{
+    
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/order/pay?shopId=%@&orderId=%@&act=%@",HTTPHOST,order.shopID,order.orderNu,order.payWay];
+    HTTPADD(url);
 
+    [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
+        
+        if (status==NetWorkSuccess) {
+            
+            completeBk(sourceDic[@"data"][@"payInfo"],status);
+        }
+        else if (status==NetWorkErrorTokenInvalid)
+        {
+            completeBk(nil,status);
+            [[NSNotificationCenter defaultCenter] postNotificationName:PNEEDLOG object:nil];
+        }
+        
+        else
+        {
+            completeBk(nil,status);
+        }
+        
+    }];
+
+
+}
 
 
 #pragma mark--------------商铺定位－－－－－－－－－－－－－
@@ -415,6 +455,7 @@
                      ShopInfoData* shop = [[ShopInfoData alloc]init];
                      shop.shopID = [temp[@"id"] stringValue];
                      shop.shopName = temp[@"name"];
+                     shop.shopArea = dic[@"name"];
                      shop.longitude = [temp[@"lng"] floatValue];
                      shop.latitude = [temp[@"lat"] floatValue];
                      shop.shopAddress = temp[@"shop_address"];
@@ -482,6 +523,7 @@
                     ShopInfoData* shop = [[ShopInfoData alloc]init];
                     shop.shopID = [temp[@"id"] stringValue];
                     shop.shopName = temp[@"name"];
+                    shop.shopArea = dic[@"name"];
                     shop.longitude = [temp[@"lng"] floatValue];
                     shop.latitude = [temp[@"lat"] floatValue];
                     shop.shopAddress = temp[@"shop_address"];
@@ -519,19 +561,42 @@
     
 }
 
-
-
 #pragma mark--------------shop product--------------------------
 
 
 -(void)getShopInfoWithShopID:(NSString*)shopid WithBk:(NetCallback)completeBk
 {
-    NSString* url = [NSString stringWithFormat:@"http://%@/app/shop?shop_id=%@",HTTPHOST,shopid];
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/shop/index?shopId=%@",HTTPHOST,shopid];
     HTTPADD(url);
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
         
          if (status==NetWorkSuccess) {
             
+            NSMutableArray* category_return = [[NSMutableArray alloc]init];
+            NSArray* categoryArr = sourceDic[@"data"][@"categoryls"];
+             for (NSDictionary* dic in categoryArr) {
+                 
+                 ShopCategoryData* category = [[ShopCategoryData alloc]init];
+                 category.categoryID = [dic[@"category_id"] stringValue];
+                 category.categoryName = dic[@"name"];
+                 
+                 NSMutableArray* p_return = [[NSMutableArray alloc]init];
+                 
+                 NSArray* productArr = dic[@"items"];
+                 for (NSDictionary* p in productArr) {
+                     ShopProductData* pData = [[ShopProductData alloc]init];
+                     pData.pID = [p[@"id"] stringValue];
+                     pData.pName = p[@"name"];
+                     pData.price = [p[@"price"] intValue]/100.0;
+                     pData.pUrl = p[@"pic_url"];
+                     [p_return addObject:pData];
+                 }
+                 category.products = p_return;
+                 
+                 [category_return addObject: category];
+             }
+        
+//             ////////////shopinfo////////////
             ShopInfoData* data = [[ShopInfoData alloc]init];
             data.longitude = [sourceDic[@"data"][@"shop"][@"lng"] floatValue];
             data.latitude = [sourceDic[@"data"][@"shop"][@"lat"] floatValue];
@@ -554,7 +619,14 @@
             data.minPrice = [sourceDic[@"data"][@"shop"][@"base_price"] floatValue]/100;
             data.telPhoneNu  = sourceDic[@"data"][@"shop"][@"tel"];
             data.shopID = shopid;
-            completeBk(data,status);
+             
+             
+             NSMutableDictionary* returnDic = [[NSMutableDictionary alloc]init];
+             [returnDic setObject:data forKey:ROOTSHOP];
+             [returnDic setObject:category_return forKey:ROOTCATEGORY];
+             [returnDic setObject:sourceDic[@"data"][@"urls"] forKey:ROOTPIC];
+             [returnDic setObject:sourceDic[@"data"][@"activites"] forKey:ROOTACTIVITY];
+            completeBk(returnDic,status);
         }
         else if (status==NetWorkErrorTokenInvalid)
         {
@@ -626,7 +698,7 @@
             for (NSDictionary* dic in categoryArr)
             {
                 ShopCategoryData* category = [[ShopCategoryData alloc]init];
-                category.categoryID = dic[@"category_id"];
+                category.categoryID = [dic[@"category_id"] stringValue];
                 category.categoryName = dic[@"name"];
 //                category.shopID = dic[@"shop_id"];
                 category.subCategory = dic[@"category_sub_id"];
@@ -792,6 +864,62 @@
 
 #pragma mark-----------address-------------------
 
+
+-(void)getDefaultAddressWithBk:(NetCallback)completeBk
+{
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/address/get/default?%@",HTTPHOST,HTTPNOTTOKEN];
+    
+    [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
+        
+        if (status==NetWorkSuccess) {
+            
+            NSDictionary* adressDic = sourceDic[@"data"][@"addr"];
+            AddressData* adress = [[AddressData alloc]init];
+            adress.address = adressDic[@"address"];
+            adress.addressID = adressDic[@"id"];
+            adress.phoneNu = adressDic[@"phone"];
+            completeBk(adress,status);
+        }
+        else if (status==NetWorkErrorTokenInvalid)
+        {
+            completeBk(nil,status);
+            [[NSNotificationCenter defaultCenter] postNotificationName:PNEEDLOG object:nil];
+        }
+        
+        else
+        {
+            completeBk(nil,status);
+        }
+    }];
+}
+
+
+
+-(void)setDefaultAddress:(AddressData*)address WithCompleteBk:(NetCallback)completeBk
+{
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/address/set/default?addrId=%@",HTTPHOST,address.addressID];
+    HTTPADD(url);
+    
+    [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
+        
+        if (status==NetWorkSuccess) {
+            
+            completeBk(@"ok",status);
+        }
+        else if (status==NetWorkErrorTokenInvalid)
+        {
+            completeBk(sourceDic,status);
+            [[NSNotificationCenter defaultCenter] postNotificationName:PNEEDLOG object:nil];
+        }
+        else
+        {
+            completeBk(sourceDic,status);
+        }
+    }];
+}
+
+
+
 -(void)addressDeleteWithAddID:(NSString*)addressID WithBk:(NetCallback)completeBk
 {
    NSString* url = [NSString stringWithFormat:@"http://%@/app/address/del?address_id=%@",HTTPHOST,addressID];
@@ -813,8 +941,7 @@
             {
                 completeBk(nil,status);
             }
-            
-        }];
+    }];
 }
 
 -(void)addressUpdateWithAddID:(NSString*)addressID withAddress:(NSString*)address withPhone:(NSString*)phone WithBk:(NetCallback)completeBk
@@ -859,12 +986,12 @@
             NSMutableArray* backArr = [[NSMutableArray alloc]init];
             if (arr.count)
             {
-                
                 for (NSDictionary * temp in arr) {
                     AddressData* address = [[AddressData alloc]init];
                     address.address = temp[@"address"];
                     address.phoneNu = temp[@"phone"];
                     address.addressID = temp[@"id"];
+                    address.isDefault = [temp[@"type"] intValue];
                     [backArr addObject:address];
                 }
             }

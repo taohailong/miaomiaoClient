@@ -57,11 +57,15 @@
     {
         color = [UIColor whiteColor];
         [self.navigationController.navigationBar setTintColor:color];
-        [self.navigationController.navigationBar setBarTintColor:DEFAULTNAVCOLOR];
+        [self.navigationController.navigationBar setBarTintColor:FUNCTCOLOR(254, 87, 84)];
          [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     }
     else
     {
+        if (self.navigationController.viewControllers.count == 1) {
+            return;
+        }
+
         color = FUNCTCOLOR(64, 64, 64);
         [self.navigationController.navigationBar setTintColor:color];
         [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];

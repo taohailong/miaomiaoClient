@@ -47,8 +47,6 @@ static char operationArrayKey;
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedBlock)completedBlock
 {
    
-    
-
     [self cancelCurrentImageLoad];
 
     self.image = placeholder;
@@ -57,7 +55,9 @@ static char operationArrayKey;
     
     BOOL isMatch = [pred evaluateWithObject:url.absoluteString];
     if (isMatch==NO) {
+#if !DEBUG
         return;
+#endif
     }
     if (url)
     {

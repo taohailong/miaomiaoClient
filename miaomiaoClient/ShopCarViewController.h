@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ShopCarViewController : UIViewController
-
+@property(nonatomic,strong)NSString* leaveMes;
 @end

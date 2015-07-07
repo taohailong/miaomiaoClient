@@ -12,4 +12,5 @@
 @property(nonatomic,strong)NSString* address;
 @property(nonatomic,strong)NSString* phoneNu;
 @property(nonatomic,strong)NSString* addressID;
+@property(nonatomic,assign)int isDefault;
 @end

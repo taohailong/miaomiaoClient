@@ -18,6 +18,7 @@
 {
     UITableView* _table;
     NSMutableArray* _dataArr;
+    __weak AddressData* _defaultArr;
 }
 @end
 @implementation AddressViewController
@@ -131,10 +132,13 @@
     }
     else
     {
+        AddressData* data = _dataArr[indexPath.row-1];
         if (self.navigationItem.rightBarButtonItem.tag==0)//更改状态
         {
-            if (indexPath.row==1) {
-                [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+            if (data.isDefault)
+            {
+                _defaultArr = data;
+               [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
             }
             else
             {
@@ -145,7 +149,6 @@
         {
             [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         }
-        AddressData* data = _dataArr[indexPath.row-1];
          cell.textLabel.text = @"";
         
         UILabel* title = [cell getTitleLabel];
@@ -199,12 +202,44 @@
             [self.delegate selectAddressOverWithAddress:_dataArr[indexPath.row-1]];
             [self.navigationController popViewControllerAnimated:YES];
         }
+        else
+        {
+            [self setDefaultAddress:_dataArr[indexPath.row-1]];
+        }
     }
     
 }
 
 #pragma mark---------------address edit add delegate------
 
+
+-(void)setDefaultAddress:(AddressData*)address
+{
+    THActivityView* loadV = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
+    
+    __weak AddressViewController* wSelf = self;
+    __weak AddressData* wAddress = address;
+    
+    NetWorkRequest* req = [[NetWorkRequest alloc]init];
+    [req setDefaultAddress:address WithCompleteBk:^(id respond, NetWorkStatus status) {
+        
+        [loadV removeFromSuperview];
+        
+        if (status==NetWorkSuccess)
+        {
+            _defaultArr.isDefault = 0;
+            wAddress.isDefault = 1;
+            [wSelf AddressUpdateComplete];
+        }
+        else
+        {
+            THActivityView* showStr = [[THActivityView alloc]initWithString:respond];
+            [showStr show];
+        }
+    }];
+    [req startAsynchronous];
+
+}
 -(void)AddressUpdateComplete
 {
     [_table reloadData];

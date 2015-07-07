@@ -10,7 +10,7 @@
 #import "ShopProductData.h"
 #import "UserManager.h"
 @interface CommitOrderController : UIViewController
-
+@property(nonatomic,strong)NSString* leaveMes;
 //@property(nonatomic,strong)NSString* shopID;
 
 //-(id)initWithProductArr:(NSMutableArray*)productArr WithTotalMoney:(float)money;

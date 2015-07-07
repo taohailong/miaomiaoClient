@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@class ShopProductData,ShopCategoryData,ShopInfoData,DiscountData,OrderData;
+@class ShopProductData,ShopCategoryData,ShopInfoData,DiscountData,OrderData,AddressData;
 
 typedef enum _OrderPayWay {
     OrderPayInCash = 0,
@@ -55,9 +55,13 @@ typedef void (^NetCallback)(id respond,NetWorkStatus status);
 
 -(void)remindOrderWithOrder:(OrderData*)order WithBk:(NetCallback)completeBk;
 
+-(void)rePayOrderWithOrder:(OrderData*)order WithBk:(NetCallback)completeBk;
 //商铺、商品
 
-
+#define ROOTCATEGORY @"category_root"
+#define ROOTPIC @"pics_root"
+#define ROOTACTIVITY @"activity_root"
+#define ROOTSHOP @"shop_root"
 -(void)getShopInfoWithShopID:(NSString*)shopid WithBk:(NetCallback)completeBk;
 
 -(void)shopGetCategoryWithShopID:(NSString*)shopID callBack:(NetCallback)back
@@ -66,6 +70,9 @@ typedef void (^NetCallback)(id respond,NetWorkStatus status);
 
 -(void)seachProductWithShopID:(NSString*)shopID WithCharacter:(NSString*)character WithBk:(NetCallback)completeBk;
 //地址
+
+-(void)setDefaultAddress:(AddressData*)address WithCompleteBk:(NetCallback)completeBk;
+-(void)getDefaultAddressWithBk:(NetCallback)completeBk;
 
 -(void)addressDeleteWithAddID:(NSString*)addressID WithBk:(NetCallback)completeBk;
 

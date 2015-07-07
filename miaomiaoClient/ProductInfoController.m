@@ -50,6 +50,7 @@
     _table.translatesAutoresizingMaskIntoConstraints = NO;
     _table.delegate = self;
     _table.dataSource = self;
+    _table.backgroundColor = FUNCTCOLOR(243, 243, 243);
     _table.separatorColor = FUNCTCOLOR(221, 221, 221);
     _table.tableFooterView = [[UIView alloc]init];
     [_table registerClass:[ProductInfoDetailCell class] forCellReuseIdentifier:@"ProductInfoDetailCell"];
@@ -66,8 +67,7 @@
 
 -(void)updateShopCarBt
 {
-    ShopCarShareData* shopManager = [ShopCarShareData shareShopCarManager];
-    [_carBt setButtonTitleText:[NSString stringWithFormat:@"%d",[shopManager getCarCount]]];
+    [_carBt setButtonTitleText:[NSString stringWithFormat:@"%d",_product.count]];
 }
 
 

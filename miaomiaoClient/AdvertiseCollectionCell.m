@@ -30,7 +30,10 @@
 
 -(void)setImageDataArr:(NSArray*)arr
 {
-    [_scorll loadImageViewsWithData:arr];
+    if (arr) {
+       [_scorll loadImageViewsWithData:arr]; 
+    }
+    
 }
 
 -(void)posterViewDidSelectAtIndex:(NSInteger)index WithData:(id)data

@@ -18,6 +18,11 @@
 #import "OrderFootSpecialCell.h"
 #import "DateFormateManager.h"
 #import "OrderInfoController.h"
+#import "OrderFootOneBtCell.h"
+
+
+#import "WXApi.h"
+#import <AlipaySDK/AlipaySDK.h>
 
 @interface OrderListController()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
@@ -55,6 +60,9 @@
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
     [self getOrderList];
+    
+    NSNotificationCenter *def = [NSNotificationCenter defaultCenter];
+    [def addObserver:self selector:@selector(getOrderList) name:PPAYSUCCESS object:nil];
 }
 
 -(void)getOrderList
@@ -200,11 +208,11 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     OrderData* order = _orderArr[section];
-    if (order.orderStatusType==OrderStatusDeliver||order.orderStatusType==OrderStatusWaitConfirm) {
+    if (order.orderStatusType==OrderStatusCancel||order.orderStatusType == OrderStatusConfirm) {
         
-         return 3;
+         return 2;
     }
-    return 2 ;
+    return 3 ;
 }
 
 
@@ -236,60 +244,32 @@
         [cell setTitleImage:[UIImage imageNamed:@"order_time"]];
         return cell;
     }
-//    else if (order.productArr.count+1 == indexPath.row)
-//    {
-//        OrderHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"0"];
-//        if (cell==nil) {
-//            cell = [[OrderHeadCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"0"];
-//        }
-//        UILabel* title = [cell getTitleLabel];
-//        title.font = [UIFont boldSystemFontOfSize:15];
-//        title.text = order.shopName;
-//        
-//        UILabel* status = [cell getStatusLabel];
-//        status.font = title.font;
-//        status.text = order.orderStatue;
-//
-//        title.text = [NSString stringWithFormat:@"订单编号:%@",order.orderNu];
-//        status.text = @"";
-//        [cell setTitleImage:[UIImage imageNamed:@"order_nu"]];
-//        return cell;
-//
-//    }
-//    else if (order.productArr.count+2 == indexPath.row)
-//    {
-//        OrderHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"0"];
-//        if (cell==nil) {
-//            cell = [[OrderHeadCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"0"];
-//        }
-//        UILabel* title = [cell getTitleLabel];
-//        title.font = [UIFont boldSystemFontOfSize:15];
-//        title.text = order.shopName;
-//        
-//        UILabel* status = [cell getStatusLabel];
-//        status.font = title.font;
-//        status.text = order.orderStatue;
-//        status.textColor = DEFAULTNAVCOLOR;
-//        title.text = order.orderTime;
-//        status.text = [NSString stringWithFormat:@"共：%d件  ¥%@",order.countOfProduct,order.totalMoney];
-//        [cell setTitleImage:[UIImage imageNamed:@"order_time"]];
-//        return cell;
-//    }
-    
     else if (2 == indexPath.row)
     {
         __weak OrderListController* wself = self;
         __weak OrderData* wOrder = order;
-        OrderFootCell* cell = [tableView dequeueReusableCellWithIdentifier:@"2"];
+        
+        if (order.orderStatusType != OrderStatus_Wx_WaitPay&&order.orderStatusType != OrderStatus_Zfb_WaitPay) {
+            
+            OrderFootCell* cell = [tableView dequeueReusableCellWithIdentifier:@"2"];
+            if (cell==nil) {
+                cell = [[OrderFootCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"2"];
+            }
+            [cell setOrderBk:^(OrderBtSelect status) {
+                [wself btActionWithCategory:status WithOrder:wOrder];
+            }];
+            [cell setHiddenBtWithType:OrderBtFirst];
+            return cell;
+        }
+       
+        OrderFootOneBtCell* cell = [tableView dequeueReusableCellWithIdentifier:@"3"];
         if (cell==nil) {
-            cell = [[OrderFootCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"2"];
+            cell = [[OrderFootOneBtCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"3"];
         }
         [cell setOrderBk:^(OrderBtSelect status) {
-            [wself btActionWithCategory:status WithOrder:wOrder];
+            [wself orderRePay:wOrder];
         }];
-        [cell setHiddenBtWithType:OrderBtFirst];
-        
-
+       
         return cell;
     }
     else
@@ -343,7 +323,41 @@
     
 }
 
+#pragma mark-cellAction
 
+
+-(void)orderRePay:(OrderData*)order
+{
+    THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
+    
+    THActivityView* fullView = [[THActivityView alloc]initViewOnWindow];
+    [fullView loadViewAddOnWindow];
+    
+    __weak OrderData* worder = order;
+    __weak OrderListController* wself = self;
+    NetWorkRequest* req = [[NetWorkRequest alloc]init];
+    [req rePayOrderWithOrder:order  WithBk:^(id respond, NetWorkStatus status) {
+        
+        [fullView removeFromSuperview];
+        [loadView removeFromSuperview];
+        
+        if (status == NetWorkSuccess)
+        {
+            if (worder.orderStatusType == OrderPayInWx) {
+                [wself performWeixinPayWithOrder:respond];
+            }
+            else
+            {
+                [wself performZhifubaoPayWithOrder:respond];
+            }
+        }
+        else
+        {
+        
+        }
+    }];
+    [req startAsynchronous];
+}
 
 
 -(void)btActionWithCategory:(OrderBtSelect)category WithOrder:(OrderData*)data
@@ -496,6 +510,49 @@
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
 
+}
+
+#pragma mark--------------pay-----------------------
+
+
+//weixin
+-(void)performWeixinPayWithOrder:(NSDictionary*)dic
+{
+    NSDictionary* source = dic;
+    
+    PayReq *request = [[PayReq alloc] init] ;
+    request.partnerId = @"1246963001";
+    request.prepayId= source[@"payInfo"][@"pre_id"];
+    request.package = @"Sign=WXPay";
+    request.nonceStr=  source[@"payInfo"][@"nonceStr"];
+    request.timeStamp= [source[@"payInfo"][@"timestamp"] intValue];
+    request.sign= source[@"payInfo"][@"sign"];;
+    [WXApi sendReq:request];
+}
+
+//zhifubao
+
+-(void)performZhifubaoPayWithOrder:(NSDictionary*)dic
+{
+    //应用注册scheme,在AlixPayDemo-Info.plist定义URL types
+    NSString *appScheme = @"wx8c2570b40fc89b39";
+    __weak OrderListController* wself = self;
+    NSString* orderString = dic[@"payInfo"];
+    
+    [[AlipaySDK defaultService] payOrder: orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+        
+        if([resultDic[@"resultStatus"] intValue] != 9000)
+        {
+            THActivityView* showStr = [[THActivityView alloc]initWithString:resultDic[@"memo"]];
+            [showStr show];
+        }
+        else
+        {
+            [wself getOrderList];
+        }
+        NSLog(@"reslut = %@",resultDic);
+    }];
+    
 }
 
 

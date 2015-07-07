@@ -25,6 +25,7 @@ typedef enum _CommitPayMethod
 
 
 @interface ShopInfoData : NSObject
+@property(nonatomic,strong)NSString* shopArea;
 @property(nonatomic,strong)NSString* shopName;
 @property(nonatomic,strong)NSString* shopAddress;
 @property(nonatomic,strong)NSString* countProducts;
@@ -49,4 +50,5 @@ typedef enum _CommitPayMethod
 -(void)parseCombinPay:(int)pay;
 -(NSString*)getOpenTime;
 -(NSString*)getCloseTime;
+-(NSString*)getOpenTimeAddThirtyMins;
 @end
