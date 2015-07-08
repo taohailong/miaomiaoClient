@@ -20,7 +20,7 @@
 {
     self = [super initWithFrame:frame];
     
-    
+//    self.backgroundColor = [UIColor blackColor];
     
     _textLabel = [[UILabel alloc]init];
     _textLabel.font = DEFAULTFONT(16.5);
@@ -32,7 +32,7 @@
     
 //    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_textLabel(150)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_textLabel)]];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_textLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_textLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:10]];
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_textLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_textLabel)]];
     
@@ -59,8 +59,8 @@
     _detailLabel.textColor = [UIColor whiteColor];
     [self addSubview:_detailLabel];
     
-    
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_detailLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_detailLabel)]];
+     [self addConstraint:[NSLayoutConstraint constraintWithItem:_detailLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:18]];
+//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_detailLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_detailLabel)]];
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_textLabel]-3-[_detailLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_textLabel,_detailLabel)]];
     

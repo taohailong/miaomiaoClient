@@ -84,11 +84,12 @@
 {
     if ([resp isKindOfClass:[PayResp class]])
     {
+        [[NSNotificationCenter defaultCenter] postNotificationName:PPAYSUCCESS object:nil];
         PayResp *response = (PayResp *)resp;
         
         if (response.errCode==WXSuccess)
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:PPAYSUCCESS object:nil];
+
         }
         else
         {
@@ -114,7 +115,7 @@
 //                                             NSLog(@"result = %@",resultDic);
 ////                                             NSString *resultStr = resultDic[@"result"];
 //                                         }];
-        
+        [[NSNotificationCenter defaultCenter] postNotificationName:PPAYSUCCESS object:nil];
         [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
             
             
@@ -126,7 +127,6 @@
             }
             else
             {
-               [[NSNotificationCenter defaultCenter] postNotificationName:PPAYSUCCESS object:nil];
             }
             
              NSLog(@"result = %@",resultDic);

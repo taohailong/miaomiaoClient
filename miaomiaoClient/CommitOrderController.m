@@ -57,8 +57,13 @@
     self = [super init];
     
     UserManager* user = [UserManager shareUserManager];
+    
+#if DEBUG
+     [self setPayWayMethod:All_payCommit];
+#else
     [self setPayWayMethod:user.shop.combinPay];
-//    [self setPayWayMethod:All_payCommit];
+#endif
+   
     return self;
 }
 
@@ -103,18 +108,6 @@
     }
 }
 
-
--(void)viewDidAppear:(BOOL)animated
-{
-    NSNotificationCenter *def = [NSNotificationCenter defaultCenter];
-    [def addObserver:self selector:@selector(showOrderListViewContrller) name:PPAYSUCCESS object:nil];
-}
-
--(void)viewDidDisappear:(BOOL)animated
-{
-    NSNotificationCenter *def = [NSNotificationCenter defaultCenter];
-    [def removeObserver:self];
-}
 
 
 -(void)viewDidLoad
@@ -197,7 +190,7 @@
 {
    
     if (_address==nil) {
-        THActivityView* warnView = [[THActivityView alloc]initWithString:@"请选择地址！"];
+        THActivityView* warnView = [[THActivityView alloc]initWithString:@"请填写收货地址"];
         [warnView show];
         return;
     }
@@ -206,7 +199,7 @@
     
     if (_currentDiscount.minMoney>[managerData getTotalMoney])
     {
-        THActivityView* warnView = [[THActivityView alloc]initWithString:@"代金券不可用！"];
+        THActivityView* warnView = [[THActivityView alloc]initWithString:@"无法使用此卷，换张试试"];
         [warnView show];
         return;
     }
@@ -291,8 +284,9 @@
         }
         else
         {
-            [wself showOrderListViewContrller];
+           
         }
+         [wself showOrderListViewContrller];
             NSLog(@"reslut = %@",resultDic);
     }];
     
@@ -398,20 +392,19 @@
     
    float totalMoney = [shareData getTotalMoney];
     
-    UserManager* manager = [UserManager shareUserManager];
-    
-//    if (_currentDiscount&&_payWay!=OrderPayInCash)
-//    {
-        float disountMoney = totalMoney-_currentDiscount.discountMoney;
-        
+//    UserManager* manager = [UserManager shareUserManager];
+    float disountMoney = totalMoney;
+    if (_currentDiscount&&_payWay!=OrderPayInCash)
+    {
+        disountMoney = totalMoney-_currentDiscount.discountMoney;
         disountMoney = disountMoney>0?disountMoney:0.01;
+    }
+    NSMutableAttributedString* att = [[NSMutableAttributedString alloc]initWithString:@"总计：" attributes:@{NSForegroundColorAttributeName:DEFAULTBLACK}];
         
-        NSMutableAttributedString* att = [[NSMutableAttributedString alloc]initWithString:@"总计：" attributes:@{NSForegroundColorAttributeName:DEFAULTBLACK}];
+    NSAttributedString* att1 = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥%.2f",disountMoney] attributes:@{NSForegroundColorAttributeName:DEFAULTNAVCOLOR}];
         
-        NSAttributedString* att1 = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥%.2f",disountMoney] attributes:@{NSForegroundColorAttributeName:DEFAULTNAVCOLOR}];
-        
-        [att appendAttributedString:att1];
-        _moneyLabel.attributedText = att;
+    [att appendAttributedString:att1];
+    _moneyLabel.attributedText = att;
         
     
     NSString* btTitle = nil;
@@ -506,7 +499,6 @@
             titleLabel.font = DEFAULTFONT(15);
             titleLabel.text = @"添加地址";
             return cell;
-
         }
         else
         {
@@ -538,14 +530,22 @@
         }
         else if (arr.count+1 == indexPath.row)
         {
-           cell.textLabel.text = [NSString stringWithFormat:@"代金券：¥%.1f",_currentDiscount.discountMoney];
-          cell.textLabel.textColor = DEFAULTNAVCOLOR;
+            NSString* discount = nil;
+            if (_payWay == OrderPayInCash) {
+                discount = @"代金券：¥0";
+            }
+            else
+            {
+                discount = [NSString stringWithFormat:@"代金券：¥%.1f",_currentDiscount.discountMoney];
+            }
+           cell.textLabel.text = discount;
+           cell.textLabel.textColor = DEFAULTNAVCOLOR;
            
         }
         else if (arr.count+2 == indexPath.row)
         {
             UserManager* uManager = [UserManager shareUserManager];
-            cell.textLabel.text = [NSString stringWithFormat:@"配送费：¥%.1f",uManager.shop.minPrice];
+            cell.textLabel.text = [NSString stringWithFormat:@"配送费：¥%.1f",uManager.shop.deliverCharge];
             cell.textLabel.textColor = FUNCTCOLOR(189, 189, 189);
         }
         else
@@ -636,8 +636,10 @@
         }
         
         _currentRow = indexPath.row;
-        [tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
         
+        [tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+         [tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+       
         [self updateShopCar];
         [_commitBt setTitle:btTitle forState:UIControlStateNormal];
     }
@@ -766,12 +768,18 @@
 
 -(void)showOrderListViewContrller
 {
+    if (self.navigationController.topViewController != self ) {
+        return;
+    }
+
     OrderListController* orderList = [[OrderListController alloc]init];
     
     [self.navigationController pushViewController:orderList animated:YES];
     orderList.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleDone target:orderList action:@selector(backToRoot)];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:PSHOPCARCLEAN object:nil];
+    ShopCarShareData* managerData = [ShopCarShareData shareShopCarManager];
+    [managerData clearCache];
+    
 }
 
 

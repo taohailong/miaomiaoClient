@@ -96,7 +96,7 @@
         [cell setFirstLStr:manager.shop.shopAddress];
         [cell setSecondLStr:[NSString stringWithFormat:@"%@-%@",[manager.shop getOpenTime],[manager.shop getCloseTime]]];
         [cell setThirdLStr:[NSString stringWithFormat:@"%.1f",manager.shop.minPrice]];
-        [cell setFourthLStr:[NSString stringWithFormat:@"%.1f",manager.shop.minPrice]];
+        [cell setFourthLStr:[NSString stringWithFormat:@"%.1f",manager.shop.deliverCharge]];
         [cell setFifthLStr:manager.shop.telPhoneNu];
         return cell;
     }

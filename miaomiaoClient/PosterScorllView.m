@@ -61,6 +61,7 @@
     for (int i =0 ;i<dataArr.count;i++)
     {
         UIImageView* imageView = [[UIImageView alloc]initWithFrame:frame];
+//        imageView.backgroundColor = [UIColor redColor];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         [imageView setImageWithURL:[NSURL URLWithString:dataArr[i]] placeholderImage:[UIImage imageNamed:@"Default_Image"]];
         imageView.userInteractionEnabled = YES;

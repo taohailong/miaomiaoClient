@@ -39,10 +39,12 @@
     if ([user isLogin]) {
         
         [logBt setTitle:[user getUserAccount] forState:UIControlStateNormal];
+        logBt.enabled = NO;
         detailL.text = @"";
     }
     else
     {
+        logBt.enabled = YES;
         [logBt setTitle:@"点击登陆" forState:UIControlStateNormal];
         detailL.text = @"登录下单更多惊喜";
     }
@@ -162,7 +164,7 @@
     [logBt addTarget:self action:@selector(logBtAction) forControlEvents:UIControlEventTouchUpInside];
     [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[userIcon]-10-[logBt]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(userIcon,logBt)]];
     
-    [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[logBt]-5-[detailL]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(logBt,detailL)]];
+    [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[logBt]-6-[detailL]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(logBt,detailL)]];
 
     
     

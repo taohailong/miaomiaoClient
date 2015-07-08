@@ -214,14 +214,14 @@
     __weak SettingViewController* wself = self;
     THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
     UserManager* manager = [UserManager shareUserManager];
-    [manager removeUserAccountWithBk:^(BOOL success) {
+    [manager removeUserAccountWithBk:^(BOOL success, id respond) {
         [loadView removeFromSuperview];
         if (success) {
             [wself.navigationController popToRootViewControllerAnimated:YES];
         }
         else
         {
-            THActivityView* show = [[THActivityView alloc]initWithString:@"退出失败！"];
+            THActivityView* show = [[THActivityView alloc]initWithString:respond];
             [show show];
         }
     }];

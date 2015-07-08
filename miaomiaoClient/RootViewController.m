@@ -130,7 +130,7 @@
 
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_collectionView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_collectionView)]];
     
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[seachBt]-5-[_collectionView]-48-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt,_collectionView)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[seachBt]-5-[_collectionView]-49-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt,_collectionView)]];
     
     
     
@@ -161,7 +161,19 @@
 {
     ShopCarShareData* shareData = [ShopCarShareData shareShopCarManager];
     UIViewController* second = self.tabBarController.viewControllers[2];
-    second.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",[shareData getCarCount]];
+    
+    NSString* badgeStr = nil;
+    int nu = [shareData getCarCount];
+    
+    if (nu==0) {
+        badgeStr = nil;
+    }
+    else
+    {
+        badgeStr = [NSString stringWithFormat:@"%d",nu];
+    }
+        
+    second.tabBarItem.badgeValue = badgeStr;
 }
 
 
@@ -203,7 +215,8 @@
     ShopInfoData* shop = data[ROOTSHOP];
     UserManager* manager = [UserManager shareUserManager];
     [manager setCurrentShop:shop];//顺序
-    
+
+    [self updateNavigationView];
     
     _categoryArr = data[ROOTCATEGORY];
     _picArr = data[ROOTPIC];
@@ -226,7 +239,6 @@
     ShopInfoViewController* shopInfo = [[ShopInfoViewController alloc]init];
     shopInfo.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:shopInfo animated:YES];
-
 }
 
 
@@ -368,7 +380,7 @@
 
 -(UIView*)navgationTitleView
 {
-    NavigationTitleView* titleView = [[NavigationTitleView alloc]initWithFrame:CGRectMake(0, 0, 200, 42)];
+    NavigationTitleView* titleView = [[NavigationTitleView alloc]initWithFrame:CGRectMake(0, 0, 250, 42)];
     titleView.delegate = self;
     return titleView;
 }

@@ -381,7 +381,7 @@
 //    [[NSNotificationCenter defaultCenter] postNotificationName:SHOPIDCHANGED object:nil];
 }
 
--(void)removeUserAccountWithBk:(logCallBack)complete
+-(void)removeUserAccountWithBk:(UserApiCallBack)complete
 {
     NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
     NSString* account = [def objectForKey:UACCOUNT];
@@ -391,12 +391,12 @@
     [request userLogOutWithAccount:account withBk:^(NSDictionary* respond, NetWorkStatus error) {
         
         if (error == NetWorkSuccess) {
-            complete(YES);
+            complete(YES,nil);
             [wSelf removeUserData];
         }
         else
         {
-            complete(NO);
+            complete(NO,respond);
         }
         
     }];
@@ -464,11 +464,12 @@
     }
     return YES;
 }
--(void)logInWithPhone:(NSString *)phone Pass:(NSString *)ps logBack:(logCallBack) blockBack
+-(void)logInWithPhone:(NSString *)phone Pass:(NSString *)ps logBack:(UserApiCallBack)blockBack
 {
     __weak UserManager* bSelf = self;
     NetWorkRequest* req = [[NetWorkRequest alloc]init];
      [req userLoginWithAccount:phone WithPw:ps WithBk:^(NSDictionary* respond, NetWorkStatus error) {
+         
          if (error == NetWorkSuccess) {
              
              if ([respond[@"data"][@"canGetCoupon"] intValue]==1)
@@ -481,11 +482,11 @@
              
              bSelf.token = respond[@"data"][@"user_token"];
              [bSelf  setTokenToDish:bSelf.token  WithAccount:phone];
-             blockBack(YES);
+             blockBack(YES,nil);
          }
          else
          {
-           blockBack(NO);
+           blockBack(NO,respond);
          }
         
      }];

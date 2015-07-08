@@ -16,7 +16,7 @@
     _firstBt.hidden = YES;
     _secondBt.hidden = YES;
     _thirdBt.hidden = YES;
-    [_fourthBt setTitle:@"重新支付" forState:UIControlStateNormal];
+    [_fourthBt setTitle:@"去支付" forState:UIControlStateNormal];
     return self;
 }
 

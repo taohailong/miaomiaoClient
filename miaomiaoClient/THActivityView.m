@@ -88,7 +88,7 @@
 {
 //    self = [self initWithLoadGif];
     
-    self = [self initLoadingWithStr:@"请稍后..."];
+    self = [self initLoadingWithStr:@"努力加载中..."];
     self.translatesAutoresizingMaskIntoConstraints = NO;
     self.center = CGPointMake(CGRectGetWidth(superView.frame)/2, CGRectGetHeight(superView.frame)/2) ;
     [superView addSubview:self];
@@ -143,7 +143,7 @@
         UILabel* titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 75, 100, 20)];
         titleLabel.textColor = [UIColor whiteColor];
         titleLabel.textAlignment = NSTextAlignmentCenter;
-        titleLabel.font = DEFAULTFONT(16);
+        titleLabel.font = DEFAULTFONT(14);
         titleLabel.text = str;
         [self addSubview:titleLabel];
     }

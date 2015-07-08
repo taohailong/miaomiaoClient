@@ -122,6 +122,9 @@
     _search.translatesAutoresizingMaskIntoConstraints = NO;
     _search.delegate = self;
     _search.placeholder = @"搜索商铺";
+    
+    _search.tintColor = DEFAULTNAVCOLOR;
+//    _search.barTintColor = FUNCTCOLOR(228, 228, 228);
     [backView addSubview:_search];
     
     [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_search]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_search)]];
@@ -168,7 +171,7 @@
 
     [searchBar setShowsCancelButton:YES animated:YES];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 //    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:65/255.0 green:159/255.0 blue:252/255.0 alpha:0.5]];
 }
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -176,7 +179,7 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [searchBar resignFirstResponder];
     [searchBar setShowsCancelButton:NO animated:YES];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -296,7 +299,8 @@
         ShopInfoData* shop = arr[indexPath.row];
         if (shop.shopStatue == ShopClose) {
             
-            THActivityView* showStr = [[THActivityView alloc]initWithString:@"该店铺已打烊！"];
+            NSString* str = [NSString stringWithFormat:@"当前店铺今日已打烊，现在下单（明日）%@配送",[shop getOpenTime]];
+            THActivityView* showStr = [[THActivityView alloc]initWithString:str];
             [showStr show];
             return;
         }
@@ -425,13 +429,7 @@
         }
         else
         {
-//#if DEBUG
-#if 0
-            longitude = 116.416989;
-            latitude = 40.082632;
-            [wself getShopThroughLatitude:latitude Withlongitude:longitude];
-#endif            
-           wLabel.text = @"定位失败，请搜索商铺!";
+           wLabel.text = @"定位失败，点击“重新定位”重试";
         }
     }];
     

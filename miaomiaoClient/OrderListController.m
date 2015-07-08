@@ -19,8 +19,6 @@
 #import "DateFormateManager.h"
 #import "OrderInfoController.h"
 #import "OrderFootOneBtCell.h"
-
-
 #import "WXApi.h"
 #import <AlipaySDK/AlipaySDK.h>
 
@@ -169,16 +167,6 @@
     {
         return 45;
     }
-//     OrderData* order = _orderArr[indexPath.section];
-//    if (indexPath.row==0||order.productArr.count+1 == indexPath.row||order.productArr.count+2 == indexPath.row) {
-//        return 35;
-//    }
-//    
-//   
-//    if (order.productArr.count+3 == indexPath.row)
-//    {
-//        return 45;
-//    }
 
 }
 
@@ -343,7 +331,7 @@
         
         if (status == NetWorkSuccess)
         {
-            if (worder.orderStatusType == OrderPayInWx) {
+            if (worder.orderStatusType == OrderStatus_Wx_WaitPay) {
                 [wself performWeixinPayWithOrder:respond];
             }
             else
@@ -373,7 +361,12 @@
        int minutes = [timeManager figreOutIntervalMinuteSinceNowWithTime:data.orderTime];
 
         if (minutes>=60) {
-          [self cancelOrderWithOrder:data];
+            
+            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"是否确认取消订单？" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"取消", nil];
+            [alert show];
+            alert.tag = 100;
+            _selectOrderData = data;
+//            [self cancelOrderWithOrder:data];
         }
         else
         {
@@ -401,7 +394,8 @@
     else
     {
         _selectOrderData = data;
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您确定要收货吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"是否确认收货？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alert.tag = 10;
         [alert show];
     }
 }
@@ -500,11 +494,14 @@
     if (alertView.cancelButtonIndex == buttonIndex) {
         return;
     }
-    [self confirmOrderWithOrder:_selectOrderData];
+    if (alertView.tag == 10) {
+        [self confirmOrderWithOrder:_selectOrderData];
+    }
+    else
+    {
+        [self cancelOrderWithOrder:_selectOrderData];
+    }
 }
-
-
-
 
 -(void)backToRoot
 {

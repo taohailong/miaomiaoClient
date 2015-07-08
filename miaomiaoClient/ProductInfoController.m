@@ -11,6 +11,8 @@
 #import "ProductInfoHeadCell.h"
 #import "CarButton.h"
 #import "ShopCarShareData.h"
+#import "ProductShopCarController.h"
+
 @interface ProductInfoController()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView* _table;
@@ -22,11 +24,17 @@
 @end
 @implementation ProductInfoController
 
+
 -(id)initWithProductData:(ShopProductData*)product
 {
     self = [super init];
     _product = product;
     return self;
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self updateShopCarBt];
 }
 
 -(void)viewDidLoad
@@ -38,12 +46,11 @@
     
     _carBt = [CarButton buttonWithType:UIButtonTypeCustom];
     [_carBt setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
-//    _carBt.backgroundColor = [UIColor blackColor];
     _carBt.frame = CGRectMake(0, 0, 45, 45);
     [_carBt addTarget:self action:@selector(showShopList) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* rightBar = [[UIBarButtonItem alloc]initWithCustomView:_carBt];
     self.navigationItem.rightBarButtonItem = rightBar;
-    [self updateShopCarBt];
+    
     
     
     _table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -60,14 +67,17 @@
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_table]-50-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
-
     
     [self creatFootView];
 }
 
 -(void)updateShopCarBt
 {
-    [_carBt setButtonTitleText:[NSString stringWithFormat:@"%d",_product.count]];
+    ShopCarShareData* share = [ShopCarShareData shareShopCarManager];
+    
+    [_carBt setButtonTitleText:[NSString stringWithFormat:@"%d",[share getCarCount]]];
+    
+    _countLabel.text = [NSString stringWithFormat:@"%d",[share getProductCountWithID:_product.pID]];
 }
 
 
@@ -111,9 +121,6 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_countLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_addBt attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
     
     
-    _countLabel.text = [NSString stringWithFormat:@"%d",_product.count];
-    
-    
     UIButton* _subtractBt = [UIButton buttonWithType:UIButtonTypeCustom];
     
     [_subtractBt setImage:[UIImage imageNamed:@"product_subtractBt"] forState:UIControlStateNormal];
@@ -144,8 +151,14 @@
 
 -(void)showShopList
 {
-
-
+    ShopCarShareData* share = [ShopCarShareData shareShopCarManager];
+    if ([share getCarCount] ==0)
+    {
+        return;
+    }
+    
+    ProductShopCarController* shopCar = [[ProductShopCarController alloc]init];
+    [self.navigationController pushViewController:shopCar animated:YES];
 }
 
 
@@ -201,12 +214,14 @@
         
         if (indexPath.row==0) {
             ProductInfoHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ProductInfoHeadCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [cell setProductImages:@[_product.pUrl]];
             return cell;
         }
         else
         {
             ProductInfoDetailCell*cell = [tableView dequeueReusableCellWithIdentifier:@"ProductInfoDetailCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [cell setProductName:_product.pName];
             [cell setProductPrice:[NSString stringWithFormat:@"%.1f",_product.price]];
             return cell;

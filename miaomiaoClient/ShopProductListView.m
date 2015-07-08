@@ -22,7 +22,7 @@
     NSString* _currentShopID;
     
     NSMutableDictionary* _allDataDic;
-    NSMutableDictionary* _shopCarPrdouctDic;
+//    NSMutableDictionary* _shopCarPrdouctDic;
 }
 @property(nonatomic,assign)BOOL isLoading;
 @end
@@ -51,7 +51,7 @@
 
 -(void)creatSubView
 {
-    _shopCarPrdouctDic = [[NSMutableDictionary alloc]init];//记录购物车的 @{"categoryid":@{@"shopid":product}}
+   
     _dataArr = [[NSMutableArray alloc]init];
     _allDataDic = [[NSMutableDictionary alloc]init];
     _table = [[UITableView alloc]initWithFrame:self.bounds style:UITableViewStylePlain];
@@ -160,7 +160,6 @@
         [fullView removeFromSuperview];
         wSelf.isLoading = NO;
         
-
         if (error!=NetWorkSuccess ) {
             THActivityView* loadView = [[THActivityView alloc]initWithNetErrorWithSuperView:wSelf.superview];
             
@@ -176,7 +175,6 @@
     [productReq startAsynchronous];
 
 }
-
 
 -(void)setDataArrReloadTable:(NSMutableArray *)dataArr
 {

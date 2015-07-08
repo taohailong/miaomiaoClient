@@ -54,7 +54,7 @@
     _table.translatesAutoresizingMaskIntoConstraints = NO;
     _table.separatorColor = [UIColor clearColor];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_table]-48-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_table]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
     
     [self creatSearchBar];
     
@@ -67,6 +67,8 @@
     search = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 44)];
     search.placeholder = @"搜索商品";
     search.delegate = self;
+    search.tintColor = DEFAULTNAVCOLOR;
+//    search.barTintColor = FUNCTCOLOR(228, 228, 228);
     _table.tableHeaderView = search;
    
 }
@@ -77,7 +79,7 @@
     
     [searchBar setShowsCancelButton:YES animated:YES];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
 }
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -85,7 +87,7 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [searchBar resignFirstResponder];
     [searchBar setShowsCancelButton:NO animated:YES];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 }
     
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -93,7 +95,7 @@
 
     if (searchBar.text.length) {
        [searchBar resignFirstResponder];
-         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+//         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
         [searchBar setShowsCancelButton:NO animated:YES];
        [self searchThroughNetWithCharacter:searchBar.text];

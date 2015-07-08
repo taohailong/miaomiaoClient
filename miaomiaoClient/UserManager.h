@@ -13,7 +13,7 @@
 {
     ShopInfoData* _shop;
 }
-typedef void (^logCallBack)(BOOL success) ;
+typedef void (^UserApiCallBack)(BOOL success,id respond);
 
 typedef void (^LocationBk)(BOOL success,float longitude,float latitude);
 
@@ -47,9 +47,9 @@ typedef void (^LocationBk)(BOOL success,float longitude,float latitude);
 
 -(void)savePushToken:(NSString*)push;
 -(void)registePushKey;
--(void)removeUserAccountWithBk:(logCallBack)complete;
+-(void)removeUserAccountWithBk:(UserApiCallBack)complete;
 
 -(BOOL)isLogin;
--(void)logInWithPhone:(NSString *)phone Pass:(NSString *)ps logBack:(logCallBack) blockBack;
+-(void)logInWithPhone:(NSString *)phone Pass:(NSString *)ps logBack:(UserApiCallBack) blockBack;
 -(BOOL)verifyTokenOnNet:(void(^)(BOOL success, NSError *error))completeBlock;
 @end

@@ -16,6 +16,7 @@
 #import "ShopInfoData.h"
 #import "ShopSelectController.h"
 #import "SearchProductController.h"
+#import "ShopInfoViewController.h"
 
 @interface PCategoryController()<ShopCategoryProtocol,ShopProductListProtocol,NavigationTieleViewProtocol,ShopSelectProtocol>
 {
@@ -79,6 +80,12 @@
     self.navigationItem.titleView = [self navgationTitleView];
     
     
+    
+    UIBarButtonItem* rightBar = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"root_right"] style:UIBarButtonItemStylePlain target:self action:@selector(showShopInfoViewController)];
+    self.navigationItem.rightBarButtonItem = rightBar;
+
+    
+    
     UIButton* seachBt = [UIButton buttonWithType:UIButtonTypeCustom];
     seachBt.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     seachBt.translatesAutoresizingMaskIntoConstraints = NO;
@@ -132,6 +139,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getNetCategoryData) name:SHOPCATEGORYCHANGED object:nil];
     [self getNetCategoryData];
+    
 }
 
 
@@ -143,6 +151,14 @@
     [self.navigationController pushViewController:searchView animated:YES];
 }
 
+#pragma btAction
+
+-(void)showShopInfoViewController
+{
+    ShopInfoViewController* shopInfo = [[ShopInfoViewController alloc]init];
+    shopInfo.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:shopInfo animated:YES];
+}
 
 
 #pragma mark-netApi

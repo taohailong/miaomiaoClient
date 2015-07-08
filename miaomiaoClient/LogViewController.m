@@ -124,6 +124,7 @@
 -(void)startCountdown
 {
     _countDown = 60;
+    [_verifyBt setTitle:[NSString stringWithFormat:@"还差%d秒",_countDown] forState:UIControlStateDisabled];
     _verifyBt.enabled = NO;
     _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeRunLoop) userInfo:nil repeats:YES];
 
@@ -179,8 +180,8 @@
     __weak LogViewController* wSelf = self;
     
     UserManager* user = [UserManager shareUserManager];
-    [user logInWithPhone:phoneField.text Pass:pwField.text logBack:^(BOOL success) {
-        
+    [user logInWithPhone:phoneField.text Pass:pwField.text logBack:^(BOOL success, id respond) {
+    
         if (success) {
     
             [wSelf logViewDismiss];
@@ -188,7 +189,7 @@
         else
         {
             [wSelf timerInvalid];
-            THActivityView* alter = [[THActivityView alloc]initWithString:@"登录失败！"];
+            THActivityView* alter = [[THActivityView alloc]initWithString:respond];
             [alter show];
             [loading removeFromSuperview];
         }

@@ -187,6 +187,8 @@
 		C7510DB11B04B0EE00C237AB /* AddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7510DB01B04B0EE00C237AB /* AddressViewController.m */; };
 		C7553B971B1D51A300EDA37C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C7553B961B1D51A300EDA37C /* Icon.png */; };
 		C7553B991B1D51A700EDA37C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7553B981B1D51A700EDA37C /* Icon@2x.png */; };
+		C75646071B4D3CB300725648 /* ProductShopCarController.m in Sources */ = {isa = PBXBuildFile; fileRef = C75646061B4D3CB300725648 /* ProductShopCarController.m */; };
+		C75646081B4D3CB300725648 /* ProductShopCarController.m in Sources */ = {isa = PBXBuildFile; fileRef = C75646061B4D3CB300725648 /* ProductShopCarController.m */; };
 		C759B99C1B03119E00681E22 /* LogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C759B99B1B03119E00681E22 /* LogViewController.m */; };
 		C759B99F1B03175000681E22 /* NSString+ZhengZe.m in Sources */ = {isa = PBXBuildFile; fileRef = C759B99E1B03175000681E22 /* NSString+ZhengZe.m */; };
 		C759B9A11B031B3000681E22 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C759B9A01B031B3000681E22 /* CoreLocation.framework */; };
@@ -569,6 +571,8 @@
 		C7510DB01B04B0EE00C237AB /* AddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressViewController.m; sourceTree = "<group>"; };
 		C7553B961B1D51A300EDA37C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		C7553B981B1D51A700EDA37C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		C75646051B4D3CB300725648 /* ProductShopCarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductShopCarController.h; sourceTree = "<group>"; };
+		C75646061B4D3CB300725648 /* ProductShopCarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductShopCarController.m; sourceTree = "<group>"; };
 		C759B99A1B03119E00681E22 /* LogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogViewController.h; sourceTree = "<group>"; };
 		C759B99B1B03119E00681E22 /* LogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogViewController.m; sourceTree = "<group>"; };
 		C759B99D1B03175000681E22 /* NSString+ZhengZe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+ZhengZe.h"; sourceTree = "<group>"; };
@@ -1090,6 +1094,8 @@
 				C73C660C1B44FECC00B7CF08 /* ShopDetailCell.m */,
 				C73C66101B45199200B7CF08 /* ProductInfoController.h */,
 				C73C66111B45199200B7CF08 /* ProductInfoController.m */,
+				C75646051B4D3CB300725648 /* ProductShopCarController.h */,
+				C75646061B4D3CB300725648 /* ProductShopCarController.m */,
 				C73C66151B451F1600B7CF08 /* ProductInfoHeadCell.h */,
 				C73C66161B451F1600B7CF08 /* ProductInfoHeadCell.m */,
 				C73C661A1B45213D00B7CF08 /* ProductInfoDetailCell.h */,
@@ -1659,6 +1665,7 @@
 				C768F3461B42B19300FF0A1A /* PCollectionCell.m in Sources */,
 				C7AEEB921B21872E00E92233 /* OrderInfoStatusCell.m in Sources */,
 				C7AEEB931B21872E00E92233 /* OrderInfoProductCell.m in Sources */,
+				C75646081B4D3CB300725648 /* ProductShopCarController.m in Sources */,
 				C7AEEB941B21872E00E92233 /* OrderInfoStatistics.m in Sources */,
 				C73C66131B45199200B7CF08 /* ProductInfoController.m in Sources */,
 				C7AEEB951B21872E00E92233 /* OrderInfoContent.m in Sources */,
@@ -1790,6 +1797,7 @@
 				C768F3451B42B19300FF0A1A /* PCollectionCell.m in Sources */,
 				C782FB1B1B2FFF6E001F621D /* LocationManager.m in Sources */,
 				C7BADC161B01F5330083252D /* ProductCell.m in Sources */,
+				C75646071B4D3CB300725648 /* ProductShopCarController.m in Sources */,
 				C78224141AFB5975000A0AB4 /* NSDataEx.m in Sources */,
 				C73C66121B45199200B7CF08 /* ProductInfoController.m in Sources */,
 				C74278E11B05F8B200B7307A /* UserCenterController.m in Sources */,

@@ -50,14 +50,12 @@ static char operationArrayKey;
     [self cancelCurrentImageLoad];
 
     self.image = placeholder;
-//    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"[a-zA-z]+://[^s]*"];
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"http://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?"];
+//    NSPredicate *pred = [NSPredicate predicat http://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?""];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"(http|ftp|https):\\/\\/[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?"];
     
     BOOL isMatch = [pred evaluateWithObject:url.absoluteString];
     if (isMatch==NO) {
-#if !DEBUG
         return;
-#endif
     }
     if (url)
     {

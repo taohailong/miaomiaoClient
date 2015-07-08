@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ShopCarViewController : UIViewController
+
+-(void)accessViewAnimate:(float)height;
 @property(nonatomic,strong)NSString* leaveMes;
 @end

@@ -104,7 +104,7 @@
     [cancelBt setBackgroundImage:[UIImage imageNamed:@"button_back_red"] forState:UIControlStateHighlighted];
     [cancelBt setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [backView addSubview:cancelBt];
-    [cancelBt addTarget:self action:@selector(hidPopView) forControlEvents:UIControlEventTouchUpInside];
+    [cancelBt addTarget:self action:@selector(cancelAction) forControlEvents:UIControlEventTouchUpInside];
     [cancelBt setTitle:@"取消" forState:UIControlStateNormal];
     [cancelBt setTitleColor:DEFAULTNAVCOLOR forState:UIControlStateNormal];
     
@@ -137,6 +137,17 @@
 }
 
 
+
+-(void)cancelAction
+{
+    if ([self.delegate respondsToSelector:@selector(actionViewSelectWithData:)]) {
+        [self.delegate actionViewSelectWithData:nil];
+    }
+
+    [self hidPopView];
+}
+
+
 -(void)hidPopView
 {
     [UIView animateWithDuration:.2 animations:^{
@@ -148,36 +159,6 @@
     }];
 
 }
-
-
-
-//-(void)requestDiscountData
-//{
-//    __weak UICustomActionView* wself = self;
-//    
-//    THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:backView];
-//    
-//    NetWorkRequest* req = [[NetWorkRequest alloc]init];
-//    [req getValidDiscountTicketWithBk:^(id respond, NetWorkStatus status) {
-//        [loadView removeFromSuperview];
-//        if (status == NetWorkSuccess) {
-//            [wself reloadTableAfterGetData:respond];
-//        }
-//        else
-//        {
-//            THActivityView* warnView = [[THActivityView alloc]initWithString:respond];
-//            [warnView show];
-//        }
-//    }];
-//    [req startAsynchronous];
-//}
-//
-//-(void)reloadTableAfterGetData:(NSArray*)arr
-//{
-//    _dataArr = arr;
-//    [_table reloadData];
-//}
-
 
 
 

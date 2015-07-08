@@ -14,7 +14,7 @@
 #import "UserManager.h"
 #import "THActivityView.h"
 #import "CommitOrderController.h"
-
+#import "LogViewController.h"
 @interface ShopCarViewController()<UITableViewDataSource,UITableViewDelegate>
 {
     UILabel* _moneyLabel;
@@ -64,8 +64,6 @@
 }
 
 
-
-
 -(void)viewDidAppear:(BOOL)animated
 {
     [self updateShopCar];
@@ -79,23 +77,14 @@
     self.title = @"购物车";
     self.view.backgroundColor = [UIColor whiteColor];
     
-    
-    _table = [[UITableView alloc]initWithFrame:self.view.bounds    style:UITableViewStyleGrouped];
-    [self.view addSubview:_table];
-    _table.delegate = self;
-    _table.dataSource = self;
-    _table.separatorColor = FUNCTCOLOR(229, 229, 229);
-    _table.backgroundColor = FUNCTCOLOR(243, 243, 243);
-    _table.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_table attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_table attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-50]];
-    
-    
+
+//    UIToolbar
     [self creatShopCarView];
     [self registeNotificationCenter];
+//    NSLog(@"rect is %@",self.navigationController.tabBarController.tabBarItem.v);
+//    CGRect frame = [self.navigationController.tabBarController.view convertRect:self.navigationController.tabBarController.view.frame fromView:self.navigationController.tabBarController.tabBarItem];
+    
+//    self.tabBarItem
 }
 
 
@@ -119,7 +108,9 @@
     [self.view addSubview:footView];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[footView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(footView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[footView(50)]-49-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table,footView)]];
+    
+    id bottom = self.bottomLayoutGuide;
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[footView(50)]-0-[bottom]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(footView,bottom)]];
     
     UIView* separater = [[UIView alloc]init];
     separater.backgroundColor = FUNCTCOLOR(210, 210, 210);
@@ -158,14 +149,28 @@
     [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[commitBt]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(commitBt)]];
     [footView addConstraint:[NSLayoutConstraint constraintWithItem:commitBt attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:footView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     
+    
+    _table = [[UITableView alloc]initWithFrame:self.view.bounds    style:UITableViewStyleGrouped];
+    [self.view addSubview:_table];
+    _table.delegate = self;
+    _table.dataSource = self;
+    _table.separatorColor = FUNCTCOLOR(229, 229, 229);
+    _table.backgroundColor = FUNCTCOLOR(243, 243, 243);
+    _table.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_table attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_table attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:footView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+
 }
 
 -(void)shopCarChangedWithData:(ShopProductData*)productData
 {
     ShopCarShareData* shareData = [ShopCarShareData shareShopCarManager];
     [shareData addOrChangeShopWithProduct:productData];
-    
     [self updateShopCar];
+    [_table reloadData];
 }
 
 -(void)updateShopCar
@@ -174,7 +179,7 @@
     __weak ShopCarViewController* wSelf = self;
     if([shareData getCarCount] == 0&&_emptyView==nil)
     {
-        THActivityView* warnView = [[THActivityView alloc]initEmptyDataWarnViewWithString:@"购物车空空的耶～快去下单吧！" WithImage:@"shopCar_emptyImage" WithSuperView:self.view];
+        THActivityView* warnView = [[THActivityView alloc]initEmptyDataWarnViewWithString:@"购物车为空哦，快去逛逛吧" WithImage:@"shopCar_emptyImage" WithSuperView:self.view];
         [warnView addBtWithTitle:@"去下单" WithBk:^{
              [wSelf goShoppingAction];
         }];
@@ -210,6 +215,22 @@
     
 }
 
+-(void)showLogContoller
+{
+    __weak ShopCarViewController* wself = self;
+    LogViewController* log = [self.storyboard instantiateViewControllerWithIdentifier:@"LogViewController"];
+    [log setLogResturnBk:^(BOOL success) {
+        
+        CommitOrderController* readyOrder = [[CommitOrderController alloc]init];
+        readyOrder.leaveMes = self.leaveMes;
+        readyOrder.hidesBottomBarWhenPushed = YES;
+        [wself.navigationController pushViewController:readyOrder animated:YES];
+    }];
+    log.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:log animated:YES];
+
+}
+
 
 -(void)showCommitViewController
 {
@@ -222,6 +243,12 @@
         [warnView show];
         return;
     }
+    
+    if ([manager isLogin] == NO) {
+        [self showLogContoller];
+        return;
+    }
+    
     
     CommitOrderController* readyOrder = [[CommitOrderController alloc]init];
     readyOrder.leaveMes = self.leaveMes;
@@ -265,6 +292,7 @@
         if (cell==nil)
         {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         
         UserManager* manager = [UserManager shareUserManager];
@@ -291,6 +319,7 @@
         ProductCell* cell = [tableView dequeueReusableCellWithIdentifier:@"cell2"];
         if (cell==nil) {
             cell = [[ProductCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell2"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         
         ShopCarShareData* manager = [ShopCarShareData shareShopCarManager];
@@ -377,18 +406,16 @@
 
 - (void)keyboardShown:(NSNotification *)aNotification
 {
-    
     NSDictionary *info = [aNotification userInfo];
     NSValue *aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
     
     CGSize keyboardSize = [aValue CGRectValue].size;
-    [self accessViewAnimate:-keyboardSize.height];
-    
+    [self accessViewAnimate:-keyboardSize.height+110];
 }
 
 - (void)keyboardHidden:(NSNotification *)aNotification
 {
-    [self accessViewAnimate:-30.0];
+    [self accessViewAnimate:0.0];
 }
 
 -(void)accessViewAnimate:(float)height

@@ -53,12 +53,11 @@
     [self.contentView addSubview:_textLabel];
     _textLabel.font= DEFAULTFONT(14);
     
-    
-    
-    
+
     
     _contentField = [[UITextField alloc]init];
     _contentField.font = DEFAULTFONT(14);
+//    _contentField.backgroundColor = [UIColor redColor];
     _contentField.translatesAutoresizingMaskIntoConstraints = NO;
     _contentField.delegate =self;
     
@@ -86,6 +85,7 @@
     [_textLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_textLabel]-5-[_contentField]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_textLabel,_contentField)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_contentField(30)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_contentField)]];
     
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_contentField attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
 }

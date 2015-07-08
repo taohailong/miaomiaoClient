@@ -557,7 +557,7 @@
         
         [loadView removeFromSuperview];
         if (status==NetWorkSuccess) {
-            str = @"催单成功，马上为您送达！";
+            str = @"已完成催单，小喵马上送达";
         }
         else
         {

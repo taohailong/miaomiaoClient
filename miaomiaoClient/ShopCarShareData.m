@@ -35,6 +35,7 @@
     _totalMoney = 0;
     [_shopArr removeAllObjects];
     [_shopDic removeAllObjects];
+    [[NSNotificationCenter defaultCenter] postNotificationName:PSHOPCARCHANGE object:nil];
 }
 
 

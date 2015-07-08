@@ -403,7 +403,7 @@
         
         if (status==NetWorkSuccess) {
             
-            completeBk(sourceDic[@"data"][@"payInfo"],status);
+            completeBk(sourceDic[@"data"],status);
         }
         else if (status==NetWorkErrorTokenInvalid)
         {
@@ -803,12 +803,12 @@
         }
         else if (NetWorkErrorTokenInvalid==status)
         {
-             completeBk(nil,status);
+             completeBk(sourceDic,status);
         }
 
         else
         {
-            completeBk(nil,status);
+            completeBk(sourceDic,status);
         }
         
     }];
@@ -867,13 +867,18 @@
 
 -(void)getDefaultAddressWithBk:(NetCallback)completeBk
 {
-    NSString* url = [NSString stringWithFormat:@"http://%@/app/address/get/default?%@",HTTPHOST,HTTPNOTTOKEN];
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/address/get/default?%@",HTTPHOST,HTTPPREFIX];
     
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
         
         if (status==NetWorkSuccess) {
             
             NSDictionary* adressDic = sourceDic[@"data"][@"addr"];
+            
+            if (adressDic==nil) {
+                completeBk(nil,status);
+                return ;
+            }
             AddressData* adress = [[AddressData alloc]init];
             adress.address = adressDic[@"address"];
             adress.addressID = adressDic[@"id"];
