@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 typedef void (^logCallBack)(BOOL success) ;
 @interface LogViewController : UIViewController
+{
+     UIButton * _voiceVerifyBt;
+}
 -(void)setLogResturnBk:(logCallBack)bk;
 @end

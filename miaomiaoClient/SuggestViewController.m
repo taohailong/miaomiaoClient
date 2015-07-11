@@ -66,13 +66,13 @@
         [loading removeFromSuperview];
         if (NetWorkSuccess == status) {
             
-            THActivityView* showStr = [[THActivityView alloc]initWithString:@"提交成功！"];
+            THActivityView* showStr = [[THActivityView alloc]initWithString:@"提交成功"];
             [showStr show];
             [wself.navigationController popToRootViewControllerAnimated:YES];
         }
         else
         {
-            THActivityView* showStr = [[THActivityView alloc]initWithString:@"提交失败！"];
+            THActivityView* showStr = [[THActivityView alloc]initWithString:@"提交失败"];
             [showStr show];
         }
     }];

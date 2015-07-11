@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ShopInfoData.h"
-
+#import<BaiduMapAPI/BMKGeometry.h>
 @interface UserManager : NSObject
 {
     ShopInfoData* _shop;
@@ -40,6 +40,8 @@ typedef void (^LocationBk)(BOOL success,float longitude,float latitude);
 
 -(void)startLocationWithBk:(LocationBk)bk;
 -(float)figureoutDistanceFromLongitude:(float)longitude Latitude:(float)latitude;
+-(int)figureDistanceFrom:(BMKMapPoint)start toPoint:(BMKMapPoint)end;
+
 
 -(void)checkGID;
 -(void)setShopID:(NSString *)shopID WithLongitude:(float)longitude WithLatitude:(float)latitude;

@@ -501,7 +501,7 @@
         
         [loadView removeFromSuperview];
         if (status==NetWorkSuccess) {
-            str = @"确认订单成功！";
+            str = @"确认订单成功";
             worder.orderStatusType = OrderStatusConfirm;
             worder.orderStatue = @"订单完成";
             [wtable reloadData];
@@ -533,11 +533,11 @@
             _mySection = -1;
             
             [wtable reloadData];
-            str = @"取消成功，喵喵客服马上和您联系！";
+            str = @"取消成功，喵喵客服马上和您联系";
         }
         else
         {
-            str = @"取消失败！";
+            str = @"取消失败";
         }
         
         THActivityView* showStr = [[THActivityView alloc]initWithString:str];
@@ -561,7 +561,7 @@
         }
         else
         {
-            str = @"催单失败！";
+            str = @"催单失败";
         }
         
         THActivityView* showStr = [[THActivityView alloc]initWithString:str];

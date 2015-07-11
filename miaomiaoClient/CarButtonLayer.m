@@ -29,12 +29,13 @@
     
     if ( _contentSize.height>_contentSize.width) {
        self.bounds = CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMinY(self.bounds), _contentSize.height+2, _contentSize.height+2);
-       self.cornerRadius = _contentSize.height/2;
+       
+       self.cornerRadius = _contentSize.height/2+1;
     }
     else
     {
         self.bounds = CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMinY(self.bounds), _contentSize.width+2, _contentSize.height+2);
-        self.cornerRadius = _contentSize.height/2;
+        self.cornerRadius = _contentSize.height/2+1;
     }
     
     [self setNeedsDisplay];
@@ -48,7 +49,7 @@
     CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((__bridge_retained  CFAttributedStringRef)_currentAttribute);
     
     CGMutablePathRef Path = CGPathCreateMutable();
-    CGPathAddRect(Path, NULL ,CGRectMake((self.bounds.size.width-_contentSize.width)/2, 1 ,self.bounds.size.width , self.bounds.size.height-2));
+    CGPathAddRect(Path, NULL ,CGRectMake((self.bounds.size.width-_contentSize.width)/2, (self.bounds.size.height-_contentSize.height)/2 ,self.bounds.size.width , self.bounds.size.height-2));
     
     CTFrameRef frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, 0), Path, NULL);
     

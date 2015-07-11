@@ -149,13 +149,6 @@
         
         [loadView removeFromSuperview];
         
-        if (NetWorkErrorCanntConnect==error) {
-            
-            THActivityView* alert = [[THActivityView alloc]initWithString:@"添加失败!"];
-            [alert show];
-
-            return ;
-        }
         
         if (NetWorkSuccess==error)
         {
@@ -164,7 +157,14 @@
             
             [wself.delegate AddressAddWithAddressData:respond];
             [wself.navigationController popViewControllerAnimated:YES];
+            return ;
         }
+        
+        
+            THActivityView* alert = [[THActivityView alloc]initWithString:@"添加失败!"];
+            [alert show];
+            
+            return ;
         
     }];
     [req startAsynchronous];
@@ -183,7 +183,7 @@
         
         [loadView removeFromSuperview];
         
-        if (NetWorkErrorCanntConnect==status) {
+        if (status!= NetWorkSuccess) {
             
             THActivityView* alert = [[THActivityView alloc]initWithString:@"更新失败!"];
             [alert show];

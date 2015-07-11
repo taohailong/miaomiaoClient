@@ -189,6 +189,10 @@
 		C7553B991B1D51A700EDA37C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7553B981B1D51A700EDA37C /* Icon@2x.png */; };
 		C75646071B4D3CB300725648 /* ProductShopCarController.m in Sources */ = {isa = PBXBuildFile; fileRef = C75646061B4D3CB300725648 /* ProductShopCarController.m */; };
 		C75646081B4D3CB300725648 /* ProductShopCarController.m in Sources */ = {isa = PBXBuildFile; fileRef = C75646061B4D3CB300725648 /* ProductShopCarController.m */; };
+		C75646091B4D5C0100725648 /* ProductShopCarController.m in Sources */ = {isa = PBXBuildFile; fileRef = C75646061B4D3CB300725648 /* ProductShopCarController.m */; };
+		C75943A51B4FAB5900F42D00 /* CommitProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C75943A41B4FAB5900F42D00 /* CommitProductCell.m */; };
+		C75943A61B4FAB5900F42D00 /* CommitProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C75943A41B4FAB5900F42D00 /* CommitProductCell.m */; };
+		C75943A71B4FAB5900F42D00 /* CommitProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C75943A41B4FAB5900F42D00 /* CommitProductCell.m */; };
 		C759B99C1B03119E00681E22 /* LogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C759B99B1B03119E00681E22 /* LogViewController.m */; };
 		C759B99F1B03175000681E22 /* NSString+ZhengZe.m in Sources */ = {isa = PBXBuildFile; fileRef = C759B99E1B03175000681E22 /* NSString+ZhengZe.m */; };
 		C759B9A11B031B3000681E22 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C759B9A01B031B3000681E22 /* CoreLocation.framework */; };
@@ -198,6 +202,12 @@
 		C759B9AF1B0344B200681E22 /* SelectShopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C759B9AE1B0344B200681E22 /* SelectShopCell.m */; };
 		C759B9B41B035E7D00681E22 /* ShopCategoryData.m in Sources */ = {isa = PBXBuildFile; fileRef = C759B9B11B035E7D00681E22 /* ShopCategoryData.m */; };
 		C759B9B51B035E7D00681E22 /* ShopProductData.m in Sources */ = {isa = PBXBuildFile; fileRef = C759B9B31B035E7D00681E22 /* ShopProductData.m */; };
+		C75A4E891B4E93BD00733060 /* CommitToAddressC.m in Sources */ = {isa = PBXBuildFile; fileRef = C75A4E881B4E93BD00733060 /* CommitToAddressC.m */; };
+		C75A4E8A1B4E93BD00733060 /* CommitToAddressC.m in Sources */ = {isa = PBXBuildFile; fileRef = C75A4E881B4E93BD00733060 /* CommitToAddressC.m */; };
+		C75A4E8B1B4E93BD00733060 /* CommitToAddressC.m in Sources */ = {isa = PBXBuildFile; fileRef = C75A4E881B4E93BD00733060 /* CommitToAddressC.m */; };
+		C75A4E8E1B4EB68D00733060 /* LogInCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C75A4E8D1B4EB68D00733060 /* LogInCell.m */; };
+		C75A4E8F1B4EB68D00733060 /* LogInCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C75A4E8D1B4EB68D00733060 /* LogInCell.m */; };
+		C75A4E901B4EB68D00733060 /* LogInCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C75A4E8D1B4EB68D00733060 /* LogInCell.m */; };
 		C75F0F1A1B27E0F8007E8613 /* UICustomActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C75F0F191B27E0F8007E8613 /* UICustomActionView.m */; };
 		C75F0F1D1B280954007E8613 /* DiscountActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C75F0F1C1B280954007E8613 /* DiscountActionCell.m */; };
 		C75F0F201B2829F2007E8613 /* CommitDiscountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C75F0F1F1B2829F2007E8613 /* CommitDiscountCell.m */; };
@@ -573,6 +583,8 @@
 		C7553B981B1D51A700EDA37C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		C75646051B4D3CB300725648 /* ProductShopCarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductShopCarController.h; sourceTree = "<group>"; };
 		C75646061B4D3CB300725648 /* ProductShopCarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductShopCarController.m; sourceTree = "<group>"; };
+		C75943A31B4FAB5900F42D00 /* CommitProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitProductCell.h; sourceTree = "<group>"; };
+		C75943A41B4FAB5900F42D00 /* CommitProductCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitProductCell.m; sourceTree = "<group>"; };
 		C759B99A1B03119E00681E22 /* LogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogViewController.h; sourceTree = "<group>"; };
 		C759B99B1B03119E00681E22 /* LogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogViewController.m; sourceTree = "<group>"; };
 		C759B99D1B03175000681E22 /* NSString+ZhengZe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+ZhengZe.h"; sourceTree = "<group>"; };
@@ -590,6 +602,10 @@
 		C759B9B11B035E7D00681E22 /* ShopCategoryData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopCategoryData.m; sourceTree = "<group>"; };
 		C759B9B21B035E7D00681E22 /* ShopProductData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopProductData.h; sourceTree = "<group>"; };
 		C759B9B31B035E7D00681E22 /* ShopProductData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopProductData.m; sourceTree = "<group>"; };
+		C75A4E871B4E93BD00733060 /* CommitToAddressC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitToAddressC.h; sourceTree = "<group>"; };
+		C75A4E881B4E93BD00733060 /* CommitToAddressC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitToAddressC.m; sourceTree = "<group>"; };
+		C75A4E8C1B4EB68D00733060 /* LogInCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInCell.h; sourceTree = "<group>"; };
+		C75A4E8D1B4EB68D00733060 /* LogInCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInCell.m; sourceTree = "<group>"; };
 		C75F0F181B27E0F8007E8613 /* UICustomActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICustomActionView.h; sourceTree = "<group>"; };
 		C75F0F191B27E0F8007E8613 /* UICustomActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICustomActionView.m; sourceTree = "<group>"; };
 		C75F0F1B1B280954007E8613 /* DiscountActionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscountActionCell.h; sourceTree = "<group>"; };
@@ -996,6 +1012,8 @@
 			children = (
 				C7510DAF1B04B0EE00C237AB /* AddressViewController.h */,
 				C7510DB01B04B0EE00C237AB /* AddressViewController.m */,
+				C75A4E871B4E93BD00733060 /* CommitToAddressC.h */,
+				C75A4E881B4E93BD00733060 /* CommitToAddressC.m */,
 				C74BBBFC1B0B075B00EA5F2E /* AddressEditController.h */,
 				C74BBBFD1B0B075B00EA5F2E /* AddressEditController.m */,
 				C7510DAC1B04AA6500C237AB /* AddressData.h */,
@@ -1124,8 +1142,12 @@
 				C73C66201B4533C800B7CF08 /* ShopCarViewController.m */,
 				C759B99A1B03119E00681E22 /* LogViewController.h */,
 				C759B99B1B03119E00681E22 /* LogViewController.m */,
+				C75A4E8C1B4EB68D00733060 /* LogInCell.h */,
+				C75A4E8D1B4EB68D00733060 /* LogInCell.m */,
 				C7510DA91B0483FA00C237AB /* CommitOrderController.h */,
 				C7510DAA1B0483FA00C237AB /* CommitOrderController.m */,
+				C75943A31B4FAB5900F42D00 /* CommitProductCell.h */,
+				C75943A41B4FAB5900F42D00 /* CommitProductCell.m */,
 				C76BEFBB1B463F18006B0457 /* CommitPDetailCell.h */,
 				C76BEFBC1B463F18006B0457 /* CommitPDetailCell.m */,
 				C75F0F1E1B2829F2007E8613 /* CommitDiscountCell.h */,
@@ -1681,6 +1703,7 @@
 				C74313681B1ED89C00E2A068 /* NSData+GIF.m in Sources */,
 				C74313691B1ED89C00E2A068 /* ProductCell.m in Sources */,
 				C743136A1B1ED89C00E2A068 /* NSDataEx.m in Sources */,
+				C75A4E8F1B4EB68D00733060 /* LogInCell.m in Sources */,
 				C743136B1B1ED89C00E2A068 /* UserCenterController.m in Sources */,
 				C743136C1B1ED89C00E2A068 /* CommitOrderController.m in Sources */,
 				C743136D1B1ED89C00E2A068 /* AddressCell.m in Sources */,
@@ -1701,6 +1724,7 @@
 				C743137C1B1ED89C00E2A068 /* MD5DataSigner.m in Sources */,
 				C743137D1B1ED89C00E2A068 /* SettingViewController.m in Sources */,
 				C743137E1B1ED89C00E2A068 /* UIButton+WebCache.m in Sources */,
+				C75A4E8A1B4E93BD00733060 /* CommitToAddressC.m in Sources */,
 				C743137F1B1ED89C00E2A068 /* RSADataVerifier.m in Sources */,
 				C74313801B1ED89C00E2A068 /* ASIDownloadCache.m in Sources */,
 				C74313811B1ED89C00E2A068 /* CustomSelectCell.m in Sources */,
@@ -1761,6 +1785,7 @@
 				C74313AF1B1ED89C00E2A068 /* UIImageView+WebCache.m in Sources */,
 				C74313B01B1ED89C00E2A068 /* ShopTableHeadView.m in Sources */,
 				C74313B11B1ED89C00E2A068 /* OrderData.m in Sources */,
+				C75943A61B4FAB5900F42D00 /* CommitProductCell.m in Sources */,
 				C768F33C1B42842200FF0A1A /* PCategoryController.m in Sources */,
 				C74313B21B1ED89C00E2A068 /* ShopCarView.m in Sources */,
 				C74313B31B1ED89C00E2A068 /* ASIFormDataRequest.m in Sources */,
@@ -1813,6 +1838,7 @@
 				C742B5ED1B09B89D00D29ABB /* OrderHeadCell.m in Sources */,
 				C74313D51B1EF80200E2A068 /* OrderInfoController.m in Sources */,
 				C74810621B208B620069FAB4 /* TwoLabelCell.m in Sources */,
+				C75A4E8E1B4EB68D00733060 /* LogInCell.m in Sources */,
 				C74810531B201DFD0069FAB4 /* OrderInfoContent.m in Sources */,
 				C78224B01AFB5D9E000A0AB4 /* SDImageCache.m in Sources */,
 				C78224B91AFB5D9E000A0AB4 /* UIImage+MultiFormat.m in Sources */,
@@ -1833,6 +1859,7 @@
 				C78224861AFB5D95000A0AB4 /* ASIInputStream.m in Sources */,
 				C742E7DB1B16B40F00EB0A60 /* ProductCoverView.m in Sources */,
 				C74BBBFB1B0ADCCA00EA5F2E /* NavigationTitleView.m in Sources */,
+				C75A4E891B4E93BD00733060 /* CommitToAddressC.m in Sources */,
 				C748105F1B20898D0069FAB4 /* OneImageThreeLabelCell.m in Sources */,
 				C78223CD1AFB55A8000A0AB4 /* AppDelegate.m in Sources */,
 				C7AAB1331B09E68500F9082F /* ShopCarCell.m in Sources */,
@@ -1893,6 +1920,7 @@
 				C759B9AC1B033F1C00681E22 /* ShopTableHeadView.m in Sources */,
 				C742B5EA1B09B3D600D29ABB /* OrderData.m in Sources */,
 				C7510DA81B04553700C237AB /* ShopCarView.m in Sources */,
+				C75943A51B4FAB5900F42D00 /* CommitProductCell.m in Sources */,
 				C768F33B1B42842200FF0A1A /* PCategoryController.m in Sources */,
 				C78224841AFB5D95000A0AB4 /* ASIFormDataRequest.m in Sources */,
 				C74BBBFE1B0B075B00EA5F2E /* AddressEditController.m in Sources */,
@@ -1915,6 +1943,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C75646091B4D5C0100725648 /* ProductShopCarController.m in Sources */,
 				C73C660F1B44FECC00B7CF08 /* ShopDetailCell.m in Sources */,
 				C797CD2E1B3811D700A49FDB /* SDWebImageDecoder.m in Sources */,
 				C797CD2F1B3811D700A49FDB /* OrderProductCell.m in Sources */,
@@ -1952,6 +1981,7 @@
 				C797CD4A1B3811D700A49FDB /* OrderHeadCell.m in Sources */,
 				C797CD4B1B3811D700A49FDB /* OrderInfoController.m in Sources */,
 				C797CD4C1B3811D700A49FDB /* TwoLabelCell.m in Sources */,
+				C75A4E901B4EB68D00733060 /* LogInCell.m in Sources */,
 				C797CD4D1B3811D700A49FDB /* OrderInfoContent.m in Sources */,
 				C797CD4E1B3811D700A49FDB /* SDImageCache.m in Sources */,
 				C797CD4F1B3811D700A49FDB /* UIImage+MultiFormat.m in Sources */,
@@ -1972,6 +2002,7 @@
 				C797CD5E1B3811D700A49FDB /* ASIInputStream.m in Sources */,
 				C797CD5F1B3811D700A49FDB /* ProductCoverView.m in Sources */,
 				C797CD601B3811D700A49FDB /* NavigationTitleView.m in Sources */,
+				C75A4E8B1B4E93BD00733060 /* CommitToAddressC.m in Sources */,
 				C797CD611B3811D700A49FDB /* OneImageThreeLabelCell.m in Sources */,
 				C797CD621B3811D700A49FDB /* AppDelegate.m in Sources */,
 				C797CD631B3811D700A49FDB /* ShopCarCell.m in Sources */,
@@ -2032,6 +2063,7 @@
 				C797CD921B3811D700A49FDB /* ShopTableHeadView.m in Sources */,
 				C797CD931B3811D700A49FDB /* OrderData.m in Sources */,
 				C797CD941B3811D700A49FDB /* ShopCarView.m in Sources */,
+				C75943A71B4FAB5900F42D00 /* CommitProductCell.m in Sources */,
 				C768F33D1B42842200FF0A1A /* PCategoryController.m in Sources */,
 				C797CD951B3811D700A49FDB /* ASIFormDataRequest.m in Sources */,
 				C797CD961B3811D700A49FDB /* AddressEditController.m in Sources */,

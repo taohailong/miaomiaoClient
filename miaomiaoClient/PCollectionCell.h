@@ -23,4 +23,6 @@ typedef void (^CollectionPChanged)(int count);
 -(void)setPicUrl:(NSString *)url;
 -(void)setPriceStr:(NSString *)price;
 -(void)setTitleStr:(NSString *)title;
+
+-(UIImageView*)getImageView;
 @end

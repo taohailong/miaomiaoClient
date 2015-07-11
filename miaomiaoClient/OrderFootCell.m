@@ -18,7 +18,7 @@
     
     _firstBt = [UIButton buttonWithType:UIButtonTypeCustom];
     _firstBt.tag = 0;
-    [_firstBt setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+//    [_firstBt setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
     _firstBt.layer.masksToBounds = YES;
     _firstBt.layer.borderColor = DEFAULTNAVCOLOR.CGColor;
     _firstBt.layer.borderWidth = 1;

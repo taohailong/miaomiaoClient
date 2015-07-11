@@ -15,6 +15,10 @@
 #import "THActivityView.h"
 #import "UserManager.h"
 #import "ShopCarShareData.h"
+#import "ProductInfoController.h"
+#import "CarButton.h"
+#import "ProductShopCarController.h"
+
 
 @interface SearchProductController()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 {
@@ -23,6 +27,7 @@
     __weak ShopCarView* _shopCar;
     UISearchBar* search;
 //    NSMutableArray* _shopCarArr;
+    CarButton* _carBt;
     NSMutableArray* _dataArr;
 }
 @end
@@ -31,8 +36,10 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-  [search becomeFirstResponder];
+    [search becomeFirstResponder];
+    [_table reloadData];
     
+    [self updateShopCarData];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -46,6 +53,18 @@
     [super viewDidLoad];
     self.title = @"商品搜索";
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    
+    _carBt = [CarButton buttonWithType:UIButtonTypeCustom];
+    [_carBt setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+    _carBt.frame = CGRectMake(0, 0, 45, 45);
+    [_carBt addTarget:self action:@selector(showShopCarView) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem* rightBar = [[UIBarButtonItem alloc]initWithCustomView:_carBt];
+    self.navigationItem.rightBarButtonItem = rightBar;
+    
+    
+    
+    
     _table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     
     [self.view addSubview:_table];
@@ -61,6 +80,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:PSEARCHTABLERELOAD object:nil];
 }
 
+#pragma mark-searBar
 
 -(void)creatSearchBar
 {
@@ -75,7 +95,7 @@
     
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+//    [self.navigationController setNavigationBarHidden:YES animated:YES];
     
     [searchBar setShowsCancelButton:YES animated:YES];
     
@@ -84,7 +104,7 @@
 }
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+//    [self.navigationController setNavigationBarHidden:NO animated:YES];
     [searchBar resignFirstResponder];
     [searchBar setShowsCancelButton:NO animated:YES];
 //    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
@@ -96,87 +116,47 @@
     if (searchBar.text.length) {
        [searchBar resignFirstResponder];
 //         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-        [self.navigationController setNavigationBarHidden:NO animated:YES];
+//        [self.navigationController setNavigationBarHidden:NO animated:YES];
         [searchBar setShowsCancelButton:NO animated:YES];
        [self searchThroughNetWithCharacter:searchBar.text];
     }
         
 }
+#pragma mark-updateShopCar
 
+-(void)updateShopCarData
+{
+    ShopCarShareData* share = [ShopCarShareData shareShopCarManager];
+    [_carBt setButtonTitleText:[NSString stringWithFormat:@"%d",[share getCarCount]]];
+}
 
+#pragma mark-btAction
 
-//-(void)creatShopCarView
-//{
-//    UserManager* manager = [UserManager shareUserManager];
-//    
-//    _shopCar = [[ShopCarView alloc]init];
-//    _shopCar.translatesAutoresizingMaskIntoConstraints = NO;
-//    
-//    [_shopCar setMinPrice: manager.shopMinPrice];
-//    [_shopCar setMoneyLabel:_totalMoney];
-//    [self  shopCarChanged:nil];
-//    
-//    [self.view addSubview:_shopCar];
-//    
-//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_shopCar]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_shopCar)]];
-//    
-//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_table]-0-[_shopCar]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table,_shopCar)]];
-//    
-//    __weak SearchProductController* wself = self;
-//    [_shopCar setCommitBk:^{
-//        [wself checkIfCommit];
-//    }];
-//}
-//
-//
-//-(void)checkIfCommit
-//{
-//    if (_shopCarArr.count==0) {
+-(void)showShopCarView
+{
+//    ShopCarShareData* share = [ShopCarShareData shareShopCarManager];
+//    if ([share getCarCount] ==0)
+//    {
 //        return;
 //    }
-//    if ([[NSUserDefaults standardUserDefaults] objectForKey:UTOKEN]==nil) {
-//        [self showLogView];
-//        return;
-//    }
-//    
-//    CommitOrderController* order = [[CommitOrderController alloc]initWithProductArr:_shopCarArr WithTotalMoney:_totalMoney];
-//    [self.navigationController pushViewController:order animated:YES];
-//}
+    
+    ProductShopCarController* shopCar = [[ProductShopCarController alloc]init];
+    [self.navigationController pushViewController:shopCar animated:YES];
 
+
+}
 
 
 -(void)showLogView
 {
-    LogViewController* log = [self.storyboard instantiateViewControllerWithIdentifier:@"LogViewController"];
+    LogViewController* log = [[LogViewController alloc]init];
     [self.navigationController pushViewController:log animated:YES];
-//    [self presentViewController:log animated:YES completion:^{}];
 }
-
 
 
 -(void)shopCarChanged:(ShopProductData*)product
 {
     
-//    BOOL contain = [_shopCarArr containsObject:product];
-//    if (contain==NO&&product) {
-//        [_shopCarArr addObject:product];
-//    }
-//    
-//    float totalMoney = 0;
-//    int count = 0;
-//    for (ShopProductData* obj in _shopCarArr) {
-//        
-//        if (obj.count==0) {
-//            [_shopCarArr removeObject:obj];
-//            break;
-//        }
-//        count += obj.count;
-//        totalMoney+= obj.price*obj.count;
-//    }
-//    
-//    _totalMoney = totalMoney;
-//    [_shopCar setMoneyLabel:totalMoney];
-//    [_shopCar setCountOfProduct:count];
     
 }
 
@@ -255,7 +235,11 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    ShopProductData* product = _dataArr[indexPath.row];
+    ProductInfoController* infoController = [[ProductInfoController alloc]initWithProductData:product];
     
+    [self.navigationController pushViewController:infoController animated:YES];
 }
 
 
@@ -264,6 +248,7 @@
     ShopCarShareData* shareData = [ShopCarShareData shareShopCarManager];
     
     [shareData addOrChangeShopWithProduct:product];
+    [self updateShopCarData];
 }
 
 -(void)reloadTableView

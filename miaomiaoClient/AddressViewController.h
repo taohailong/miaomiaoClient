@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "AddressData.h"
-
+#import "NetWorkRequest.h"
+#import "THActivityView.h"
 @class AddressViewController;
 @protocol AddressSelectProtocol <NSObject>
 
@@ -16,5 +17,10 @@
 
 @end
 @interface AddressViewController : UIViewController
+{
+  __weak AddressData* _defaultArr;
+    UITableView* _table;
+    NSMutableArray* _dataArr;
+}
 @property(nonatomic,weak)id<AddressSelectProtocol>delegate;
 @end

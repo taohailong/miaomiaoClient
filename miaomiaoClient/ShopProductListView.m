@@ -20,7 +20,7 @@
     NSMutableArray* _dataArr;
      NSString* _currentCategoryID;
     NSString* _currentShopID;
-    
+    CGPoint _tabItemPoint;
     NSMutableDictionary* _allDataDic;
 //    NSMutableDictionary* _shopCarPrdouctDic;
 }
@@ -155,7 +155,7 @@
     NetWorkRequest* productReq = [[NetWorkRequest alloc]init];
     __weak ShopProductListView* wSelf = self;
     
-    [productReq shopGetProductWithShopID:_currentShopID withCategory:_currentCategoryID fromIndex:_dataArr.count+1 WithCallBack:^(id backDic, NetWorkStatus error) {
+    [productReq shopGetProductWithShopID:_currentShopID withCategory:_currentCategoryID fromIndex:_dataArr.count WithCallBack:^(id backDic, NetWorkStatus error) {
         
         [fullView removeFromSuperview];
         wSelf.isLoading = NO;
@@ -247,17 +247,17 @@
     ShopProductData* data = _dataArr[indexPath.row];
     __weak ShopProductData* wData = data;
     __weak ShopProductListView* wSelf = self;
-    
-    
+
     ShopCarShareData* shareData = [ShopCarShareData shareShopCarManager];
     int count =  [shareData getProductCountWithID:data.pID];
     data.count = count;
 
     [cell setCountText:data.count];
+    NSInteger row = indexPath.row;
     [cell setCountBk:^(BOOL isAdd, int count) {
-        
+      
          wData.count = count;
-        [wSelf addProductToShopCar:wData];
+        [wSelf addProductAtIndex:row product:wData isAdd:isAdd];
        
     }];
     
@@ -277,10 +277,28 @@
 }
 
 
--(void)addProductToShopCar:(ShopProductData*)product
+-(void)addProductAtIndex:(NSInteger)row  product:(ShopProductData*)product isAdd:(BOOL)flag
 {
+    
      ShopCarShareData* carData = [ShopCarShareData shareShopCarManager];
     [carData addOrChangeShopWithProduct:product];
+    
+    
+    if (flag == NO) {
+        return;
+    }
+    UIViewController* father = (UIViewController*)self.delegate;
+    ProductCell* cell = (ProductCell*)[_table cellForRowAtIndexPath: [NSIndexPath indexPathForRow:row inSection:0]];
+    
+    
+    UIView* startView = [cell getImageView];
+    CGPoint start = [father.tabBarController.view convertPoint:startView.center fromView:cell];
+    if (_tabItemPoint.x==0&&_tabItemPoint.y==0) {
+        
+        UIView* endView = [self viewForTabBarItemAtIndex:2];
+        _tabItemPoint = [father.tabBarController.view convertPoint:endView.center fromView:father.tabBarController.tabBar];
+    }
+    [self bezierPathAnimation:start endPoint:_tabItemPoint WithAnimationView:[cell getImageView]];
     
 }
 
@@ -302,6 +320,85 @@
     {
         [self loadMoreDataFromNet];
     }
+    
+}
+
+#pragma mark-tabItemFrame
+
+-(UIView*)viewForTabBarItemAtIndex:(NSInteger)index
+{
+    UIViewController* fatherController = (UIViewController*)self.delegate;
+    
+    CGRect tabBarRect = fatherController.tabBarController.tabBar.frame;
+    NSInteger buttonCount = fatherController.tabBarController.tabBar.items.count;
+    CGFloat containingWidth = tabBarRect.size.width/buttonCount;
+    CGFloat originX = containingWidth * index ;
+    CGRect containingRect = CGRectMake( originX, 0, containingWidth, fatherController.tabBarController.tabBar.frame.size.height );
+    CGPoint center = CGPointMake( CGRectGetMidX(containingRect), CGRectGetMidY(containingRect));
+    return [fatherController.tabBarController.tabBar hitTest:center withEvent:nil ];
+    
+}
+
+-(void)bezierPathAnimation:(CGPoint)startPoint endPoint:(CGPoint)endpoint WithAnimationView:(UIView*)view
+{
+    UIViewController* father = (UIViewController*)self.delegate;
+
+    CALayer *layer = [[CALayer alloc]init];
+    layer.contents = view.layer.contents;
+    layer.frame = view.frame;
+    layer.contentsGravity = @"resizeAspect";
+    layer.opacity = 1;
+    layer.position = startPoint;
+    [father.tabBarController.view.layer addSublayer:layer];
+    
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    //动画起点
+    [path moveToPoint:startPoint];
+    
+    //贝塞尔曲线控制点
+//    float sx = startPoint.x;
+    
+    float sy = startPoint.y;
+    
+    float ex = endpoint.x;
+    
+//    float ey = endpoint.y;
+    
+    float x = ex;
+    //
+    float y = sy;
+    CGPoint centerPoint=CGPointMake(x, y);
+    
+    [path addQuadCurveToPoint:endpoint controlPoint:centerPoint];
+    
+    CAKeyframeAnimation *animation=[CAKeyframeAnimation animationWithKeyPath:@"position"];
+    
+    animation.path = path.CGPath;
+    
+    [layer addAnimation:animation forKey:@"buy"];
+    
+    
+    CABasicAnimation* sizeAnimation = [CABasicAnimation animationWithKeyPath:@"bounds"];
+    sizeAnimation.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 8, 8)];
+    
+    
+    CAAnimationGroup * animationGroup = [[CAAnimationGroup alloc] init];
+    
+    animationGroup.animations = @[animation,sizeAnimation];
+    
+    animationGroup.duration = 0.7;
+    
+    animationGroup.removedOnCompletion = NO;
+    
+    animationGroup.fillMode = kCAFillModeForwards;
+    animationGroup.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    [layer addAnimation:animationGroup forKey:@"GroupAnimation"];
+    
+    
+    dispatch_time_t timer = dispatch_time(DISPATCH_TIME_NOW, 0.702* NSEC_PER_SEC);
+    dispatch_after(timer, dispatch_get_main_queue(), ^{
+        [layer removeFromSuperlayer];
+    });
     
 }
 

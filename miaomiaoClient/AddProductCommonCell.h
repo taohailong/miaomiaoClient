@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 typedef void (^TextFieldBk)(NSString*text);
-@interface AddProductCommonCell : UITableViewCell
+@interface AddProductCommonCell : UITableViewCell<UITextFieldDelegate>
 {
     UILabel* _titleL;
     UITextField* _contentField;

@@ -38,7 +38,7 @@
     self.title = @"切换店铺";
     
     _table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-//    _table.backgroundColor = DEFAULTNAVCOLOR;
+    _table.backgroundColor = FUNCTCOLOR(228, 228, 228);;
     [self.view addSubview:_table];
     _table.delegate = self;
     _table.dataSource = self;
@@ -116,24 +116,40 @@
 
 -(void)creatSearchBar
 {
-    UIView* backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 80)];
+    UIView* backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 105)];
+    backView.backgroundColor = [UIColor whiteColor];
     
     _search = [[UISearchBar alloc]init];
     _search.translatesAutoresizingMaskIntoConstraints = NO;
     _search.delegate = self;
     _search.placeholder = @"搜索商铺";
-    
+//    _search.layer.borderColor = FUNCTCOLOR(228, 228, 228).CGColor;
+//    _search.backgroundColor = FUNCTCOLOR(228, 228, 228);
     _search.tintColor = DEFAULTNAVCOLOR;
-//    _search.barTintColor = FUNCTCOLOR(228, 228, 228);
+//    _search.barTintColor = [UIColor whiteColor];
     [backView addSubview:_search];
     
     [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_search]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_search)]];
     [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_search(45)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_search)]];
 
     
+    
+    UIView* separateV =  [[UIView alloc]init];
+    separateV.translatesAutoresizingMaskIntoConstraints = NO;
+    [backView addSubview:separateV];
+    separateV.backgroundColor = FUNCTCOLOR(228, 228, 228);
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[separateV]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separateV)]];
+    
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_search]-[separateV(10)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_search,separateV)]];
+    
+
+    
+    
+    
+    
     UIButton* locationBt = [UIButton buttonWithType:UIButtonTypeCustom];
     [backView addSubview:locationBt];
-//    locationBt.backgroundColor = [UIColor blackColor];
+    
     [locationBt setTitleColor:DEFAULTNAVCOLOR forState:UIControlStateNormal];
     locationBt.titleLabel.font = DEFAULTFONT(15);
     [locationBt addTarget:self action:@selector(startLocation) forControlEvents:UIControlEventTouchUpInside];
@@ -145,8 +161,10 @@
     
     [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[locationBt]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(locationBt)]];
     
-    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_search]-[locationBt(35)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_search,locationBt)]];
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[separateV]-3-[locationBt(35)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separateV,locationBt)]];
 
+    
+    
     
     
     locationLabel = [[UILabel alloc]init];
@@ -160,8 +178,14 @@
     
     [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[locationLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(locationLabel)]];
 
-//    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_search]-[locationLabel(35)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_search,locationLabel)]];
     
+    
+    UIView* bottom = [[UIView alloc]init];
+    bottom.translatesAutoresizingMaskIntoConstraints = NO;
+    [backView addSubview:bottom];
+    bottom.backgroundColor = FUNCTCOLOR(228, 228, 228);
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[bottom]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(bottom)]];
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[bottom(10)]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(bottom)]];
     _table.tableHeaderView = backView;
 }
 
@@ -188,7 +212,7 @@
         [self.navigationController setNavigationBarHidden:NO animated:YES];
         [searchBar resignFirstResponder];
         [searchBar setShowsCancelButton:NO animated:YES];
-         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+//         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [self searchThroughNetWithCharacter:searchBar.text withSearch:searchBar];
     }
     
@@ -297,13 +321,6 @@
         NSArray* arr = dic[@"shops"];
         
         ShopInfoData* shop = arr[indexPath.row];
-        if (shop.shopStatue == ShopClose) {
-            
-            NSString* str = [NSString stringWithFormat:@"当前店铺今日已打烊，现在下单（明日）%@配送",[shop getOpenTime]];
-            THActivityView* showStr = [[THActivityView alloc]initWithString:str];
-            [showStr show];
-            return;
-        }
         [self.delegate shopSelectOverWithShopID:shop];
         [self controllerDismiss];
     }
@@ -367,11 +384,11 @@
 {
     if (arr.count) {
         NSDictionary* dic = arr[0];
-        locationLabel.text = dic[@"distance"];
+        locationLabel.text = dic[@"area"];
     }
     else
     {
-        locationLabel.text = @"周围没有商铺,请搜索商铺!";
+        locationLabel.text = @"周围没有商铺,请使用搜索";
         return;
     }
     _dataArr = arr;
@@ -394,15 +411,6 @@
         if ([self.delegate respondsToSelector:@selector(shopSelectOverWithShopID:)]) {
             
             ShopInfoData* shop = arr[0];
-            
-            if (shop.shopStatue == ShopClose) {
-                
-                THActivityView* showStr = [[THActivityView alloc]initWithString:@"该店铺已打烊！"];
-                [showStr show];
-                
-                return;
-            }
-
             [self.delegate shopSelectOverWithShopID:shop];
             [self controllerDismiss];
         }
@@ -410,7 +418,7 @@
     }
     else if(arr.count==0)
     {
-        UIAlertView* warnView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"小喵正在努力覆盖您选择的小区,敬请期待哦！" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        UIAlertView* warnView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"小喵正在努力覆盖您选择的小区,敬请期待哦" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [warnView show];
         return;
     }

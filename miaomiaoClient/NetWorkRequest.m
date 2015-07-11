@@ -121,7 +121,7 @@
     HTTPADD(url);
     
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
-        
+    
         if (status==NetWorkSuccess) {
             
             NSArray* sourceArr = sourceDic[@"data"][@"coupons"];
@@ -438,13 +438,16 @@
              NSMutableArray* returnArr = [[NSMutableArray alloc]init];
              
              NSArray* arrDic = sourceDic[@"data"][@"communitys"];
-             for (NSDictionary* dic in arrDic) {
+            for (NSDictionary* dic in arrDic) {
                  
                  NSMutableDictionary* districtDic = [NSMutableDictionary dictionary];
                  
                  [districtDic setObject:dic[@"address"] forKey:@"address"];
                  [districtDic setObject:dic[@"name"] forKey:@"name"];
                  [districtDic setObject:dic[@"district"] forKey:@"distance"];
+                
+                 [districtDic setObject:dic[@"district"]
+                                forKey:@"area"];//区域
 
                  
                  NSMutableArray* shopArr = [[NSMutableArray alloc]init];
@@ -458,12 +461,14 @@
                      shop.shopArea = dic[@"name"];
                      shop.longitude = [temp[@"lng"] floatValue];
                      shop.latitude = [temp[@"lat"] floatValue];
+                     
+                    
                      shop.shopAddress = temp[@"shop_address"];
                      shop.shopStatue = [temp[@"status"] intValue]?ShopClose:ShopOpen;
                      shop.mobilePhoneNu = temp[@"owner_phone"];
                      shop.minPrice = [temp[@"base_price"] floatValue]/100;
                      shop.combinPay = [temp[@"combin_pay"] intValue];
-                     
+                     shop.deliverCharge = [temp[@"express_fee"] intValue]/100.0;
                      double openT = [temp[@"open_time"] doubleValue]/1000;
                      shop.openTime =  openT;
                      
@@ -505,16 +510,30 @@
         if (status==NetWorkSuccess) {
             
             NSMutableArray* returnArr = [[NSMutableArray alloc]init];
-            
+            UserManager* manager = [UserManager shareUserManager];
             
             NSArray* arrDic = sourceDic[@"data"][@"communitys"];
             for (NSDictionary* dic in arrDic) {
                 
                 NSMutableDictionary* districtDic = [NSMutableDictionary dictionary];
                 
-                [districtDic setObject:dic[@"address"] forKey:@"address"];
-                [districtDic setObject:dic[@"name"] forKey:@"name"];
-                [districtDic setObject:dic[@"district"] forKey:@"distance"];
+                [districtDic setObject:dic[@"district"]
+                    forKey:@"area"];//区域
+                
+                [districtDic setObject:dic[@"address"] forKey:@"address"];//地址
+                [districtDic setObject:dic[@"name"] forKey:@"name"];//名称
+                
+                float lat = [dic[@"lat"] floatValue];
+                float lng = [dic[@"lng"] floatValue];
+                
+                BMKMapPoint point1 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(latitude,longitude));
+                
+                BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(lat,lng));
+                
+                int distance = [manager  figureDistanceFrom:point1 toPoint:point2];
+                
+                [districtDic setObject:[NSString stringWithFormat:@"%d米",distance] forKey:@"distance"];
+                
                 NSMutableArray* shopArr = [[NSMutableArray alloc]init];
                 NSArray* shopDic = dic[@"shops"];
                 
@@ -530,7 +549,7 @@
                     shop.shopStatue = [temp[@"status"] intValue]?ShopClose:ShopOpen;
                     shop.mobilePhoneNu = temp[@"owner_phone"];
                     shop.minPrice = [temp[@"base_price"] floatValue]/100;
-                    
+                    shop.deliverCharge = [temp[@"express_fee"] intValue]/100.0;
                     [shop parseCombinPay:[temp[@"combin_pay"] intValue]];
                     double openT = [temp[@"open_time"] doubleValue]/1000;
                     shop.openTime =  openT;
@@ -604,7 +623,7 @@
             data.shopName = sourceDic[@"data"][@"shop"][@"name"];
             data.shopAddress = sourceDic[@"data"][@"shop"][@"shop_address"];
             data.serveArea = sourceDic[@"data"][@"shop"][@"shop_info"];
-            
+            data.deliverCharge = [sourceDic[@"data"][@"shop"][@"express_fee"] intValue]/100.0;
             if (sourceDic[@"data"][@"shop"][@"open_time"]) {
                 
                 double openT = [sourceDic[@"data"][@"shop"][@"open_time"] doubleValue]/1000;
@@ -765,6 +784,29 @@
 
 #pragma mark-----------login--------------
 
+-(void)getPhoneVerifyCodeWithAccount:(NSString *)phone WithBk:(NetCallback)completeBk
+{
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/verifyCode/sendVoiceCode?phone=%@&%@",HTTPHOST,phone,HTTPPREFIX];
+    
+    [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
+        
+        if (status==NetWorkSuccess) {
+            completeBk(sourceDic,status);
+        }
+        else if (NetWorkErrorTokenInvalid==status)
+        {
+            completeBk(sourceDic,status);
+        }
+        
+        else
+        {
+            completeBk(sourceDic,status);
+        }
+        
+    }];
+
+
+}
 
 -(void)getGidWithBk:(NetCallback)completeBk
 {
@@ -785,9 +827,7 @@
         {
             completeBk(nil,status);
         }
-        
     }];
-    
 }
 
 
@@ -827,12 +867,12 @@
         }
         else if (NetWorkErrorTokenInvalid==status)
         {
-             completeBk(nil,status);
+             completeBk(sourceDic,status);
         }
 
         else
         {
-            completeBk(nil,status);
+            completeBk(sourceDic,status);
         }
         
     }];
@@ -851,12 +891,12 @@
         }
         else if (NetWorkErrorTokenInvalid==status)
         {
-             completeBk(nil,status);
+             completeBk(sourceDic,status);
         }
 
         else
         {
-            completeBk(nil,status);
+            completeBk(sourceDic,status);
         }
         
     }];
@@ -881,7 +921,7 @@
             }
             AddressData* adress = [[AddressData alloc]init];
             adress.address = adressDic[@"address"];
-            adress.addressID = adressDic[@"id"];
+            adress.addressID = [adressDic[@"id"] stringValue];
             adress.phoneNu = adressDic[@"phone"];
             completeBk(adress,status);
         }
@@ -995,7 +1035,7 @@
                     AddressData* address = [[AddressData alloc]init];
                     address.address = temp[@"address"];
                     address.phoneNu = temp[@"phone"];
-                    address.addressID = temp[@"id"];
+                    address.addressID = [temp[@"id"] stringValue];
                     address.isDefault = [temp[@"type"] intValue];
                     [backArr addObject:address];
                 }
@@ -1074,27 +1114,29 @@
         int codeNu = [dataDic[@"code"] intValue];
         
         if (dataDic&&codeNu==0) {
-            
+
              block(NetWorkSuccess,dataDic,nil);
         }
         else if (codeNu==300)
         {
+            THActivityView* warnView = [[THActivityView alloc]initWithString:@"登录失效,请重新登录"];
+            [warnView show];
+            
             NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
             [def removeObjectForKey:UTOKEN];
             [def synchronize];
-            THActivityView* warnView = [[THActivityView alloc]initWithString:@"登录失效,请重新登录！"];
-            [warnView show];
+            
+            
             block(NetWorkErrorTokenInvalid,dataDic,nil);
         }
         else if (dataDic==nil)
         {
-            block(NetWorkErrorCanntConnect,@"服务器错误！",nil);
+            block(NetWorkErrorCanntConnect,@"服务器错误",nil);
         }
         else
         {
            NSMutableString* errStr = [[NSMutableString alloc]initWithString:dataDic[@"msg"]];
-            
-           block(NetWorkErrorCanntConnect,(id)errStr,nil);
+           block(NetWorkErrorUnKnow,(id)errStr,nil);
         }
         
     }];
@@ -1102,7 +1144,7 @@
     [_asi setFailedBlock:^{
         
         NSLog(@"bkAsi.error %@",bkAsi.error.localizedFailureReason);
-        block( NetWorkErrorCanntConnect,@"网络连接失败",bkAsi.error);
+        block(NetWorkErrorCanntConnect,@"网络连接失败",bkAsi.error);
     }];
     
 }

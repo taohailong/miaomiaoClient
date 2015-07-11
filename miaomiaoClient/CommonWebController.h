@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface CommonWebController : UIViewController
+#import "THActivityView.h"
+@interface CommonWebController : UIViewController<UIWebViewDelegate>
 {
     NSString* _url;
+    UIWebView* web;
+    THActivityView* _warnView;
 }
 -(id)initWithUrl:(NSString*)url;
 @end

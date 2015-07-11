@@ -7,8 +7,7 @@
 //
 
 #import "AddressViewController.h"
-#import "NetWorkRequest.h"
-#import "THActivityView.h"
+
 #import "AddressData.h"
 #import "NSString+ZhengZe.h"
 #import "LogViewController.h"
@@ -16,9 +15,7 @@
 #import "AddressCell.h"
 @interface AddressViewController()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,AddressEditProtocol>
 {
-    UITableView* _table;
-    NSMutableArray* _dataArr;
-    __weak AddressData* _defaultArr;
+   
 }
 @end
 @implementation AddressViewController
@@ -69,7 +66,7 @@
     NetWorkRequest* req = [[NetWorkRequest alloc]init];
     [req getAddressWithBk:^(NSMutableArray* respond, NetWorkStatus error) {
         
-        if (error == NetWorkErrorCanntConnect) {
+        if (error != NetWorkSuccess) {
             
             THActivityView* loadView = [[THActivityView alloc]initWithNetErrorWithSuperView:wself.view];
             
@@ -93,8 +90,8 @@
 
 -(void)tokenInvalid
 {
-    LogViewController* log = [self.storyboard instantiateViewControllerWithIdentifier:@"LogViewController"];
-    [self presentViewController:log animated:YES completion:NULL];
+    LogViewController* log = [[LogViewController alloc]init];
+    [self.navigationController pushViewController:log animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -283,7 +280,7 @@
             }
             else
             {
-                THActivityView* showStr = [[THActivityView alloc]initWithString:@"删除失败！"];
+                THActivityView* showStr = [[THActivityView alloc]initWithString:@"删除失败"];
                 [showStr show];
                 
             }

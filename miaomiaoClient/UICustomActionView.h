@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class UICustomActionView;
+@class UICustomActionView,DiscountData;
 @protocol CustomActionProtocol <NSObject>
 
 -(void)actionViewSelectWithData:(id)obj;
@@ -16,6 +16,7 @@
 @interface UICustomActionView : UIView
 
 @property(nonatomic,weak)id<CustomActionProtocol>delegate;
+-(void)setSelectDiscount:(DiscountData*)dis;
 -(void)showPopView;
 -(void)setMinPrice:(float)minPrice;
 -(id)initWithTitle:(NSString*)title WithDataArr:(NSArray*)arr;

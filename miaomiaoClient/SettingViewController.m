@@ -177,7 +177,7 @@
    }
    else
    {
-       THActivityView* alert  = [[THActivityView alloc]initWithString:@"已是最新版本！"];
+       THActivityView* alert  = [[THActivityView alloc]initWithString:@"已是最新版本"];
        [alert show];
     }
 }

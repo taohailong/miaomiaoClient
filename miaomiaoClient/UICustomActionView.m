@@ -17,6 +17,8 @@
     NSArray* _dataArr;
     UIView* backView;
     float _totalMoney;
+    
+   __weak DiscountData* _selectDiscount;
 }
 @end
 @implementation UICustomActionView
@@ -66,8 +68,6 @@
     
     [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[titleLable]-0-[separateTitleView(0.5)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleLable,separateTitleView)]];
 
-    
-    
     
     
     _table = [[UITableView alloc]initWithFrame:self.bounds style:UITableViewStylePlain];
@@ -125,18 +125,17 @@
     _totalMoney = minPrice;
 }
 
-
--(void)showPopView
+-(void)setSelectDiscount:(DiscountData*)dis
 {
-   [UIView animateWithDuration:.2 animations:^{
-      
-       backView.frame = CGRectMake(0, SCREENHEIGHT*0.4, CGRectGetWidth(backView.frame), CGRectGetHeight(backView.frame));
-   } completion:^(BOOL finished) {
-       
-    }];
+    _selectDiscount = dis;
 }
 
 
+
+-(void)tapViewGesture:(UIGestureRecognizer*)gesture
+{
+    [self hidPopView];
+}
 
 -(void)cancelAction
 {
@@ -145,6 +144,19 @@
     }
 
     [self hidPopView];
+}
+
+
+#pragma mark-View
+
+-(void)showPopView
+{
+    [UIView animateWithDuration:.2 animations:^{
+        
+        backView.frame = CGRectMake(0, SCREENHEIGHT*0.4, CGRectGetWidth(backView.frame), CGRectGetHeight(backView.frame));
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 
@@ -161,11 +173,7 @@
 }
 
 
-
--(void)tapViewGesture:(UIGestureRecognizer*)gesture
-{
-    [self hidPopView];
-}
+#pragma mark-tableView
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -183,11 +191,18 @@
     DiscountActionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (cell == nil) {
         cell = [[DiscountActionCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-       
         [cell setLayout];
     }
     
     DiscountData* data = _dataArr[indexPath.row];
+    
+    if (_selectDiscount == data) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    else
+    {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
     [cell setTitleLabelAttribute:[NSString stringWithFormat:@"%.0f",data.discountMoney]];
     
@@ -206,8 +221,7 @@
         }
         else
         {
-             discount = [[NSAttributedString alloc]initWithString:str attributes:@{NSForegroundColorAttributeName:DEFAULTBLACK,NSFontAttributeName:DEFAULTFONT(13)}];
-           
+            discount = [[NSAttributedString alloc]initWithString:str attributes:@{NSForegroundColorAttributeName:DEFAULTBLACK,NSFontAttributeName:DEFAULTFONT(13)}];
         }
         
         [att appendAttributedString:discount];

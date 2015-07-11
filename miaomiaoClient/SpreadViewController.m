@@ -73,7 +73,7 @@
         NSString* title = nil;
         
         if (status == NetWorkSuccess) {
-            title = @"验证成功！";
+            title = @"验证成功";
             [wSelf backToPreviousController];
         }
         else

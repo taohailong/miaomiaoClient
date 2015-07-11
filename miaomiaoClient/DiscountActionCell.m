@@ -12,6 +12,7 @@
     UIImageView* _leftImage;
     UIImageView* _statusImage;
     UIView* backView;
+    UIImageView* _accessView;
 }
 @end
 @implementation DiscountActionCell
@@ -38,7 +39,7 @@
     _firstLabel.textColor = [UIColor whiteColor];
     _firstLabel.backgroundColor = DEFAULTNAVCOLOR;
     _firstLabel.textAlignment = NSTextAlignmentCenter;
-//    _firstLabel.enabled = NO;
+
     
     [_secondLabel removeFromSuperview];
     [backView addSubview:_secondLabel];
@@ -71,20 +72,24 @@
     _statusImage.translatesAutoresizingMaskIntoConstraints = NO;
     [backView addSubview:_statusImage];
     
-  
-
+    
+    _accessView = [[UIImageView alloc]init];
+    _accessView.image = [UIImage imageNamed:@"commit_selectCell"];
+    _accessView.translatesAutoresizingMaskIntoConstraints = NO;
+    [backView addSubview:_accessView];
+    _accessView.hidden = YES;
+    
     return self;
 }
 
 -(void)setAccessoryType:(UITableViewCellAccessoryType)accessoryType
 {
     if (accessoryType==UITableViewCellAccessoryCheckmark) {
-        self.accessoryView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"commit_selectCell"]];
+        _accessView.hidden = NO;
     }
     else
     {
-        self.accessoryView = nil;
-        [super setAccessoryType:accessoryType];
+        _accessView.hidden = YES;
     }
 }
 
@@ -106,9 +111,6 @@
     [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-6-[_secondLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_secondLabel)]];
 
     
-    
-    
-    
     [backView addConstraint:[NSLayoutConstraint constraintWithItem:_fourthLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_secondLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
     
     [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_fourthLabel]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_fourthLabel)]];
@@ -124,6 +126,13 @@
     [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-3-[_statusImage]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_statusImage)]];
     
     [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_statusImage]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_statusImage)]];
+    
+    
+    
+    [backView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_accessView]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_accessView)]];
+    
+    
+    [backView addConstraint:[NSLayoutConstraint constraintWithItem:_accessView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:backView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
 }
 
 

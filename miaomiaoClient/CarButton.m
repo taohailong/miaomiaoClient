@@ -30,6 +30,7 @@
 
 -(void)setButtonTitleText:(NSString*)str
 {
+   
     if ([str intValue]==0) {
          [self setImage:[UIImage imageNamed:@"shopCar_Icon_0"] forState:UIControlStateNormal];
         [_countLayer removeFromSuperlayer];

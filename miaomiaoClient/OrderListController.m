@@ -74,7 +74,7 @@
         [loadV removeFromSuperview];
         if (status==NetWorkSuccess) {
             if (respond.count==0) {
-                THActivityView* warnView = [[THActivityView alloc]initEmptyDataWarnViewWithString:@"您没有订单哦，赶快下单吧！" WithImage:@"warn_emptyImage" WithSuperView:self.view];
+                THActivityView* warnView = [[THActivityView alloc]initEmptyDataWarnViewWithString:@"您没有订单哦，赶快下单吧" WithImage:@"warn_emptyImage" WithSuperView:self.view];
                 [warnView addBtWithTitle:@"去下单" WithBk:^{
                     [wSelf backToRoot];
                 }];
@@ -103,7 +103,7 @@
     NetWorkRequest* productReq = [[NetWorkRequest alloc]init];
     __weak OrderListController* wSelf = self;
     
-    [productReq getAllOrdersWithFromIndex:_orderArr.count+1 WithBk:^(NSMutableArray* respond, NetWorkStatus status){
+    [productReq getAllOrdersWithFromIndex:_orderArr.count WithBk:^(NSMutableArray* respond, NetWorkStatus status){
          wSelf.isLoading = NO;
          if(status==NetWorkSuccess)
          {
@@ -415,7 +415,7 @@
         [loadView removeFromSuperview];
           NSString* str = nil;
         if (status==NetWorkSuccess) {
-            str = @"确认订单成功！";
+            str = @"确认订单成功";
             worder.orderStatusType = OrderStatusConfirm;
             worder.orderStatue = @"订单完成";
             [wtable reloadData];
@@ -423,7 +423,7 @@
         else
         {
            str = (NSString*)respond;
-//            str = @"确认订单失败！";
+//            str = @"确认订单失败";
         }
         
         THActivityView* showStr = [[THActivityView alloc]initWithString:str];
@@ -447,11 +447,11 @@
             worder.orderStatusType = OrderStatusCancel;
             worder.orderStatue = @"用户取消";
             [wtable reloadData];
-            str = @"取消订单成功！";
+            str = @"取消订单成功";
         }
         else
         {
-            str = @"取消失败！";
+            str = @"取消失败";
         }
         
         THActivityView* showStr = [[THActivityView alloc]initWithString:str];
@@ -471,11 +471,11 @@
         
         [loadView removeFromSuperview];
         if (status==NetWorkSuccess) {
-            str = @"催单订单成功！";
+            str = @"催单订单成功";
         }
         else
         {
-            str = @"催单失败！";
+            str = @"催单失败";
         }
         
         THActivityView* showStr = [[THActivityView alloc]initWithString:str];

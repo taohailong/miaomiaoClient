@@ -86,6 +86,10 @@
 
 -(void)setCountText:(int)count
 {
+    if (count==0) {
+        _countLabel.text = @"";
+        return;
+    }
     _countLabel.text = [NSString stringWithFormat:@"%d",count];
 }
 
@@ -118,6 +122,9 @@
     
 }
 
-
+-(UIImageView*)getImageView
+{
+    return _productImageView;
+}
 
 @end

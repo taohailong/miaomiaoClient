@@ -34,7 +34,7 @@ typedef void (^LoadErrorBk)(void);
 
 
 -(id)initFullViewTransparentWithSuperView:(UIView*)superView;
-- (void)popOutsideWithDuration:(NSTimeInterval)duration;
+//- (void)popOutsideWithDuration:(NSTimeInterval)duration;
 
 
 //数据为空提示页

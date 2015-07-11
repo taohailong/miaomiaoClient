@@ -7,7 +7,7 @@
 //
 
 #import "CommonWebController.h"
-#import "UserManager.h"
+
 @implementation CommonWebController
 
 -(id)initWithUrl:(NSString*)url
@@ -19,12 +19,24 @@
 
 -(void)viewDidLoad
 {
-    UIWebView* web = [[UIWebView alloc]init];
+    web = [[UIWebView alloc]init];
+    web.delegate = self;
     [self.view addSubview:web];
     web.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[web]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(web)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[web]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(web)]];
     [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_url]]];
+    
+    _warnView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
+    
 }
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [_warnView removeFromSuperview];
+
+}
+
+
 @end

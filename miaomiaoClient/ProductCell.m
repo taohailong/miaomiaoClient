@@ -178,5 +178,9 @@
 
 }
 
+-(UIImageView*)getImageView
+{
+    return  _productImageView;
+}
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "AddProductCommonCell.h"
-@interface AddProductCommonCell()<UITextFieldDelegate>
+@interface AddProductCommonCell()
 {
     UILabel* _textLabel;
 
@@ -57,14 +57,14 @@
     
     _contentField = [[UITextField alloc]init];
     _contentField.font = DEFAULTFONT(14);
-//    _contentField.backgroundColor = [UIColor redColor];
+    //    _contentField.backgroundColor = [UIColor redColor];
     _contentField.translatesAutoresizingMaskIntoConstraints = NO;
     _contentField.delegate =self;
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextFieldTextDidChangeNotification object:_contentField];
     
-    _contentField.borderStyle = UITextBorderStyleRoundedRect;
+    _contentField.borderStyle = UITextBorderStyleNone;
     _contentField.returnKeyType = UIReturnKeyDone;
     
     [self.contentView addSubview:_contentField];

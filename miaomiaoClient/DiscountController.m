@@ -32,7 +32,7 @@
     _table.delegate = self;
     _table.dataSource = self;
     _table.backgroundColor = FUNCTCOLOR(243, 243, 243);
-    _table.separatorColor = [UIColor clearColor];
+    _table.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_table];
     _table.allowsSelection = NO;
     
@@ -78,7 +78,7 @@
 {
     __weak DiscountController* wself = self;
     NetWorkRequest* req = [[NetWorkRequest alloc]init];
-    [req getDiscountTicketListWithIndex:_dataArr.count+1 WithBk:^(NSArray* respond, NetWorkStatus status) {
+    [req getDiscountTicketListWithIndex:_dataArr.count WithBk:^(NSArray* respond, NetWorkStatus status) {
        
         if (status == NetWorkSuccess) {
             [wself addMoreData:respond];
@@ -153,16 +153,16 @@
     }
     else
     {
-        NSString* str = [NSString stringWithFormat:@"【满%d元使用】",(int)data.minMoney];
-        NSMutableAttributedString* att = [[NSMutableAttributedString alloc]initWithString:@"代金券"];
-        NSAttributedString* discount = nil;
-        discount = [[NSAttributedString alloc]initWithString:str attributes:@{NSForegroundColorAttributeName:FUNCTCOLOR(255, 166, 60),NSFontAttributeName:DEFAULTFONT(13)}];
-        [att appendAttributedString:discount];
+        NSString* str = [NSString stringWithFormat:@"代金券【满%d元使用】",(int)data.minMoney];
+        NSMutableAttributedString* att = [[NSMutableAttributedString alloc]initWithString:str];
+//        NSAttributedString* discount = nil;
+//        discount = [[NSAttributedString alloc]initWithString:str attributes:@{NSForegroundColorAttributeName:FUNCTCOLOR(255, 166, 60),NSFontAttributeName:DEFAULTFONT(13)}];
+//        [att appendAttributedString:discount];
         secondLabel.attributedText = att;
     }
     
     UILabel* fourthLabel = [cell getFourthLabel];
-    fourthLabel.text = [NSString stringWithFormat:@"有效期至：%@至%@",data.startTime,data.deadTime];
+    fourthLabel.text = [NSString stringWithFormat:@"有效期：%@至%@",data.startTime,data.deadTime];
 
     [cell setTicketStatus:data.valid];
     return  cell;

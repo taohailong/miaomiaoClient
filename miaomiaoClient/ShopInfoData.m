@@ -13,6 +13,7 @@
 @synthesize latitude,longitude,shopID,district;
 @synthesize combinPay,deliverCharge;
 @synthesize shopArea;
+@synthesize distance;
 
 -(NSString*)getOpenTime
 {
@@ -24,6 +25,24 @@
     
     [formate setDateStyleString:@"HH:mm"];
     return [formate formateFloatTimeValueToString:self.openTime];
+
+}
+
+
+
+-(NSString*)getBusinessHours
+{
+    if (self.closeTime==0) {
+        return @"24小时";
+    }
+    DateFormateManager* formate = [DateFormateManager shareDateFormateManager];
+    
+    [formate setDateStyleString:@"HH:mm"];
+    NSString* close = [formate formateFloatTimeValueToString:self.closeTime];
+    
+    NSString* open = [formate formateFloatTimeValueToString:self.openTime];
+    
+   return [NSString stringWithFormat:@"%@-%@",open,close];
 
 }
 

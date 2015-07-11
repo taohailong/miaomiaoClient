@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "miaomiaoClient/THActivityView.m"
-            timestampString = "457854402.541235"
+            timestampString = "458233464.94805"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "355"
-            endingLineNumber = "355"
+            startingLineNumber = "363"
+            endingLineNumber = "363"
             landmarkName = "-dealloc"
             landmarkType = "5">
          </BreakpointContent>
@@ -22,16 +22,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "miaomiaoClient/AppDelegate.m"
-            timestampString = "458016939.813539"
+            filePath = "miaomiaoClient/THActivityView.m"
+            timestampString = "458233593.527919"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
-            landmarkName = "-application:openURL:sourceApplication:annotation:"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
+            landmarkName = "-show"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

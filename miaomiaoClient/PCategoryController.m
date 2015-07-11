@@ -17,7 +17,7 @@
 #import "ShopSelectController.h"
 #import "SearchProductController.h"
 #import "ShopInfoViewController.h"
-
+#import "ShopCarShareData.h"
 @interface PCategoryController()<ShopCategoryProtocol,ShopProductListProtocol,NavigationTieleViewProtocol,ShopSelectProtocol>
 {
     ShopProductListView* _productListV;
@@ -53,8 +53,10 @@
         if (self.navigationController.viewControllers.count == 1) {
             return;
         }
-        color = FUNCTCOLOR(64, 64, 64);
+        color = DEFAULTBLACK;
         [self.navigationController.navigationBar setTintColor:color];
+        
+        color = FUNCTCOLOR(64, 64, 64);
         [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     }
@@ -197,7 +199,8 @@
     
     UserManager* manager = [UserManager shareUserManager];
     textLabel.text = [manager getCurrentShopName];
-    detail.text = [NSString stringWithFormat:@"配送至:%@",[manager getCurrentShopArea]];
+    detail.text = [manager getCurrentShopArea];
+
 }
 
 
@@ -233,6 +236,9 @@
 //商铺选择 delegate
 -(void)shopSelectOverWithShopID:(ShopInfoData *)shop
 {
+    ShopCarShareData* dataManager = [ShopCarShareData shareShopCarManager];
+    [dataManager clearCache];
+    
     UserManager* manager = [UserManager shareUserManager];
     [manager setCurrentShop:shop];
     
@@ -268,9 +274,9 @@
         if (success)
         {
             float distance = [wmanager figureoutDistanceFromLongitude:longitude Latitude:latitude];
-            if (distance>1.0)
+            if (distance>1000)
             {
-                UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"当前店铺不在您的附近哦！" delegate:self cancelButtonTitle:@"继续购物" otherButtonTitles:@"重新选择店铺", nil];
+                UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"当前店铺不在您的附近哦" delegate:self cancelButtonTitle:@"继续购物" otherButtonTitles:@"重新选择店铺", nil];
                 [alert show];
                 
             }
@@ -285,7 +291,7 @@
 
 -(void)showLogView:(void(^)(void))block
 {
-    LogViewController* log = [self.storyboard instantiateViewControllerWithIdentifier:@"LogViewController"];
+    LogViewController* log = [[LogViewController alloc]init];
     [log setLogResturnBk:^(BOOL success) {
         if (success) {
             block();
@@ -293,6 +299,7 @@
     }];
     [self.navigationController pushViewController:log animated:YES];
 }
+
 
 
 @end

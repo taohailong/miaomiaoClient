@@ -36,6 +36,8 @@
     NSArray* _categoryArr;
     NSArray* _picArr;
     NSMutableArray* _picUrls;
+    CGPoint _tabItemPoint;
+    NSMutableDictionary* _animationDic;
 }
 @end
 
@@ -59,14 +61,14 @@
     else
     {
         if (self.navigationController.viewControllers.count == 1) {
-           
             return;
         }
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-        color = FUNCTCOLOR(64, 64, 64);
+        color = DEFAULTBLACK;
         [self.navigationController.navigationBar setTintColor:color];
+        color = FUNCTCOLOR(64, 64, 64);
+        
         [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-
     }
     NSDictionary * dict = @{NSForegroundColorAttributeName:color,NSFontAttributeName:DEFAULTFONT(18)};
         
@@ -82,15 +84,21 @@
         [self showSelectShopView:YES];
     }
     [_collectionView reloadData];
+    
+  
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
     [self setNavigationBarAttribute:NO];
+    
+    
 }
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    _animationDic = [[NSMutableDictionary alloc]init];
     
     self.navigationItem.titleView = [self navgationTitleView];
 
@@ -106,7 +114,6 @@
     [self.view addSubview:seachBt];
     seachBt.titleLabel.font = DEFAULTFONT(15);
     [seachBt setTitle:@" 搜索商品" forState:UIControlStateNormal];
-    [seachBt setTitleColor:DEFAULTBLACK forState:UIControlStateNormal];
     [seachBt addTarget:self action:@selector(searchProductAction) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[seachBt]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];
@@ -189,7 +196,6 @@
     }
     __weak RootViewController* wself = self;
     THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
-    
     NetWorkRequest* requ = [[NetWorkRequest alloc]init];
     [requ getShopInfoWithShopID:manager.shopID WithBk:^(id respond, NetWorkStatus status) {
         
@@ -197,7 +203,7 @@
         if (status==NetWorkSuccess) {
             [wself getShopProduct:respond];
         }
-        else if (status == NetWorkErrorCanntConnect)
+        else 
         {
             THActivityView* loadView = [[THActivityView alloc]initWithNetErrorWithSuperView:wself.view];
             [loadView setErrorBk:^{
@@ -216,6 +222,13 @@
     UserManager* manager = [UserManager shareUserManager];
     [manager setCurrentShop:shop];//顺序
 
+    
+    if (shop.shopStatue == ShopClose) {
+        
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"该店铺已打烊，无法配送商品" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    
     [self updateNavigationView];
     
     _categoryArr = data[ROOTCATEGORY];
@@ -313,11 +326,12 @@
     ShopProductData* product = category.products[indexPath.row];
     __weak ShopProductData* wProduct = product;
     __weak RootViewController* wSelf = self;
+    __weak NSIndexPath* windex = indexPath;
     PCollectionCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PCollectionCell" forIndexPath:indexPath];
     
     [cell setCountBk:^(int count) {
         wProduct.count = count;
-        [wSelf collectionViewProductChanged:wProduct];
+        [wSelf collectionViewAtIndex:windex productChanged:wProduct];
     }];
     ShopCarShareData* shareData = [ShopCarShareData shareShopCarManager];
 
@@ -347,8 +361,21 @@
 }
 
 
--(void)collectionViewProductChanged:(ShopProductData*)data
+-(void)collectionViewAtIndex:(NSIndexPath*)indexPath productChanged:(ShopProductData*)data
 {
+    
+    PCollectionCell* cell = (PCollectionCell*)[_collectionView cellForItemAtIndexPath:indexPath];
+    
+    CGPoint start = [self.view convertPoint:[cell getImageView].center fromView:cell];
+    
+    if (_tabItemPoint.x==0&&_tabItemPoint.y==0) {
+        
+        UIView* endView = [self viewForTabBarItemAtIndex:2];
+        _tabItemPoint = [self.tabBarController.view convertPoint:endView.center fromView:self.tabBarController.tabBar];
+    }
+    [self bezierPathAnimation:start endPoint:_tabItemPoint WithAnimationView:[cell getImageView]];
+    
+
     ShopCarShareData* shareData = [ShopCarShareData shareShopCarManager];
     [shareData addOrChangeShopWithProduct:data];
 }
@@ -395,7 +422,8 @@
     
     UserManager* manager = [UserManager shareUserManager];
     textLabel.text = [manager getCurrentShopName];
-    detail.text = [NSString stringWithFormat:@"配送至:%@",[manager getCurrentShopArea]];
+//    detail.text = [NSString stringWithFormat:@"配送至:%@附近",[manager getCurrentShopArea]];
+     detail.text = [manager getCurrentShopArea];
 
 }
 
@@ -410,6 +438,9 @@
 //商铺选择 delegate
 -(void)shopSelectOverWithShopID:(ShopInfoData *)shop
 {
+    ShopCarShareData* dataManager = [ShopCarShareData shareShopCarManager];
+    [dataManager clearCache];
+    
     UserManager* manager = [UserManager shareUserManager];
     [manager setCurrentShop:shop];
     [self updateNavigationView];
@@ -440,7 +471,7 @@
 
 -(void)showLogView:(void(^)(void))block
 {
-    LogViewController* log = [self.storyboard instantiateViewControllerWithIdentifier:@"LogViewController"];
+    LogViewController* log = [[LogViewController alloc]init];
     log.hidesBottomBarWhenPushed = YES;
     [log setLogResturnBk:^(BOOL success) {
         
@@ -453,11 +484,95 @@
 
 -(void)notiShowLogView
 {
-    LogViewController* log = [self.storyboard instantiateViewControllerWithIdentifier:@"LogViewController"];
+    LogViewController* log = [[LogViewController alloc]init];
     log.hidesBottomBarWhenPushed = YES;
     [log setLogResturnBk:^(BOOL success) {}];
     [self.navigationController pushViewController:log animated:YES];
 }
+
+
+
+#pragma mark-tabItemFrame
+
+-(UIView*)viewForTabBarItemAtIndex:(NSInteger)index
+{
+    CGRect tabBarRect = self.tabBarController.tabBar.frame;
+    NSInteger buttonCount = self.tabBarController.tabBar.items.count;
+    CGFloat containingWidth = tabBarRect.size.width/buttonCount;
+    CGFloat originX = containingWidth * index ;
+    CGRect containingRect = CGRectMake( originX, 0, containingWidth, self.tabBarController.tabBar.frame.size.height );
+    CGPoint center = CGPointMake( CGRectGetMidX(containingRect), CGRectGetMidY(containingRect));
+    return [ self.tabBarController.tabBar hitTest:center withEvent:nil ];
+    
+}
+
+-(void)bezierPathAnimation:(CGPoint)startPoint endPoint:(CGPoint)endpoint WithAnimationView:(UIView*)view
+{
+    CALayer *layer = [[CALayer alloc]init];
+    
+    layer.contents = view.layer.contents;
+    layer.frame = view.frame;
+    layer.contentsGravity = @"resizeAspect";
+    layer.opacity = 1;
+    layer.position = startPoint;
+    [self.tabBarController.view.layer addSublayer:layer];
+    
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    //动画起点
+    [path moveToPoint:startPoint];
+    
+    //贝塞尔曲线控制点
+//    float sx = startPoint.x;
+    
+    float sy = startPoint.y;
+   
+    float ex = endpoint.x;
+    
+//    float ey = endpoint.y;
+    
+    float x = ex;
+    //
+    float y = sy;
+//    float x = sx + (ex - sx) / 3;
+//    
+//    float y = sy + (ey - sy) * 0.9 - 200;
+    
+    CGPoint centerPoint=CGPointMake(x, y);
+    
+    [path addQuadCurveToPoint:endpoint controlPoint:centerPoint];
+  
+    CAKeyframeAnimation *animation=[CAKeyframeAnimation animationWithKeyPath:@"position"];
+    
+    animation.path = path.CGPath;
+    
+    [layer addAnimation:animation forKey:@"buy"];
+    
+    
+    CABasicAnimation* sizeAnimation = [CABasicAnimation animationWithKeyPath:@"bounds"];
+    sizeAnimation.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 5, 5)];
+    
+    
+    CAAnimationGroup * animationGroup = [[CAAnimationGroup alloc] init];
+    
+    animationGroup.animations = @[animation,sizeAnimation];
+    
+    animationGroup.duration = 0.7;
+//    animationGroup.duration = 15;
+
+    animationGroup.removedOnCompletion = NO;
+    
+    animationGroup.fillMode = kCAFillModeForwards;
+    animationGroup.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    [layer addAnimation:animationGroup forKey:@"GroupAnimation"];
+    
+    
+    dispatch_time_t timer = dispatch_time(DISPATCH_TIME_NOW, 0.702* NSEC_PER_SEC);
+    dispatch_after(timer, dispatch_get_main_queue(), ^{
+        [layer removeFromSuperlayer];
+    });
+    
+ }
+
 
 
 #pragma mark-----------location--------------
@@ -471,9 +586,9 @@
         if (success)
         {
             float distance = [wmanager figureoutDistanceFromLongitude:longitude Latitude:latitude];
-            if (distance>1.0)
+            if (distance>1000)
             {
-                UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"当前店铺不在您的附近哦！" delegate:self cancelButtonTitle:@"继续购物" otherButtonTitles:@"重新选择店铺", nil];
+                UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"当前店铺不在您的附近哦" delegate:self cancelButtonTitle:@"继续购物" otherButtonTitles:@"重新选择店铺", nil];
                 [alert show];
              }
         }

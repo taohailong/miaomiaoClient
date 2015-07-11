@@ -17,6 +17,10 @@
 -(void)viewWillDisappear:(BOOL)animated
 {}
 
+-(void)goShoppingAction
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 - (void)keyboardShown:(NSNotification *)aNotification
 {

@@ -32,7 +32,11 @@
     
 //    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_textLabel(150)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_textLabel)]];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_textLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:10]];
+    float setoff = 0;
+    if (SCREENWIDTH == 320) {
+        setoff = 10;
+    }
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_textLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:setoff]];
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_textLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_textLabel)]];
     
@@ -55,12 +59,12 @@
     _detailLabel = [[UILabel alloc]init];
     _detailLabel.textAlignment = NSTextAlignmentCenter;
     _detailLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _detailLabel.font = DEFAULTFONT(11);
+    _detailLabel.font = DEFAULTFONT(12);
     _detailLabel.textColor = [UIColor whiteColor];
     [self addSubview:_detailLabel];
     
-     [self addConstraint:[NSLayoutConstraint constraintWithItem:_detailLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:18]];
-//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_detailLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_detailLabel)]];
+     [self addConstraint:[NSLayoutConstraint constraintWithItem:_detailLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:setoff]];
+
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_textLabel]-3-[_detailLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_textLabel,_detailLabel)]];
     

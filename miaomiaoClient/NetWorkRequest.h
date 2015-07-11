@@ -90,7 +90,7 @@ typedef void (^NetCallback)(id respond,NetWorkStatus status);
 
 //登录
 -(void)getVerifyCodeWithAccount:(NSString*)phone WithBk:(NetCallback)completeBk;
-
+-(void)getPhoneVerifyCodeWithAccount:(NSString *)phone WithBk:(NetCallback)completeBk;
 -(void)getGidWithBk:(NetCallback)completeBk;
 
 -(void)userLoginWithAccount:(NSString*)account WithPw:(NSString*)pw WithBk:(NetCallback)completeBk;

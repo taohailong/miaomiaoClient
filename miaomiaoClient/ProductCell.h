@@ -20,8 +20,8 @@ typedef void (^CountChanged)(BOOL isAdd,int count);
     UILabel* _countLabel;
     
     CountChanged _countBk;
-
 }
+-(UIImageView*)getImageView;
 -(void)setCountText:(int)count;
 -(void)setCountBk:(CountChanged)completeBk;
 -(void)setPicUrl:(NSString*)url;

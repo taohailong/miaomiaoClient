@@ -32,7 +32,7 @@
     [_oneButton setTitleColor:DEFAULTNAVCOLOR forState:UIControlStateNormal];
     [_oneButton setTitle:@"下单成功" forState:UIControlStateNormal];
     [_oneButton setImageEdgeInsets:UIEdgeInsetsMake(0, 8, 18, 0)];
-    [_oneButton setTitleEdgeInsets:UIEdgeInsetsMake(48, -33, 10, 0)];
+    [_oneButton setTitleEdgeInsets:UIEdgeInsetsMake(48, -35, 10, 0)];
 
     [_oneButton setImage:[UIImage imageNamed:@"orderInfo_status_confirm"] forState:UIControlStateNormal];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_oneButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1/2.0 constant:-5]];

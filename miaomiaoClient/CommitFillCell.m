@@ -9,6 +9,19 @@
 #import "CommitFillCell.h"
 
 @implementation CommitFillCell
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier WithFieldBk:(TextFieldBk)bk
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier WithFieldBk:bk];
+    
+    _contentField.layer.borderWidth = 1;
+    _contentField.layer.cornerRadius = 5;
+    _contentField.layer.masksToBounds = YES;
+    _contentField.layer.borderColor = FUNCTCOLOR(243, 243, 243).CGColor;
+
+    return self;
+}
+
 -(void)setLayout
 {
     
@@ -35,7 +48,7 @@
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:contentImage attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[contentImage]-8-[_contentField]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentImage,_contentField)]];
-    
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_contentField(30)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_contentField)]];
     
     
     

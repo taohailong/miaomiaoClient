@@ -36,8 +36,13 @@
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
     
-    UIBarButtonItem* rightBar = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"shopInfo_phone"] style:UIBarButtonItemStylePlain target:self action:@selector(makeTelphone)];
-
+    
+    UIButton* custom = [UIButton buttonWithType:UIButtonTypeCustom];
+    [custom setImage:[UIImage imageNamed:@"shopInfo_phone"] forState:UIControlStateNormal];
+    custom.frame = CGRectMake(0, 0, 30, 40);
+    [custom addTarget:self action:@selector(makeTelphone) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem* rightBar = [[UIBarButtonItem alloc]initWithCustomView:custom];
     self.navigationItem.rightBarButtonItem = rightBar;
 
 }
@@ -94,7 +99,7 @@
         UserManager* manager = [UserManager shareUserManager];
         ShopDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ShopDetailCell"];
         [cell setFirstLStr:manager.shop.shopAddress];
-        [cell setSecondLStr:[NSString stringWithFormat:@"%@-%@",[manager.shop getOpenTime],[manager.shop getCloseTime]]];
+        [cell setSecondLStr:[NSString stringWithFormat:@"%@",[manager.shop getBusinessHours]]];
         [cell setThirdLStr:[NSString stringWithFormat:@"%.1f",manager.shop.minPrice]];
         [cell setFourthLStr:[NSString stringWithFormat:@"%.1f",manager.shop.deliverCharge]];
         [cell setFifthLStr:manager.shop.telPhoneNu];
@@ -106,7 +111,7 @@
 
 -(void)makeTelphone
 {
-    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"联系商家" message:@"是否拨打电话" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"联系商家" message:@"是否拨打商铺电话" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alert show];
 
 }

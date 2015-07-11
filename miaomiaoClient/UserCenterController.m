@@ -67,9 +67,10 @@
         if (self.navigationController.viewControllers.count == 1) {
             return;
         }
-
-        color = FUNCTCOLOR(64, 64, 64);
+        color = DEFAULTBLACK;
         [self.navigationController.navigationBar setTintColor:color];
+        
+        color = FUNCTCOLOR(64, 64, 64);
         [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
          [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     }
@@ -143,28 +144,14 @@
     [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[userIcon]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(userIcon)]];
     [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[userIcon]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(userIcon)]];
     
-    
-    
-    
-    detailL = [[UILabel alloc]init];
-    detailL.translatesAutoresizingMaskIntoConstraints = NO;
-    detailL.font = DEFAULTFONT(11);
-    [redView addSubview:detailL];
-    
-    detailL.textColor = [UIColor whiteColor];
-    [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[detailL]-17-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(detailL)]];
-    [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[userIcon]-10-[detailL]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(userIcon,detailL)]];
-    
-    
-    
     logBt = [UIButton buttonWithType:UIButtonTypeCustom];
     logBt.titleLabel.font = DEFAULTFONT(15);
     logBt.translatesAutoresizingMaskIntoConstraints = NO;
     [redView addSubview:logBt];
     [logBt addTarget:self action:@selector(logBtAction) forControlEvents:UIControlEventTouchUpInside];
     [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[userIcon]-10-[logBt]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(userIcon,logBt)]];
-    
-    [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[logBt]-6-[detailL]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(logBt,detailL)]];
+    [redView addConstraint:[NSLayoutConstraint constraintWithItem:userIcon attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:logBt attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+//    [redView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[logBt]-6-[detailL]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(logBt,detailL)]];
 
     
     
@@ -213,6 +200,7 @@
      [self.view addConstraint:[NSLayoutConstraint constraintWithItem:separateView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[separateView(0.5)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separateView)]];
+    
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[redView]-15-[separateView(50)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(redView,separateView)]];
     
     UIView* horizontalSe = [[UIView alloc]init];
@@ -444,7 +432,8 @@
 
 -(void)logBtAction
 {
-    LogViewController* log = [self.storyboard instantiateViewControllerWithIdentifier:@"LogViewController"];
+//    LogViewController* log = [self.storyboard instantiateViewControllerWithIdentifier:@"LogViewController"];
+    LogViewController* log = [[LogViewController alloc]init];
     log.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:log animated:YES];
 }
@@ -452,7 +441,7 @@
 
 -(void)showLogView:(void(^)(void))block
 {
-    LogViewController* log = [self.storyboard instantiateViewControllerWithIdentifier:@"LogViewController"];
+    LogViewController* log = [[LogViewController alloc]init];
     log.hidesBottomBarWhenPushed = YES;
     [log setLogResturnBk:^(BOOL success) {
         

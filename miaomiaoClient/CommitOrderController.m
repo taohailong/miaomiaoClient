@@ -9,7 +9,7 @@
 #import "CommitOrderController.h"
 #import "ProductCell.h"
 #import "CommitFillCell.h"
-#import "AddressViewController.h"
+#import "CommitToAddressC.h"
 #import "THActivityView.h"
 
 #import "OrderListController.h"
@@ -22,6 +22,8 @@
 #import "DiscountData.h"
 #import "CommitPDetailCell.h"
 #import "NetWorkRequest.h"
+#import "CommitProductCell.h"
+
 
 #import "WXApi.h"
 #import "Order.h"
@@ -34,7 +36,7 @@
     UIButton* _commitBt;
 //    UILabel* _discountLabel;
     
-    int _currentRow;
+    NSInteger _currentPayRow;
     CommitPayMethod _combinePays;
     NSArray* _payArr;
     __weak UITextField* _respondField;
@@ -48,21 +50,21 @@
     __weak DiscountData* _currentDiscount;
     
 }
-
+@property(nonatomic,strong)NSString* discountWarn;
 @end
 @implementation CommitOrderController
-@synthesize leaveMes;
+@synthesize leaveMes,discountWarn;
 -(id)init
 {
     self = [super init];
     
     UserManager* user = [UserManager shareUserManager];
     
-#if DEBUG
-     [self setPayWayMethod:All_payCommit];
-#else
+//#if DEBUG
+//     [self setPayWayMethod:Ali_WxPayCommit];
+//#else
     [self setPayWayMethod:user.shop.combinPay];
-#endif
+//#endif
    
     return self;
 }
@@ -128,6 +130,8 @@
     [_table registerClass:[ConfirmAddressCell class] forCellReuseIdentifier:@"ConfirmAddressCell"];
     [_table registerClass:[CommitDiscountCell class] forCellReuseIdentifier:@"CommitDiscountCell"];
     [_table registerClass:[CustomSelectCell class] forCellReuseIdentifier:@"CustomSelectCell"];
+    [_table registerClass:[CommitProductCell class] forCellReuseIdentifier:@"CommitProductCell"];
+    
     
     _table.delegate = self;
     _table.dataSource = self;
@@ -162,17 +166,12 @@
 -(void)getAddress
 {
     __weak UITableView* wTable = _table;
-    __weak CommitOrderController* wself = self;
+//    __weak CommitOrderController* wself = self;
     NetWorkRequest* req = [[NetWorkRequest alloc]init];
     [req getDefaultAddressWithBk:^(id respond, NetWorkStatus status) {
         
-        if (status == NetWorkErrorCanntConnect) {
-            THActivityView* loadView = [[THActivityView alloc]initWithNetErrorWithSuperView:wself.view];
-            
-            [loadView setErrorBk:^{
-                [wself getAddress];
-            }];
-            return ;
+        if (status != NetWorkSuccess) {
+                       return ;
         }
         
         if (status == NetWorkErrorTokenInvalid) {
@@ -225,7 +224,7 @@
             return ;
         }
         
-        if(error==NetWorkErrorCanntConnect)
+        if(error!= NetWorkSuccess)
         {
             THActivityView* warnView = [[THActivityView alloc]initWithString:(NSString *)respond];
             [warnView show];
@@ -373,8 +372,7 @@
     [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_commitBt(>=100)]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_commitBt)]];
     
     [footView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_commitBt]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_commitBt)]];
-    
- 
+
 }
 
 -(void)shopCarChangedWithData:(ShopProductData*)productData
@@ -493,7 +491,8 @@
         if (_address==nil)
         {
             ConfirmAddressOneCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ConfirmAddressOneCell"];
-            cell.backgroundColor = FUNCTCOLOR(216, 228, 237);
+            cell.backgroundColor = FUNCTCOLOR(201, 221, 237);
+//            cell.backgroundColor = [UIColor redColor];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             UILabel* titleLabel = [cell getTitleLabel];
             titleLabel.font = DEFAULTFONT(15);
@@ -503,7 +502,7 @@
         else
         {
            ConfirmAddressCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ConfirmAddressCell"];
-            cell.backgroundColor = FUNCTCOLOR(229, 228, 250);
+            cell.backgroundColor = FUNCTCOLOR(201, 221, 237);
             UILabel* titleL = [cell getTitleLabel];
             titleL.font = DEFAULTFONT(15);
             titleL.text = [NSString stringWithFormat:@"%@",_address.phoneNu];
@@ -525,8 +524,9 @@
         
         if (arr.count == indexPath.row) {
             
-           cell.textLabel.text = [NSString stringWithFormat:@"商品总价：¥%.1f",[dataManager  getTotalMoney]];
-           cell.textLabel.textColor = FUNCTCOLOR(189, 189, 189);
+           cell.textLabel.text = [NSString stringWithFormat:@"总价格：¥%.1f",[dataManager  getTotalMoney]];
+           cell.textLabel.textColor = FUNCTCOLOR(153, 153, 153);
+           cell.textLabel.font = DEFAULTFONT(15);
         }
         else if (arr.count+1 == indexPath.row)
         {
@@ -538,6 +538,7 @@
             {
                 discount = [NSString stringWithFormat:@"代金券：¥%.1f",_currentDiscount.discountMoney];
             }
+           cell.textLabel.font = DEFAULTFONT(15);
            cell.textLabel.text = discount;
            cell.textLabel.textColor = DEFAULTNAVCOLOR;
            
@@ -546,13 +547,17 @@
         {
             UserManager* uManager = [UserManager shareUserManager];
             cell.textLabel.text = [NSString stringWithFormat:@"配送费：¥%.1f",uManager.shop.deliverCharge];
-            cell.textLabel.textColor = FUNCTCOLOR(189, 189, 189);
+            cell.textLabel.font = DEFAULTFONT(15);
+            cell.textLabel.textColor = FUNCTCOLOR(153, 153, 153);
         }
         else
         {
+            CommitProductCell* cellP = [tableView dequeueReusableCellWithIdentifier:@"CommitProductCell"];
             ShopProductData* pData = arr[indexPath.row];
-            cell.textLabel.text = [NSString stringWithFormat:@"商品名称：%@ X%d",pData.pName,pData.count];
-           cell.textLabel.textColor = FUNCTCOLOR(189, 189, 189);
+            [cellP setFirstLabelText:pData.pName];
+            [cellP setSecondLabelText:[NSString stringWithFormat:@"¥%.2f",pData.price]];
+            [cellP setThirdLabelText:[NSString stringWithFormat:@"X%d",pData.count]];
+            return  cellP;
         }
         return cell;
     
@@ -570,6 +575,10 @@
             if (_currentDiscount)
             {
                 detailLabel.text = [NSString stringWithFormat:@"%@",_currentDiscount.discountTitle];
+            }
+            else if (self.discountWarn)
+            {
+                detailLabel.text = self.discountWarn;
             }
             else
             {
@@ -589,7 +598,7 @@
         
         cell.textLabel.text = cellTitle;
         
-        if (indexPath.row == _currentRow) {
+        if (indexPath.row == _currentPayRow) {
            cell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
         else
@@ -635,7 +644,7 @@
            return;
         }
         
-        _currentRow = indexPath.row;
+        _currentPayRow = indexPath.row;
         
         [tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
          [tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
@@ -703,10 +712,17 @@
         if (status == NetWorkSuccess) {
             [wself reloadTableAfterGetDiscountData:respond];
         }
+        else if (status == NetWorkErrorUnKnow)
+        {
+            [wself getDiscountWarnString:respond];
+        }
         else
         {
-            THActivityView* warnView = [[THActivityView alloc]initWithString:respond];
-            [warnView show];
+            THActivityView* loadView = [[THActivityView alloc]initWithNetErrorWithSuperView:wself.view];
+            
+            [loadView setErrorBk:^{
+                [wself requestDiscountData];
+            }];
         }
     }];
     [req startAsynchronous];
@@ -718,6 +734,13 @@
     [_table reloadData];
 }
 
+-(void)getDiscountWarnString:(NSString*)str
+{
+    self.discountWarn = str ;
+    [_table reloadData];
+}
+
+
 
 -(void)showDiscountView
 {
@@ -726,13 +749,14 @@
     }
     else if(_discountArr==nil)
     {
-        [self requestDiscountData];
+        return;
     }
     else
     {
         ShopCarShareData* managerData = [ShopCarShareData shareShopCarManager];
         UICustomActionView* actionView = [[UICustomActionView alloc]initWithTitle:@"选择代金券" WithDataArr:_discountArr];
         actionView.delegate = self;
+        [actionView setSelectDiscount:_currentDiscount];
         [actionView setMinPrice:[managerData getTotalMoney]];
         [actionView showPopView];
     }
@@ -750,7 +774,8 @@
 
 -(void)showAddressView
 {
-    AddressViewController* addView = [[AddressViewController alloc]init];
+    CommitToAddressC* addView = [[CommitToAddressC alloc]init];
+    [addView setSelectAddress:_address];
     addView.delegate = self;
     [self.navigationController pushViewController:addView animated:YES];
 }

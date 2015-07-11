@@ -13,6 +13,9 @@
 #import "MobClick.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "THActivityView.h"
+//#import "NetWorkRequest.h"
+
+
 @interface AppDelegate ()<WXApiDelegate>
 
 @end
@@ -51,8 +54,8 @@
         v.tabBarItem.selectedImage = [[UIImage imageNamed:highlight] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         v.tabBarItem.image = [UIImage imageNamed:normal];
        
-        [v.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:DEFAULTNAVCOLOR,NSFontAttributeName:DEFAULTFONT(13)} forState:UIControlStateHighlighted];
-        [v.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:DEFAULTGRAYCOLO,NSFontAttributeName:DEFAULTFONT(13)} forState:UIControlStateNormal];
+        [v.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:DEFAULTNAVCOLOR,NSFontAttributeName:DEFAULTFONT(12.5)} forState:UIControlStateSelected];
+        [v.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:DEFAULTGRAYCOLO,NSFontAttributeName:DEFAULTFONT(12.5)} forState:UIControlStateNormal];
 
     }
     
@@ -93,7 +96,7 @@
         }
         else
         {
-            THActivityView* show = [[THActivityView alloc]initWithString:@"支付失败！"];
+            THActivityView* show = [[THActivityView alloc]initWithString:@"支付失败"];
             [show show];
           
         }
@@ -159,7 +162,17 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+//    UserManager* user = [UserManager shareUserManager];
+//    
+//    NetWorkRequest* req = [[NetWorkRequest alloc]init];
+//    [req getShopInfoWithShopID:user.shopID WithBk:^(ShopInfoData* respond, NetWorkStatus status) {
+//        if (status == NetWorkSuccess) {
+//            [user setCurrentShop:respond];
+//        }
+//    }];
+//    [req startAsynchronous];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 

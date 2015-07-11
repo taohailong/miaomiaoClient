@@ -23,6 +23,7 @@
     __weak UITextField* _respondField;
     __weak THActivityView* _emptyView;
     UIButton* commitBt;
+
 }
 @end
 @implementation ShopCarViewController
@@ -43,8 +44,10 @@
         if (self.navigationController.viewControllers.count == 1) {
             return;
         }
-        color = FUNCTCOLOR(64, 64, 64);
+        color = DEFAULTBLACK;
         [self.navigationController.navigationBar setTintColor:color];
+        
+        color = FUNCTCOLOR(64, 64, 64);
         [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     }
@@ -73,20 +76,28 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    
     self.title = @"购物车";
     self.view.backgroundColor = [UIColor whiteColor];
     
-
-//    UIToolbar
+    
+//    UIView* v = [self viewForTabBarItemAtIndex:2];
+//    
+//    NSLog(@"fram is  %@ %@",NSStringFromCGRect(v.frame),NSStringFromCGPoint([self.tabBarController.tabBar convertPoint: v.center toView:self.tabBarController.view]));
+  
     [self creatShopCarView];
     [self registeNotificationCenter];
-//    NSLog(@"rect is %@",self.navigationController.tabBarController.tabBarItem.v);
-//    CGRect frame = [self.navigationController.tabBarController.view convertRect:self.navigationController.tabBarController.view.frame fromView:self.navigationController.tabBarController.tabBarItem];
-    
-//    self.tabBarItem
 }
 
+-(UIView*)viewForTabBarItemAtIndex:(NSInteger)index {
+    CGRect tabBarRect = self.tabBarController.tabBar.frame;
+    NSInteger buttonCount = self.tabBarController.tabBar.items.count;
+    CGFloat containingWidth = tabBarRect.size.width/buttonCount;
+    CGFloat originX = containingWidth * index ;
+    CGRect containingRect = CGRectMake( originX, 0, containingWidth, self.tabBarController.tabBar.frame.size.height );
+    CGPoint center = CGPointMake( CGRectGetMidX(containingRect), CGRectGetMidY(containingRect));
+    return [ self.tabBarController.tabBar hitTest:center withEvent:nil ];
+
+}
 
 #pragma mark-TabBar
 
@@ -201,6 +212,13 @@
     _moneyLabel.attributedText = att;
     
     UserManager* manager = [UserManager shareUserManager];
+    
+    if (manager.shop.shopStatue == ShopClose) {
+        commitBt.enabled = NO;
+        [commitBt setTitle:@"已打烊" forState:UIControlStateNormal];
+        return;
+    }
+    
     float flag = manager.shop.minPrice - totalMoney ;
     if (flag<=0)
     {
@@ -218,7 +236,8 @@
 -(void)showLogContoller
 {
     __weak ShopCarViewController* wself = self;
-    LogViewController* log = [self.storyboard instantiateViewControllerWithIdentifier:@"LogViewController"];
+    
+    LogViewController* log = [[LogViewController alloc]init];
     [log setLogResturnBk:^(BOOL success) {
         
         CommitOrderController* readyOrder = [[CommitOrderController alloc]init];
@@ -239,7 +258,7 @@
     ShopCarShareData* shareData = [ShopCarShareData shareShopCarManager];
     float totalMoney = [shareData getTotalMoney];
     if (manager.shop.minPrice>totalMoney) {
-        THActivityView* warnView = [[THActivityView alloc]initWithString:@"总价低于起送价格！"];
+        THActivityView* warnView = [[THActivityView alloc]initWithString:@"总价低于起送价格"];
         [warnView show];
         return;
     }
@@ -301,11 +320,11 @@
         NSString* str = nil;
         
         if (manager.shop.shopStatue == ShopClose) {
-             str =  [NSString stringWithFormat:@"明日%@前送达",[manager.shop getOpenTimeAddThirtyMins]];
+             str =  @"当前店铺已打烊，暂时无法配送";
         }
         else
         {
-           str = @"30分钟送达";
+           str = @"立即送达";
         }
         NSAttributedString* att = [[NSAttributedString alloc]initWithString:str attributes:@{NSFontAttributeName:DEFAULTFONT(14),NSForegroundColorAttributeName:DEFAULTNAVCOLOR}];
         
@@ -347,8 +366,16 @@
                 wSelf.leaveMes = text;
             }];
             UITextField* text = [cell getTextFieldView];
-            text.placeholder = @"给卖家留言";
+            text.placeholder = @" 给卖家留言";
+            
         }
+        
+        ShopCarShareData* shareData = [ShopCarShareData shareShopCarManager];
+         UITextField* text = [cell getTextFieldView];
+         if ([shareData getCarCount]==0) {
+             text.text = @"";
+         }
+
         return cell;
     }
 }

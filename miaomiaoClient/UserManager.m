@@ -17,7 +17,7 @@
 #import <CoreLocation/CoreLocation.h>
 #endif
 
-#import<BaiduMapAPI/BMKGeometry.h>
+
 
 #import "DiscountCoverView.h"
 #define USHOPID @"shop_id"
@@ -79,13 +79,12 @@
     _shop = shops;
     self.shopID = _shop.shopID;
     
+    NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+    [def setObject:shops.shopName forKey:USHOPNAME];
     if (shops.shopArea) {
-        NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
         [def setObject:shops.shopArea forKey:USHOPAREA];
-        [def setObject:shops.shopName forKey:USHOPNAME];
-        [def synchronize];
     }
-   
+   [def synchronize];
     [self setShopID:shops.shopID WithLongitude:shops.longitude WithLatitude:shops.latitude];
 }
 
@@ -94,6 +93,15 @@
 {
     NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
     NSString* area = [def objectForKey:USHOPAREA];
+    
+    
+    if (area==nil) {
+        area = [NSString stringWithFormat:@"营业时间:%@",[self.shop getBusinessHours]];
+    }
+    else
+    {
+       area = [NSString stringWithFormat:@"配送至:%@附近", area];
+    }
     return area;
 }
 
@@ -297,16 +305,18 @@
     
     BMKMapPoint point1 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(originalLat,originalLong));
     BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(latitude,longitude));
-    CLLocationDistance kilometers = BMKMetersBetweenMapPoints(point1,point2)/1000;
+    CLLocationDistance meters = BMKMetersBetweenMapPoints(point1,point2);
 
-    
-//    CLLocation *orig=[[CLLocation alloc] initWithLatitude:originalLat  longitude:originalLong] ;
-//    
-//    CLLocation* dist= [[CLLocation alloc] initWithLatitude:latitude longitude:longitude] ;
-//    
-//    CLLocationDistance kilometers=[orig distanceFromLocation:dist]/1000;
-    return kilometers;
+    return meters;
 }
+
+
+-(int)figureDistanceFrom:(BMKMapPoint)start toPoint:(BMKMapPoint)end
+{
+  return   BMKMetersBetweenMapPoints(start,end);
+}
+
+
 
 
 -(BOOL)verifyTokenOnNet:(void(^)(BOOL success, NSError *error))completeBlock
@@ -458,7 +468,8 @@
 
 -(BOOL)isLogin
 {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:UTOKEN]==nil)
+    NSString* tokens = [[NSUserDefaults standardUserDefaults] objectForKey:UTOKEN];
+    if (tokens==nil)
     {
         return NO;
     }

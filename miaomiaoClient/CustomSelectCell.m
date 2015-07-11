@@ -16,8 +16,7 @@
     }
     else
     {
-        self.accessoryView = nil;
-       [super setAccessoryType:accessoryType];
+        self.accessoryView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"unSelectCellAccessType"]];
     }
 }
 

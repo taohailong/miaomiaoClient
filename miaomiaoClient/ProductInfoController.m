@@ -151,11 +151,11 @@
 
 -(void)showShopList
 {
-    ShopCarShareData* share = [ShopCarShareData shareShopCarManager];
-    if ([share getCarCount] ==0)
-    {
-        return;
-    }
+//    ShopCarShareData* share = [ShopCarShareData shareShopCarManager];
+//    if ([share getCarCount] ==0)
+//    {
+//        return;
+//    }
     
     ProductShopCarController* shopCar = [[ProductShopCarController alloc]init];
     [self.navigationController pushViewController:shopCar animated:YES];
@@ -223,7 +223,7 @@
             ProductInfoDetailCell*cell = [tableView dequeueReusableCellWithIdentifier:@"ProductInfoDetailCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [cell setProductName:_product.pName];
-            [cell setProductPrice:[NSString stringWithFormat:@"%.1f",_product.price]];
+            [cell setProductPrice:[NSString stringWithFormat:@"¥%.1f",_product.price]];
             return cell;
         }
     }
