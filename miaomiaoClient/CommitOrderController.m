@@ -11,7 +11,7 @@
 #import "CommitFillCell.h"
 #import "CommitToAddressC.h"
 #import "THActivityView.h"
-
+#import "LogViewController.h"
 #import "OrderListController.h"
 #import "ConfirmAddressCell.h"
 #import "ConfirmAddressOneCell.h"
@@ -203,8 +203,17 @@
         return;
     }
     
-    
     UserManager* manager = [UserManager shareUserManager];
+    
+    if([manager isLogin]==NO)
+    {
+        LogViewController* log = [[LogViewController alloc]init];
+        [self.navigationController pushViewController:log animated:YES];
+        return;
+    }
+    
+    
+    
     THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
     
     THActivityView* fullView = [[THActivityView alloc]initViewOnWindow];

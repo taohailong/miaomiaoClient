@@ -237,10 +237,14 @@
     UIWindow* window =  [UIApplication sharedApplication].delegate.window;
     self.center = CGPointMake(window.center.x, window.center.y-20);
     
-//    self.center = CGPointMake(window.center.x,CGRectGetHeight(window.frame)-50);
     [window addSubview:self];
 
 //    NSLog(@"key %@ window %@",[UIApplication sharedApplication].keyWindow,window);
+    
+    if ([NSThread isMainThread]==NO) {
+        return;
+    }
+    
     
     dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 1.8 * NSEC_PER_SEC);
     dispatch_after(time, dispatch_get_main_queue(), ^{

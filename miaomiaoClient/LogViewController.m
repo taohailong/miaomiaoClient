@@ -213,6 +213,12 @@
         if (error==NetWorkSuccess) {
             [wself startCountdown];
         }
+        else if (error == NetWorkErrorUnKnow)
+        {
+            THActivityView* alert = [[THActivityView alloc]initWithString:respond];
+            [alert show];
+            return ;
+        }
         NSLog(@"%@",respond);
     }];
 
@@ -320,7 +326,11 @@
         {
             THActivityView* showStr = [[THActivityView alloc]initWithString:respond];
             [showStr show];
+
         }
+//        else if(status == NetWorkErrorUnKnow)
+//        {
+//                   }
         NSLog(@"%@",respond);
     }];
     

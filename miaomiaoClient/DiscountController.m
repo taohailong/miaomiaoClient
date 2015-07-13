@@ -64,10 +64,14 @@
         if (status == NetWorkSuccess) {
             [wself reloadData:respond];
         }
-        else
+        else if (status == NetWorkErrorUnKnow)
         {
             THActivityView* err = [[THActivityView alloc]initWithString:(NSString*)respond];
             [err show];
+        }
+        else
+        {
+           
         }
     }];
     [req startAsynchronous];
@@ -83,7 +87,7 @@
         if (status == NetWorkSuccess) {
             [wself addMoreData:respond];
         }
-        else
+        else if(status == NetWorkErrorUnKnow)
         {
             THActivityView* err = [[THActivityView alloc]initWithString:(NSString*)respond];
             [err show];

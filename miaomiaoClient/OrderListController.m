@@ -84,7 +84,11 @@
             [_table reloadData];
             [wSelf addLoadMoreViewWithCount:(int)respond.count];
         }
-       
+        else if (status == NetWorkErrorUnKnow)
+        {
+            THActivityView* warn = [[THActivityView alloc]initWithString:(NSString*)respond];
+            [warn show];
+        }
     }];
     [req startAsynchronous];
 
@@ -341,7 +345,8 @@
         }
         else
         {
-        
+            THActivityView* warnView = [[THActivityView alloc]initWithString:respond];
+            [warnView show];
         }
     }];
     [req startAsynchronous];

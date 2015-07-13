@@ -159,13 +159,18 @@
             [wself.navigationController popViewControllerAnimated:YES];
             return ;
         }
-        
-        
-            THActivityView* alert = [[THActivityView alloc]initWithString:@"添加失败!"];
+        else if (NetWorkErrorUnKnow == error)
+        {
+            THActivityView* alert = [[THActivityView alloc]initWithString:(NSString*)respond];
             [alert show];
             
             return ;
+
+        }
+        else
+        {
         
+        }
     }];
     [req startAsynchronous];
     
@@ -183,7 +188,7 @@
         
         [loadView removeFromSuperview];
         
-        if (status!= NetWorkSuccess) {
+        if (status == NetWorkErrorUnKnow) {
             
             THActivityView* alert = [[THActivityView alloc]initWithString:@"更新失败!"];
             [alert show];

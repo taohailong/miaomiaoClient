@@ -222,7 +222,8 @@
     }
     NSString* item = [jsonArr JSONString];
     
-    NSString* url = [NSString stringWithFormat:@"http://%@/app/order/save?shop_id=%@&items=%@&address_id=%@&remarks=%@&act=%@&express_start=%@&express_end=%@",HTTPHOST,shop,item,add,mes,payWay,startT,endT];
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/order/submit?shop_id=%@&items=%@&address_id=%@&remarks=%@&act=%@&express_start=%@&express_end=%@",HTTPHOST,shop,item,add,mes,payWay,startT,endT];
+//    NSString* url = [NSString stringWithFormat:@"http://%@/app/order/save?shop_id=%@&items=%@&address_id=%@&remarks=%@&act=%@&express_start=%@&express_end=%@",HTTPHOST,shop,item,add,mes,payWay,startT,endT];
     
     if (discount&&payWay!= OrderPayInCash) {
         url = [NSString stringWithFormat:@"%@&coupon_code=%@&coupon_id=%@",url,discount.discountCode,discount.discountID];
@@ -307,7 +308,7 @@
 
         else
         {
-            completeBk(nil,status);
+            completeBk(sourceDic,status);
         }
         
     }];
@@ -387,7 +388,7 @@
             
             else
             {
-                completeBk(nil,status);
+                completeBk(sourceDic,status);
             }
             
         }];
@@ -413,7 +414,7 @@
         
         else
         {
-            completeBk(nil,status);
+            completeBk(sourceDic,status);
         }
         
     }];
@@ -491,7 +492,7 @@
          
          else
          {
-             completeBk(nil,status);
+             completeBk(sourceDic,status);
          }
          
      }];
@@ -573,7 +574,7 @@
         
         else
         {
-            completeBk(nil,status);
+            completeBk(sourceDic,status);
         }
         
     }];
@@ -654,7 +655,7 @@
         
         else
         {
-            completeBk(nil,status);
+            completeBk(sourceDic,status);
         }
         
     }];
@@ -733,7 +734,7 @@
 
         else
         {
-            completeBk(nil,status);
+            completeBk(sourceDic,status);
         }
         
     }];
@@ -825,7 +826,7 @@
 
         else
         {
-            completeBk(nil,status);
+            completeBk(sourceDic,status);
         }
     }];
 }
@@ -933,7 +934,7 @@
         
         else
         {
-            completeBk(nil,status);
+            completeBk(sourceDic,status);
         }
     }];
 }
@@ -984,7 +985,7 @@
             
             else
             {
-                completeBk(nil,status);
+                completeBk(sourceDic,status);
             }
     }];
 }
@@ -1010,7 +1011,7 @@
         
         else
         {
-            completeBk(nil,status);
+            completeBk(sourceDic,status);
         }
         
     }];
@@ -1051,7 +1052,7 @@
 
         else
         {
-            completeBk(nil,status);
+            completeBk(sourceDic,status);
         }
         
     }];
@@ -1086,7 +1087,7 @@
         }
         else
         {
-            completeBk(nil,status);
+            completeBk(sourceDic,status);
         }
         
     }];
@@ -1125,13 +1126,11 @@
             NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
             [def removeObjectForKey:UTOKEN];
             [def synchronize];
-            
-            
             block(NetWorkErrorTokenInvalid,dataDic,nil);
         }
         else if (dataDic==nil)
         {
-            block(NetWorkErrorCanntConnect,@"服务器错误",nil);
+            block(NetWorkErrorUnKnow,@"服务器错误",nil);
         }
         else
         {

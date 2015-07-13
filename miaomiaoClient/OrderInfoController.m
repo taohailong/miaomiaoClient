@@ -506,13 +506,14 @@
             worder.orderStatue = @"订单完成";
             [wtable reloadData];
         }
-        else
+        else if(NetWorkErrorUnKnow == status)
         {
             str = respond;
+            THActivityView* showStr = [[THActivityView alloc]initWithString:str];
+            [showStr show];
         }
         
-        THActivityView* showStr = [[THActivityView alloc]initWithString:str];
-        [showStr show];
+       
     }];
     [request startAsynchronous];
 }
@@ -535,13 +536,12 @@
             [wtable reloadData];
             str = @"取消成功，喵喵客服马上和您联系";
         }
-        else
+        else if(NetWorkErrorUnKnow == status)
         {
             str = @"取消失败";
+            THActivityView* showStr = [[THActivityView alloc]initWithString:str];
+            [showStr show];
         }
-        
-        THActivityView* showStr = [[THActivityView alloc]initWithString:str];
-        [showStr show];
         
     }];
     [request startAsynchronous];
