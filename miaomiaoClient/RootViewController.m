@@ -90,8 +90,6 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [self setNavigationBarAttribute:NO];
-    
-    
 }
 
 - (void)viewDidLoad {

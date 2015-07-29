@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ShopTableHeadView : UIView
+@interface ShopTableHeadView : UITableViewHeaderFooterView
 @property(nonatomic,strong)UILabel* titleLabel ;
 @property(nonatomic,strong)UILabel* detailLabel;
 @property(nonatomic,strong)UILabel* countLabel;
 @property(nonatomic,strong)UILabel* distanceLabel;
+
 @end

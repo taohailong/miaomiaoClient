@@ -313,7 +313,7 @@
 
 -(int)figureDistanceFrom:(BMKMapPoint)start toPoint:(BMKMapPoint)end
 {
-  return   BMKMetersBetweenMapPoints(start,end);
+  return  (int)BMKMetersBetweenMapPoints(start,end);
 }
 
 

@@ -84,6 +84,7 @@ typedef void (^NetCallback)(id respond,NetWorkStatus status);
 -(void)addressUpdateWithAddID:(NSString*)addressID withAddress:(NSString*)address withPhone:(NSString*)phone WithBk:(NetCallback)completeBk;
 
 //定位
+-(void)getShopsWithAddress:(ShopInfoData*)shop WithComplete:(NetCallback)completeBk;
 -(void)seachShopWithCharacter:(NSString*)character WithBk:(NetCallback)completeBk;
 -(void)throughLocationGetShopWithlatitude:(float)latitude WithLong:(float)longitude WithBk:(NetCallback)completeBk;
 

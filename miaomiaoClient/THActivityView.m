@@ -62,8 +62,32 @@
     [superView addSubview:self];
     
     return self;
-
 }
+
+-(id)initWithFrame:(CGRect)frame withImage:(NSString*)imageName withString:(NSString*)str
+{
+    self = [super initWithFrame:frame];
+    UIImageView * imageV = [[UIImageView alloc]init];
+    imageV.image = [UIImage imageNamed:imageName];
+    imageV.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:imageV];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:imageV attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:imageV attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    
+    UILabel* titleL = [[UILabel alloc]init];
+    titleL.font = DEFAULTFONT(16);
+    titleL.text = str;
+    titleL.textColor = FUNCTCOLOR(203, 203, 203);
+    titleL.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:titleL];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:titleL attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[imageV]-20-[titleL]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(imageV,titleL)]];
+    
+    
+    return self;
+}
+
 
 
 #pragma mark---------------fullLoadingView-----------------
@@ -76,10 +100,7 @@
     if (superView==nil) {
         return self;
     }
-
     self.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    
     [superView addSubview:self];
     [superView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[self]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(self)]];
     [superView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[self]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(self)]];
@@ -120,11 +141,6 @@
         rotationAnimation.removedOnCompletion = NO;
         rotationAnimation.fillMode = kCAFillModeForwards;
         [loadView.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
-        
-//        UIActivityIndicatorView * activity = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-//        activity.center = self.center;
-//       [self addSubview:activity];
-//        [activity startAnimating];
         
         self.layer.masksToBounds = YES;
         self.layer.cornerRadius = 7;

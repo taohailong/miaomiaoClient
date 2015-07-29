@@ -385,7 +385,6 @@
                 completeBk(nil,status);
                 [[NSNotificationCenter defaultCenter] postNotificationName:PNEEDLOG object:nil];
             }
-            
             else
             {
                 completeBk(sourceDic,status);
@@ -425,65 +424,66 @@
 
 #pragma mark--------------商铺定位－－－－－－－－－－－－－
 
+-(void)getShopsWithAddress:(ShopInfoData*)shop WithComplete:(NetCallback)completeBk
+{
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/shopGeo/searchShop?buildingId=%@",HTTPHOST,shop.shopID];
+    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    HTTPADD(url);
+    
+     NetWorkRequest* wself = self;
+
+    [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err)
+     {
+         __strong NetWorkRequest* sself = wself;
+         
+         if (status==NetWorkSuccess) {
+             
+             NSArray* arrDic = sourceDic[@"data"][@"searchShops"];
+             NSMutableArray* shopArr = [[NSMutableArray alloc]init];
+             for (NSDictionary* temp in arrDic) {
+                 
+                 ShopInfoData* shop = [sself getShopFromDic:temp];
+                 [shopArr addObject:shop];
+             }
+             completeBk(shopArr,status);
+         }
+         else if (NetWorkErrorTokenInvalid==status)
+         {
+             completeBk(nil,status);
+         }
+         
+         else
+         {
+             completeBk(sourceDic,status);
+         }
+         
+     }];
+}
+
+
+
 -(void)seachShopWithCharacter:(NSString*)character WithBk:(NetCallback)completeBk
 {
-    NSString* url = [NSString stringWithFormat:@"http://%@/app/commy/query?q=%@",HTTPHOST,character];
+//    NSString* url = [NSString stringWithFormat:@"http://%@/app/commy/query?q=%@",HTTPHOST,character];
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/shopGeo/communityList?q=%@",HTTPHOST,character];
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     HTTPADD(url);
     
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err)
      {
-         
          if (status==NetWorkSuccess) {
              
-             NSMutableArray* returnArr = [[NSMutableArray alloc]init];
-             
-             NSArray* arrDic = sourceDic[@"data"][@"communitys"];
-            for (NSDictionary* dic in arrDic) {
-                 
-                 NSMutableDictionary* districtDic = [NSMutableDictionary dictionary];
-                 
-                 [districtDic setObject:dic[@"address"] forKey:@"address"];
-                 [districtDic setObject:dic[@"name"] forKey:@"name"];
-                 [districtDic setObject:dic[@"district"] forKey:@"distance"];
-                
-                 [districtDic setObject:dic[@"district"]
-                                forKey:@"area"];//区域
-
-                 
-                 NSMutableArray* shopArr = [[NSMutableArray alloc]init];
-                 NSArray* shopDic = dic[@"shops"];
-                 
-                 for (NSDictionary* temp in shopDic)
-                 {
-                     ShopInfoData* shop = [[ShopInfoData alloc]init];
-                     shop.shopID = [temp[@"id"] stringValue];
-                     shop.shopName = temp[@"name"];
-                     shop.shopArea = dic[@"name"];
-                     shop.longitude = [temp[@"lng"] floatValue];
-                     shop.latitude = [temp[@"lat"] floatValue];
-                     
-                    
-                     shop.shopAddress = temp[@"shop_address"];
-                     shop.shopStatue = [temp[@"status"] intValue]?ShopClose:ShopOpen;
-                     shop.mobilePhoneNu = temp[@"owner_phone"];
-                     shop.minPrice = [temp[@"base_price"] floatValue]/100;
-                     shop.combinPay = [temp[@"combin_pay"] intValue];
-                     shop.deliverCharge = [temp[@"express_fee"] intValue]/100.0;
-                     double openT = [temp[@"open_time"] doubleValue]/1000;
-                     shop.openTime =  openT;
-                     
-                     double closeT = [temp[@"close_time"] doubleValue]/1000;
-                     shop.closeTime = closeT;
-                     
-                     [shopArr addObject:shop];
-                 }
-                 [districtDic setObject:shopArr forKey:@"shops"];
-                 [returnArr addObject:districtDic];
+            NSArray* arrDic = sourceDic[@"data"][@"communitys"];
+            NSMutableArray* shopArr = [[NSMutableArray alloc]init];
+            for (NSDictionary* temp in arrDic)
+            {
+                ShopInfoData* shop = [[ShopInfoData alloc]init];
+                shop.shopID = temp[@"uid"] ;
+                shop.shopName = temp[@"name"];
+                shop.shopAddress = temp[@"address"];
+                [shopArr addObject:shop];
              }
-             
-             
-             completeBk(returnArr,status);
+             completeBk(shopArr,status);
          }
          else if (NetWorkErrorTokenInvalid==status)
          {
@@ -503,69 +503,55 @@
 -(void)throughLocationGetShopWithlatitude:(float)latitude WithLong:(float)longitude WithBk:(NetCallback)completeBk
 {
     
-    NSString* url = [NSString stringWithFormat:@"http://%@/app/commy/near?lat=%f&lng=%f",HTTPHOST,latitude,longitude];
+//    NSString* url = [NSString stringWithFormat:@"http://%@/app/commy/near?lat=%f&lng=%f",HTTPHOST,latitude,longitude];
+    
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/shopGeo/allShop?lat=%f&lng=%f",HTTPHOST,latitude,longitude];
     HTTPADD(url);
+    
+     NetWorkRequest* wself = self;
     
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
         
+        __strong NetWorkRequest* sself = wself;
         if (status==NetWorkSuccess) {
             
-            NSMutableArray* returnArr = [[NSMutableArray alloc]init];
-            UserManager* manager = [UserManager shareUserManager];
-            
-            NSArray* arrDic = sourceDic[@"data"][@"communitys"];
-            for (NSDictionary* dic in arrDic) {
-                
-                NSMutableDictionary* districtDic = [NSMutableDictionary dictionary];
-                
-                [districtDic setObject:dic[@"district"]
-                    forKey:@"area"];//区域
-                
-                [districtDic setObject:dic[@"address"] forKey:@"address"];//地址
-                [districtDic setObject:dic[@"name"] forKey:@"name"];//名称
-                
-                float lat = [dic[@"lat"] floatValue];
-                float lng = [dic[@"lng"] floatValue];
-                
-                BMKMapPoint point1 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(latitude,longitude));
-                
-                BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(lat,lng));
-                
-                int distance = [manager  figureDistanceFrom:point1 toPoint:point2];
-                
-                [districtDic setObject:[NSString stringWithFormat:@"%d米",distance] forKey:@"distance"];
-                
-                NSMutableArray* shopArr = [[NSMutableArray alloc]init];
-                NSArray* shopDic = dic[@"shops"];
-                
-                for (NSDictionary* temp in shopDic)
-                {
-                    ShopInfoData* shop = [[ShopInfoData alloc]init];
-                    shop.shopID = [temp[@"id"] stringValue];
-                    shop.shopName = temp[@"name"];
-                    shop.shopArea = dic[@"name"];
-                    shop.longitude = [temp[@"lng"] floatValue];
-                    shop.latitude = [temp[@"lat"] floatValue];
-                    shop.shopAddress = temp[@"shop_address"];
-                    shop.shopStatue = [temp[@"status"] intValue]?ShopClose:ShopOpen;
-                    shop.mobilePhoneNu = temp[@"owner_phone"];
-                    shop.minPrice = [temp[@"base_price"] floatValue]/100;
-                    shop.deliverCharge = [temp[@"express_fee"] intValue]/100.0;
-                    [shop parseCombinPay:[temp[@"combin_pay"] intValue]];
-                    double openT = [temp[@"open_time"] doubleValue]/1000;
-                    shop.openTime =  openT;
-                    
-                    double closeT = [temp[@"close_time"] doubleValue]/1000;
-                    shop.closeTime = closeT;
-                    
-                    [shopArr addObject:shop];
-                }
-                [districtDic setObject:shopArr forKey:@"shops"];
-                [returnArr addObject:districtDic];
+            NSMutableDictionary* returnDic = [[NSMutableDictionary alloc]init];
+        
+            NSString* area = sourceDic[@"data"][@"geoMsg"];
+            if (area) {
+               [returnDic setObject:area forKey:@"area"];
             }
             
+            NSArray* arrBest = sourceDic[@"data"][@"bestShops"];
+            NSMutableArray* shopBest = [[NSMutableArray alloc]init];
             
-            completeBk(returnArr,status);
+            for (NSDictionary* dic in arrBest)
+            {
+                ShopInfoData* shop = [sself getShopFromDic:dic];
+                [shopBest addObject:shop];
+            }
+            
+            NSArray* arrNear = sourceDic[@"data"][@"nearShops"];
+            NSMutableArray* shopNear = [[NSMutableArray alloc]init];
+            
+            for (NSDictionary* dic in arrNear)
+            {
+                ShopInfoData* shop = [sself getShopFromDic:dic];
+                [shopNear addObject:shop];
+//                float lat = shop.latitude;
+//                float lng = shop.longitude;
+//                
+//                BMKMapPoint point1 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(latitude,longitude));
+//                
+//                BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(lat,lng));
+//                
+//                int distance = [manager  figureDistanceFrom:point1 toPoint:point2];
+//                shop.distance = distance;
+            }
+
+            [returnDic setObject:shopBest  forKey:@"best"];
+            [returnDic setObject:shopNear  forKey:@"near"];
+            completeBk(returnDic,status);
         }
         else if (NetWorkErrorTokenInvalid==status)
         {
@@ -579,6 +565,32 @@
         
     }];
     
+}
+
+
+-(ShopInfoData*)getShopFromDic:(NSDictionary*)temp
+{
+    ShopInfoData* shop = [[ShopInfoData alloc]init];
+    shop.shopID = [temp[@"id"] stringValue];
+    shop.shopName = temp[@"name"];
+    shop.longitude = [temp[@"lng"] floatValue];
+    shop.latitude = [temp[@"lat"] floatValue];
+    shop.shopAddress = temp[@"shop_address"];
+    shop.shopStatue = [temp[@"status"] intValue]?ShopClose:ShopOpen;
+//    shop.shopStatue = ShopClose;
+    shop.distance = [temp[@"distance"] intValue];
+    [shop setServeArea:temp[@"serviceArea"]];
+//    [shop setServeArea:@"1,2,3,4,5,6,78,999,1,0"];
+    shop.mobilePhoneNu = temp[@"owner_phone"];
+    shop.minPrice = [temp[@"base_price"] floatValue]/100;
+    shop.deliverCharge = [temp[@"express_fee"] intValue]/100.0;
+    [shop parseCombinPay:[temp[@"combin_pay"] intValue]];
+    double openT = [temp[@"open_time"] doubleValue]/1000;
+    shop.openTime =  openT;
+    
+    double closeT = [temp[@"close_time"] doubleValue]/1000;
+    shop.closeTime = closeT;
+    return shop;
 }
 
 #pragma mark--------------shop product--------------------------

@@ -303,15 +303,14 @@
             countLabel.text = _orderData.discountMoney==0?@"X0":@"X1";
             moneyLabel.text = [NSString stringWithFormat:@"¥%.2f",_orderData.discountMoney];
             [productCell setCellImageWith:[UIImage imageNamed:@"orderInfo_discount"]];
-
         }
         else
         {
             ShopProductData* product = _orderData.productArr[indexPath.row-1];
             [productCell setCellImageWithUrl:product.pUrl];
             titleLabel.text = product.pName;
-            countLabel.text = [NSString stringWithFormat:@"X%d",product.count];
-            moneyLabel.text = [NSString stringWithFormat:@"¥%.2f",product.price];
+            countLabel.text = [NSString stringWithFormat:@"¥%.2f",product.price];
+            moneyLabel.text = [NSString stringWithFormat:@"X%d",product.count];
        }
         
         return productCell;

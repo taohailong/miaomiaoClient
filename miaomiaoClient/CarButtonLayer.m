@@ -49,7 +49,10 @@
     CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((__bridge_retained  CFAttributedStringRef)_currentAttribute);
     
     CGMutablePathRef Path = CGPathCreateMutable();
-    CGPathAddRect(Path, NULL ,CGRectMake((self.bounds.size.width-_contentSize.width)/2, (self.bounds.size.height-_contentSize.height)/2 ,self.bounds.size.width , self.bounds.size.height-2));
+    
+    CGRect strFrame = CGRectMake((self.bounds.size.width-_contentSize.width)/2+0.5, (self.bounds.size.height-_contentSize.height)/2 ,_contentSize.width , _contentSize.height);
+    
+    CGPathAddRect(Path, NULL ,strFrame);
     
     CTFrameRef frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, 0), Path, NULL);
     

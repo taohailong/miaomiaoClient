@@ -100,7 +100,6 @@
     [self.view addSubview:seachBt];
     seachBt.titleLabel.font = DEFAULTFONT(15);
     [seachBt setTitle:@" 搜索商品" forState:UIControlStateNormal];
-    [seachBt setTitleColor:DEFAULTBLACK forState:UIControlStateNormal];
     [seachBt addTarget:self action:@selector(searchProductAction) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[seachBt]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(seachBt)]];

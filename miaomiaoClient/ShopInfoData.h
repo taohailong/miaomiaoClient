@@ -32,7 +32,7 @@ typedef enum _CommitPayMethod
 @property(nonatomic,strong)NSString* countCategory;
 @property(nonatomic,strong)NSString* countOrder;
 @property(nonatomic,strong)NSString* totalMoney;
-@property(nonatomic,strong)NSString* serveArea;
+//@property(nonatomic,strong)NSString* serveArea;
 @property(nonatomic,strong)NSString* telPhoneNu;
 @property(nonatomic,strong)NSString* mobilePhoneNu;
 @property(nonatomic,assign)ShopStatusType shopStatue;
@@ -46,7 +46,7 @@ typedef enum _CommitPayMethod
 @property(nonatomic,assign)float latitude;
 @property(nonatomic,assign)float longitude;
 @property(nonatomic,strong)NSString* district;
-@property(nonatomic,assign)float distance;
+@property(nonatomic,assign)int distance;
 
 -(void)parseCombinPay:(int)pay;
 -(NSString*)getBusinessHours;
@@ -54,4 +54,12 @@ typedef enum _CommitPayMethod
 -(NSString*)getOpenTime;
 -(NSString*)getCloseTime;
 -(NSString*)getOpenTimeAddThirtyMins;
+
+
+
+
+-(NSArray*)getServerArr;
+-(void)setServeArea:(NSString *)serveArea;
+-(BOOL)onlyOneLine;
+-(NSMutableDictionary*)getServerSizeDic;
 @end

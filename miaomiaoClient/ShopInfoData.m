@@ -8,12 +8,62 @@
 
 #import "ShopInfoData.h"
 #import "DateFormateManager.h"
+#import <UIKit/UIKit.h>
+#import "NSStringDrawView.h"
+@interface ShopInfoData()
+{
+    BOOL _onlyOne;
+    NSArray* _serverAreas;
+    NSMutableDictionary* _serverDic;
+}
+@end
+
 @implementation ShopInfoData
-@synthesize countCategory,countOrder,closeTime,countProducts,shopAddress,serveArea,shopName,shopStatue,minPrice;
+@synthesize countCategory,countOrder,closeTime,countProducts,shopAddress,shopName,shopStatue,minPrice;
 @synthesize latitude,longitude,shopID,district;
 @synthesize combinPay,deliverCharge;
 @synthesize shopArea;
 @synthesize distance;
+
+
+#pragma mark- serverAreaParse
+
+-(NSArray*)getServerArr
+{
+    return _serverAreas;
+}
+
+-(void)setServeArea:(NSString *)serveArea
+{
+   _serverAreas = [serveArea componentsSeparatedByString:@","];
+   _serverDic = [[NSMutableDictionary alloc]init];
+    
+   float width = 0;
+   for (NSString* temp in _serverAreas)
+    {
+        CGSize size = [temp sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11]}];
+        [_serverDic setObject:NSStringFromCGSize(size)  forKey:temp];
+        width += size.width +HORIZONTALSPACE*2+ SPACEWIDTH;
+    }
+    if (width>SCREENWIDTH-90) {
+        _onlyOne = NO;
+    }
+    else
+    {
+        _onlyOne = YES;
+    }
+}
+-(BOOL)onlyOneLine
+{
+    return _onlyOne;
+}
+
+-(NSMutableDictionary*)getServerSizeDic
+{
+    return _serverDic;
+}
+
+
 
 -(NSString*)getOpenTime
 {

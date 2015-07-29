@@ -14,4 +14,7 @@
 @property(nonatomic,strong)UILabel* thirdLabel;
 @property(nonatomic,strong)UILabel* fourthLabel;
 -(UILabel*)getStatusLabel;
+-(void)setFifthLabelStr:(NSString*)str;
+-(void)setServerArr:(NSArray*)arr withSizeDic:(NSMutableDictionary*)dic
+;
 @end
