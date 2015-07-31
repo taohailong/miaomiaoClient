@@ -17,7 +17,6 @@
 		C726DBD41B0DC80300ED26A6 /* GeneralSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C726DBD31B0DC80300ED26A6 /* GeneralSelectCell.m */; };
 		C72F5EF71B1831A900064946 /* ShopCarCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = C72F5EF61B1831A900064946 /* ShopCarCoverView.m */; };
 		C72FFA401B15B4F5007C9C3D /* CarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C72FFA3F1B15B4F5007C9C3D /* CarButton.m */; };
-		C737E6781B2C452400B7422B /* miaomiaoClient copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C737E6771B2C452400B7422B /* miaomiaoClient copy-Info.plist */; };
 		C73C66031B44E95A00B7CF08 /* ShopInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66021B44E95A00B7CF08 /* ShopInfoViewController.m */; };
 		C73C66041B44E95A00B7CF08 /* ShopInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66021B44E95A00B7CF08 /* ShopInfoViewController.m */; };
 		C73C66051B44E95A00B7CF08 /* ShopInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73C66021B44E95A00B7CF08 /* ShopInfoViewController.m */; };
@@ -1617,7 +1616,7 @@
 		C78223BC1AFB55A8000A0AB4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = miaomiao;
 				TargetAttributes = {
 					C743135E1B1ED89C00E2A068 = {
@@ -1675,7 +1674,6 @@
 				C74313CB1B1ED89C00E2A068 /* Icon.png in Resources */,
 				C74313CC1B1ED89C00E2A068 /* Images.xcassets in Resources */,
 				C74313CD1B1ED89C00E2A068 /* read_me.txt in Resources */,
-				C737E6781B2C452400B7422B /* miaomiaoClient copy-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2300,7 +2298,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "ea235f10-06ca-4901-a666-6fe45cb28203";
@@ -2337,7 +2335,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "07d144cf-ad4c-44e8-847a-783bbd5e6a20";
 				SDKROOT = iphoneos;
@@ -2377,7 +2375,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "b8133b64-43ef-4a6b-89ad-4ad4a43663d2";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Debug;
@@ -2414,7 +2412,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "07d144cf-ad4c-44e8-847a-783bbd5e6a20";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Release;

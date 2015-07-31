@@ -53,7 +53,7 @@
         return;
     }
     NSString* server = @"服务范围：";
-    [server drawAtPoint:CGPointMake(0, 1) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:FUNCTCOLOR(166, 166, 166)}];
+    [server drawAtPoint:CGPointMake(0, 1) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:FUNCTCOLOR(153, 153, 153)}];
     
     
     int loop = 0;//两行以后的不再显示
@@ -78,7 +78,7 @@
         
         [FUNCTCOLOR(243, 243, 243) setFill];
         [roundedRect fillWithBlendMode:kCGBlendModeNormal alpha:1];
-        [str drawInRect:CGRectMake(CGRectGetMinX(vframe)+HORIZONTALSPACE,CGRectGetMinY(vframe)+VERTICALSPACE,strSize.width , strSize.height) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11],NSForegroundColorAttributeName:FUNCTCOLOR(204, 204,204)}];
+        [str drawInRect:CGRectMake(CGRectGetMinX(vframe)+HORIZONTALSPACE,CGRectGetMinY(vframe)+VERTICALSPACE,strSize.width , strSize.height) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11],NSForegroundColorAttributeName:FUNCTCOLOR(197, 197,197)}];
         vframe.origin.x += vframe.size.width + SPACEWIDTH;
     }
     

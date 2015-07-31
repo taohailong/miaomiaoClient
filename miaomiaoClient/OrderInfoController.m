@@ -300,8 +300,8 @@
         else if (indexPath.row==_orderData.productArr.count+1)
         {
             titleLabel.text = @"代金券";
-            countLabel.text = _orderData.discountMoney==0?@"X0":@"X1";
-            moneyLabel.text = [NSString stringWithFormat:@"¥%.2f",_orderData.discountMoney];
+            countLabel.text = [NSString stringWithFormat:@"¥%.2f",_orderData.discountMoney];
+            moneyLabel.text =  _orderData.discountMoney==0?@"X0":@"X1";
             [productCell setCellImageWith:[UIImage imageNamed:@"orderInfo_discount"]];
         }
         else

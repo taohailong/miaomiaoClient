@@ -4,11 +4,11 @@
 //
 //  Created by 陶海龙 on 15-4-22.
 //  Copyright (c) 2015年 miaomiao. All rights reserved.
-//
+//:40.040040--经度116.319820    40.041008,long 116.318288
 
 #import "UserManager.h"
 #import "NetWorkRequest.h"
-#define BAIDUMAP 0
+#define BAIDUMAP 1
 
 #if BAIDUMAP
 #import <BaiduMapAPI/BMKLocationService.h>
@@ -79,12 +79,12 @@
     _shop = shops;
     self.shopID = _shop.shopID;
     
-    NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
-    [def setObject:shops.shopName forKey:USHOPNAME];
-    if (shops.shopArea) {
-        [def setObject:shops.shopArea forKey:USHOPAREA];
-    }
-   [def synchronize];
+//    NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+//    [def setObject:shops.shopName forKey:USHOPNAME];
+//    if (shops.shopArea) {
+//        [def setObject:shops.shopArea forKey:USHOPAREA];
+//    }
+//   [def synchronize];
     [self setShopID:shops.shopID WithLongitude:shops.longitude WithLatitude:shops.latitude];
 }
 
@@ -152,7 +152,7 @@
     BOOL ret = [_mapManager start:@"please enter your key" generalDelegate:self];
     
     if (!ret) {
-        NSLog(@"manager start failed!");
+//        NSLog(@"manager start failed!");
     }
 
     [BMKLocationService setLocationDesiredAccuracy:kCLLocationAccuracyBest];
@@ -174,7 +174,7 @@
     if (_locationBk) {
         _locationBk(YES,longitude,latitude);
     }
-    
+    _locationBk = NULL;
     [_mylocationManager stopUserLocationService];
     _mylocationManager = nil;
 
@@ -198,6 +198,7 @@
     if (_locationBk) {
         _locationBk(NO,0,0);
     }
+    _locationBk = NULL;
 }
 
 
@@ -265,7 +266,7 @@
     if (_locationBk) {
         _locationBk(YES,longitude,latitude);
     }
-    
+    _locationBk = NULL;
     [manager stopUpdatingLocation];
     _mylocationManager = nil;
 }
@@ -289,6 +290,7 @@
     if (_locationBk) {
         _locationBk(NO,0,0);
     }
+    _locationBk = NULL;
 }
 #endif
 

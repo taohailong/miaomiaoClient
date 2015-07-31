@@ -15,6 +15,9 @@
 @end
 @interface NavigationTitleView : UIView
 @property(nonatomic,weak)id<NavigationTieleViewProtocol>delegate;
+
+-(void)setNavigationTitleStr:(NSString*)str;
+-(void)setNavigationDetailStr:(NSString*)str;
 -(UILabel*)getTextLabel;
 -(UILabel*)getDetailLabel;
 @end

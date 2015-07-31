@@ -11,6 +11,7 @@
 {
     UILabel* _textLabel;
     UILabel* _detailLabel;
+    UIImageView* _imageView;
 }
 @end
 @implementation NavigationTitleView
@@ -42,18 +43,18 @@
     
 
     
-    UIImageView* imageView = [[UIImageView alloc]init];
-    imageView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:imageView];
+    _imageView = [[UIImageView alloc]init];
+    _imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:_imageView];
 
-    [imageView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+    [_imageView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_textLabel attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_textLabel attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_textLabel]-[imageView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_textLabel,imageView)]];
-    imageView.image = [UIImage imageNamed:@"navBar_narrow"];
-    
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_textLabel]-3-[_imageView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_textLabel,_imageView)]];
+    _imageView.image = [UIImage imageNamed:@"navBar_narrow"];
+    _imageView.hidden = YES;
 
     
     _detailLabel = [[UILabel alloc]init];
@@ -69,15 +70,31 @@
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_textLabel]-3-[_detailLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_textLabel,_detailLabel)]];
     
     
-   
-    
-    
     UITapGestureRecognizer* gesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gestureAction)];
     
     [self addGestureRecognizer:gesture];
     
     return self;
 }
+
+
+-(void)setNavigationTitleStr:(NSString*)str
+{
+    if (str) {
+       _imageView.hidden = NO;
+      _textLabel.text = str;
+    }
+}
+
+
+-(void)setNavigationDetailStr:(NSString*)str
+{
+    if (str) {
+        _detailLabel.text = str;
+    }
+}
+
+
 
 
 -(UILabel*)getTextLabel

@@ -20,7 +20,7 @@
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    
+    self.contentView.backgroundColor = [UIColor whiteColor];
     _titleL = [[UILabel alloc]init];
     _titleL.translatesAutoresizingMaskIntoConstraints = NO;
     _titleL.font = DEFAULTFONT(14);

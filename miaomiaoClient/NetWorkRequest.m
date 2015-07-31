@@ -426,7 +426,7 @@
 
 -(void)getShopsWithAddress:(ShopInfoData*)shop WithComplete:(NetCallback)completeBk
 {
-    NSString* url = [NSString stringWithFormat:@"http://%@/app/shopGeo/searchShop?buildingId=%@",HTTPHOST,shop.shopID];
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/shopGeo/searchShop?buildingId=%@&lat=%f&lng=%f",HTTPHOST,shop.shopID,shop.latitude,shop.longitude];
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     HTTPADD(url);
     
@@ -465,7 +465,7 @@
 -(void)seachShopWithCharacter:(NSString*)character WithBk:(NetCallback)completeBk
 {
 //    NSString* url = [NSString stringWithFormat:@"http://%@/app/commy/query?q=%@",HTTPHOST,character];
-    NSString* url = [NSString stringWithFormat:@"http://%@/app/shopGeo/communityList?q=%@",HTTPHOST,character];
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/shopGeo/communityList?q=%@&city_id=131",HTTPHOST,character];
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     HTTPADD(url);
     
@@ -479,6 +479,8 @@
             {
                 ShopInfoData* shop = [[ShopInfoData alloc]init];
                 shop.shopID = temp[@"uid"] ;
+                shop.longitude = [temp[@"lng"] floatValue];
+                shop.latitude = [temp[@"lat"] floatValue];
                 shop.shopName = temp[@"name"];
                 shop.shopAddress = temp[@"address"];
                 [shopArr addObject:shop];
@@ -505,9 +507,9 @@
     
 //    NSString* url = [NSString stringWithFormat:@"http://%@/app/commy/near?lat=%f&lng=%f",HTTPHOST,latitude,longitude];
     
-    NSString* url = [NSString stringWithFormat:@"http://%@/app/shopGeo/allShop?lat=%f&lng=%f",HTTPHOST,latitude,longitude];
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/shopGeo/allShop?lat=%f&lng=%f&city_id=131",HTTPHOST,latitude,longitude];
     HTTPADD(url);
-    
+//    NSLog(@"%@",url);
      NetWorkRequest* wself = self;
     
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
@@ -538,15 +540,6 @@
             {
                 ShopInfoData* shop = [sself getShopFromDic:dic];
                 [shopNear addObject:shop];
-//                float lat = shop.latitude;
-//                float lng = shop.longitude;
-//                
-//                BMKMapPoint point1 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(latitude,longitude));
-//                
-//                BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(lat,lng));
-//                
-//                int distance = [manager  figureDistanceFrom:point1 toPoint:point2];
-//                shop.distance = distance;
             }
 
             [returnDic setObject:shopBest  forKey:@"best"];

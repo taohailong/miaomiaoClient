@@ -15,21 +15,40 @@
 @implementation ShopTableHeadView
 @synthesize titleLabel,detailLabel,countLabel,distanceLabel;
 
--(id)initWithFrame:(CGRect)frame
+
+-(id)initWithReuseIdentifier:(NSString *)reuseIdentifier
 {
-    self = [super initWithFrame:frame];
-    self.contentView.backgroundColor = FUNCTCOLOR(243, 243, 243);
+    self = [super initWithReuseIdentifier:reuseIdentifier];
+//    self.backgroundView = [[UIView alloc]init];
+//    self.backgroundView.backgroundColor = [UIColor redColor];
+    [self creatSubView];
+    return self;
+}
+-(void)creatSubView
+{
+//    UIView* back = [[UIView alloc]init];
+//    back.translatesAutoresizingMaskIntoConstraints = NO;
+//    back.backgroundColor = [UIColor whiteColor];
+//    [self addSubview:back];
+//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[back]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(back)]];
+//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[back]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(back)]];
     
+    self.contentView.backgroundColor = FUNCTCOLOR(243, 243, 243);
     titleLabel = [[UILabel alloc]init];
     titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:titleLabel];
     titleLabel.font = DEFAULTFONT(16);
-    titleLabel.textColor = FUNCTCOLOR(102.0, 102.0, 102.0);
+    titleLabel.textColor = FUNCTCOLOR(173.0, 173.0, 173.0);
     [self addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[titleLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleLabel)]];
-//
-//
+
+}
+
+//-(id)initWithFrame:(CGRect)frame
+//{
+//    self = [super initWithFrame:frame];
+ //
 //    countLabel = [[UILabel alloc]init];
 //    countLabel.translatesAutoresizingMaskIntoConstraints = NO;
 //    [self addSubview:countLabel];
@@ -100,9 +119,9 @@
 //    [self addConstraint:[NSLayoutConstraint constraintWithItem:distanceLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:distanceImage attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
 //    
 //    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[distanceImage]-4-[distanceLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(distanceImage,distanceLabel)]];
-
-    return self;
-}
+//
+//    return self;
+//}
 
 
 @end

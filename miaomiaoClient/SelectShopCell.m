@@ -35,8 +35,8 @@
     self.titleLabel = [[UILabel alloc]init];
     self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.titleLabel];
-    self.titleLabel.textColor = DEFAULTBLACK;
-    self.titleLabel.font = DEFAULTFONT(14);
+    self.titleLabel.textColor = FUNCTCOLOR(64, 64, 64);
+    self.titleLabel.font = DEFAULTFONT(16);
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[titleLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleLabel)]];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[titleLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleLabel)]];
 
@@ -48,7 +48,7 @@
     _statusL.translatesAutoresizingMaskIntoConstraints = NO;
     _statusL.textColor = [UIColor whiteColor];
     _statusL.font = DEFAULTFONT(12);
-//    [UIFont systemFontOfSize:14];
+
     [self.contentView addSubview:_statusL];
 
     
@@ -65,18 +65,18 @@
     contentImage1.image = [UIImage imageNamed:@"selectShop_distance"];
     [self.contentView addSubview:contentImage1];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[contentImage1]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentImage1)]];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[titleLabel]-25-[contentImage1]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleLabel,contentImage1)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[titleLabel]-22-[contentImage1]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleLabel,contentImage1)]];
 
     
     self.secondLabel = [[UILabel alloc]init];
     self.secondLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.secondLabel.textColor = FUNCTCOLOR(166, 166, 166);
+    self.secondLabel.textColor = FUNCTCOLOR(153, 153, 153);
 
     self.secondLabel.font = DEFAULTFONT(12);
     [self.contentView addSubview:self.secondLabel];
     
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.secondLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:contentImage1 attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[contentImage1]-3-[secondLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentImage1,secondLabel)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[contentImage1]-4-[secondLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentImage1,secondLabel)]];
 
    ////////////////////////////
     
@@ -87,7 +87,7 @@
     
     contentImage2.image = [UIImage imageNamed:@"selectShop_time"];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[secondLabel]-15-[contentImage2]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(secondLabel,contentImage2)]];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[titleLabel]-25-[contentImage2]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleLabel,contentImage2)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[titleLabel]-22-[contentImage2]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleLabel,contentImage2)]];
 
     
     self.thirdLabel = [[UILabel alloc]init];
@@ -98,7 +98,7 @@
     
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.thirdLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:contentImage2 attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[contentImage2]-3-[thirdLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentImage2,thirdLabel)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[contentImage2]-4-[thirdLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentImage2,thirdLabel)]];
     
     
     
@@ -121,7 +121,7 @@
     _fifthLabel.font = self.secondLabel.font;
     [self.contentView addSubview:_fifthLabel];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_fifthLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:contentImage20 attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[contentImage20]-3-[_fifthLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentImage20,_fifthLabel)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[contentImage20]-4-[_fifthLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentImage20,_fifthLabel)]];
 
     
     
@@ -145,7 +145,7 @@
     self.fourthLabel.font = self.secondLabel.font;
     [self.contentView addSubview:self.fourthLabel];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.fourthLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:contentImage3 attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[contentImage3]-3-[fourthLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentImage3,fourthLabel)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[contentImage3]-4-[fourthLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentImage3,fourthLabel)]];
 
 //  ////////////////////////
     
@@ -164,7 +164,7 @@
     [self.contentView addSubview:_drawView];
     
 //    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_drawView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:contentImage4  attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[contentImage4]-3-[_drawView]-2-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentImage4,_drawView)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[contentImage4]-4-[_drawView]-2-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentImage4,_drawView)]];
     
      [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[contentImage3]-8-[_drawView]-3-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentImage3,_drawView)]];
     

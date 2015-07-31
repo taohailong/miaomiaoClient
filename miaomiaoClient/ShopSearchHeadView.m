@@ -24,16 +24,21 @@
     return self;
 }
 
+//-(id)initWithFrame:(CGRect)frame
+//{
+//    self = [super initWithFrame:frame];
+//    [self creatSubView];
+//    return self;
+//}
 
 
-
--(id)init
-{
-    self = [super init];
-    [self creatSubView];
-
-    return self;
-}
+//-(id)init
+//{
+//    self = [super init];
+//    [self creatSubView];
+//
+//    return self;
+//}
 
 
 
@@ -64,13 +69,13 @@
     [back addSubview:_locationBt];
     
     [_locationBt setTitleColor:DEFAULTNAVCOLOR forState:UIControlStateNormal];
-    _locationBt.titleLabel.font = DEFAULTFONT(15);
+    _locationBt.titleLabel.font = DEFAULTFONT(14);
     [_locationBt addTarget:self action:@selector(startLocation) forControlEvents:UIControlEventTouchUpInside];
     _locationBt.translatesAutoresizingMaskIntoConstraints = NO;
     [_locationBt setTitle:@"重新定位" forState:UIControlStateNormal];
     [_locationBt setImage:[UIImage imageNamed:@"selectShop_location"] forState:UIControlStateNormal];
-    [_locationBt setTitleEdgeInsets:UIEdgeInsetsMake(0, -38, 0, 0)];
-    [_locationBt setImageEdgeInsets:UIEdgeInsetsMake(0, 60, 0, 0)];
+    [_locationBt setTitleEdgeInsets:UIEdgeInsetsMake(0, -32, 0, 5)];
+    [_locationBt setImageEdgeInsets:UIEdgeInsetsMake(0, 58, 0, -5)];
     
     [back addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_locationBt]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_locationBt)]];
     

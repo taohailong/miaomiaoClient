@@ -414,15 +414,11 @@
 -(void)updateNavigationView
 {
     NavigationTitleView* title = (NavigationTitleView*)self.navigationItem.titleView;
-
-    UILabel* textLabel = [title getTextLabel];
-    UILabel* detail = [title getDetailLabel];
     
     UserManager* manager = [UserManager shareUserManager];
-    textLabel.text = [manager getCurrentShopName];
-//    detail.text = [NSString stringWithFormat:@"配送至:%@附近",[manager getCurrentShopArea]];
-     detail.text = [manager getCurrentShopArea];
-
+    
+    [title setNavigationTitleStr: manager.shop.shopName];
+    [title setNavigationDetailStr: manager.shop.shopAddress];
 }
 
 -(void)navigationTitleViewDidTouchWithView:(NavigationTitleView *)titleView

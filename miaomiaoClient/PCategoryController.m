@@ -192,14 +192,13 @@
 -(void)updateNavgationTitleView
 {
     NavigationTitleView* title = (NavigationTitleView*)self.navigationItem.titleView;
-    
-    UILabel* textLabel = [title getTextLabel];
-    UILabel* detail = [title getDetailLabel];
+//    
+//    UILabel* textLabel = [title getTextLabel];
+//    UILabel* detail = [title getDetailLabel];
     
     UserManager* manager = [UserManager shareUserManager];
-    textLabel.text = [manager getCurrentShopName];
-    detail.text = [manager getCurrentShopArea];
-
+    [title setNavigationTitleStr: manager.shop.shopName];
+    [title setNavigationDetailStr: manager.shop.shopAddress];
 }
 
 

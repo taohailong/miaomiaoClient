@@ -28,7 +28,7 @@ typedef enum _TableResultType
     UITableView* _table;
 //    NSMutableArray* _dataArr;
     NSMutableArray* _areaArr;
-    NSArray* _searchArr;
+//    NSArray* _searchArr;
     
 //    int * flag;
 //    UILabel* locationLabel;
@@ -56,7 +56,18 @@ typedef enum _TableResultType
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"切换店铺";
    
-    _table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    _search = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 45)];
+    _search.translatesAutoresizingMaskIntoConstraints = NO;
+    _search.delegate = self;
+    _search.placeholder = @"搜索小区";
+    _search.tintColor = DEFAULTNAVCOLOR;
+    [self.view addSubview:_search];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_search]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_search)]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_search attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+
+    
+    
+    _table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     [_table registerClass:[ShopTableHeadView class] forHeaderFooterViewReuseIdentifier:@"ShopTableHeadView"];
     
     [_table registerClass:[ShopSearchHeadView class] forHeaderFooterViewReuseIdentifier:@"ShopSearchHeadView"];
@@ -64,23 +75,20 @@ typedef enum _TableResultType
     _table.delegate = self;
     _table.dataSource = self;
     _table.separatorColor = FUNCTCOLOR(210, 210, 210);
+//    _table.separatorStyle = UITableViewCellSeparatorStyleNone;
     _table.translatesAutoresizingMaskIntoConstraints = NO;
-    _table.backgroundColor = FUNCTCOLOR(243, 243, 243);
+    _table.backgroundColor = FUNCTCOLOR(243, 243, 243);;
     [self.view addSubview:_table];
 
-    if (IOS_VERSION(7.0))
-    {
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[_table]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
-    }
-    else
-    {
-       [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[_table]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
-    }
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_search]-0-[_table]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_search,_table)]];
+    
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_table attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
 
-   
-    [self creatSearchBar];
+     //
+
+
+//    [self creatSearchBar];
     [self startLocation];
     [self registeNotificationCenter];
     [self creatTableFootView];
@@ -161,8 +169,17 @@ typedef enum _TableResultType
     _footView= [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 0)];
     
     _footView.backgroundColor = [UIColor whiteColor];
-
-    CGRect frame = CGRectMake(15, 8, 0, 20);
+    
+    
+    UILabel* headView = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_footView.frame), 35)];
+    headView.backgroundColor = FUNCTCOLOR(243, 243, 243);
+    headView.text = @"   历史店铺";
+    headView.textColor =FUNCTCOLOR(173.0, 173.0, 173.0);;
+    headView.font = DEFAULTFONT(16);
+    [_footView addSubview:headView];
+    
+    
+    CGRect frame = CGRectMake(15, 42, 0, 20);
     
     for (ShopBase* sub in strArr)
     {
@@ -190,7 +207,7 @@ typedef enum _TableResultType
         bt.layer.masksToBounds = YES;
         bt.layer.cornerRadius = 4;
             }
-    _footView.frame = CGRectMake(0, 0, SCREENWIDTH, frame.origin.y+frame.size.height+5);
+    _footView.frame = CGRectMake(0, 0, SCREENWIDTH, frame.origin.y+frame.size.height+25);
    
 }
 
@@ -300,7 +317,6 @@ typedef enum _TableResultType
     
 //    [_areaArr removeAllObjects];
     [self setTableSearchType:TableSearchBegin];
-    
     [_emptyWarn removeFromSuperview];
     _emptyWarn = nil;
     
@@ -316,7 +332,6 @@ typedef enum _TableResultType
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [self setTableSearchType:TableNormal];
-//    _isSearch = 0;
     [_table reloadData];
     
     [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -327,7 +342,6 @@ typedef enum _TableResultType
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-//    _isSearch = -1;
     if (searchBar.text.length) {
         
         [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -352,9 +366,19 @@ typedef enum _TableResultType
     }
     else
     {
-        return _footView==nil?3:4;
+        if (_bestArr==nil&&_nearArr==nil) {
+            
+            return 1;
+        }
+        else if (_nearArr.count == 0||_bestArr.count == 0)
+        {
+            return 2;
+        }
+        else
+        {
+            return 3;
+        }
     }
-   
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -387,25 +411,25 @@ typedef enum _TableResultType
             [headView setTitleStr:_area];
             return headView;
         }
-        else if (section == 1) {
+        else if (section == 1&&_bestArr.count != 0) {
             
             ShopTableHeadView* headView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"ShopTableHeadView"];
             headView.titleLabel.text = @"最优店铺";
             return headView;
         }
-        else if (section == 2)
+        else
         {
             ShopTableHeadView* headView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"ShopTableHeadView"];
             headView.titleLabel.text = @"附近店铺";
             return headView;
         }
-        else
-        {
-            ShopTableHeadView* headView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"ShopTableHeadView"];
-            headView.titleLabel
-            .text = @"历史店铺";
-            return headView;
-        }
+//        else
+//        {
+//            ShopTableHeadView* headView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"ShopTableHeadView"];
+//            headView.titleLabel
+//            .text = @"历史店铺";
+//            return headView;
+//        }
     }
 }
 
@@ -419,28 +443,20 @@ typedef enum _TableResultType
     }
     else if (_isSearch == TableSearchProceed)
     {
-        if (section == 0)
-        {
-            return 0;
-        }
-        else
-        {
-            return _searchArr.count;
-        }
+        return 0;
     }
     else
     {
-        if (section ==1)
+        if (section == 0) {
+            return 0;
+        }
+        else if (section ==1&&_bestArr.count != 0)
         {
              return _bestArr.count;
         }
-        else if (section == 2)
-        {
-             return _nearArr.count;
-        }
         else
         {
-            return 0;
+             return _nearArr.count;
         }
     }
 }
@@ -455,17 +471,13 @@ typedef enum _TableResultType
     ShopInfoData* shop = nil;
     if (_isSearch == TableNormal)
     {
-        if (indexPath.section ==1) {
+        if (indexPath.section ==1&&_bestArr.count != 0) {
             shop = _bestArr[indexPath.row];
         }
         else
         {
             shop = _nearArr[indexPath.row];
         }
-    }
-    else
-    {
-        shop = _searchArr [indexPath.row];
     }
     
     if ([shop onlyOneLine]) {
@@ -506,7 +518,7 @@ typedef enum _TableResultType
     
     if (_isSearch == TableNormal)
     {
-        if (indexPath.section ==1) {
+        if (indexPath.section ==1&&_bestArr.count != 0) {
             shop = _bestArr[indexPath.row];
         }
         else
@@ -514,11 +526,7 @@ typedef enum _TableResultType
             shop = _nearArr[indexPath.row];
         }
     }
-    else
-    {
-        shop = _searchArr[indexPath.row];
-    }
- 
+  
     UILabel* statusL = [cell getStatusLabel];
     if (shop.shopStatue == ShopClose) {
         statusL.hidden = NO;
@@ -548,7 +556,7 @@ typedef enum _TableResultType
         [self.navigationController setNavigationBarHidden:NO animated:YES];
         [_search setShowsCancelButton:NO animated:YES];
         [_search resignFirstResponder];
-
+        _search.text = @"";
         ShopInfoData* shop = _areaArr[indexPath.row];
         [self searchShopWithAddress:shop];
         return;
@@ -560,10 +568,10 @@ typedef enum _TableResultType
     {
         NSArray* arr = nil;
         
-        if (_isSearch == TableSearchProceed) {
-            arr = _searchArr;
+        if (_isSearch != TableNormal) {
+           
         }
-        else  if (indexPath.section == 1) {
+        else  if (indexPath.section == 1&&_bestArr.count!=0) {
             arr = _bestArr;
         }
         else
@@ -600,11 +608,23 @@ typedef enum _TableResultType
     [_emptyWarn removeFromSuperview];
     _emptyWarn = nil;
     
+    
+    THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
+    __weak UITableView* wtable = _table;
+    
     __weak ShopSelectController* wself = self;
     UserManager* manager = [UserManager shareUserManager];
     [manager startLocationWithBk:^(BOOL success, float longitude, float latitude) {
+        
+        [loadView removeFromSuperview];
+        
         if (success) {
             [wself getShopThroughLatitude:latitude Withlongitude:longitude];
+        }
+        else
+        {
+            _area = @"您的定位服务未开启";
+            [wtable reloadData];
         }
     }];
 }
@@ -616,30 +636,49 @@ typedef enum _TableResultType
 
 -(void)searchShopWithAddress:(ShopInfoData*)shop
 {
+    _area = shop.shopName;
+    
+    THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
+    
     __weak ShopSelectController* wself = self;
     NetWorkRequest* req = [[NetWorkRequest alloc]init];
-    [req getShopsWithAddress:shop WithComplete:^(NSMutableArray* respond, NetWorkStatus status) {
-        if (status==NetWorkSuccess) {
+    [req throughLocationGetShopWithlatitude:shop.latitude WithLong:shop.longitude WithBk:^(NSDictionary* respond, NetWorkStatus error) {
+        
+        [loadView removeFromSuperview];
+        
+        if (error != NetWorkSuccess)
+        {
+            THActivityView* loadView = [[THActivityView alloc]initWithNetErrorWithSuperView:wself.view];
             
-            if (respond.count == 0) {
-                _emptyWarn = [[THActivityView alloc]initWithFrame:CGRectMake(0, 154, SCREENWIDTH, SCREENHEIGHT-154) withImage:@"select_shopEmptyWarn" withString:@"小喵还未覆盖您所在的位置，敬请期待哦"];
-                _emptyWarn.backgroundColor = FUNCTCOLOR(243, 243, 243);
-                [self.view addSubview:_emptyWarn];
-            }
+            [loadView setErrorBk:^{
+                [wself searchShopWithAddress:shop];
+            }];
+            return ;
+        }
+        if (respond)
+        {
             [wself getShopsThroughAddressWithResult:respond];
         }
-        
     }];
-    
     [req startAsynchronous];
 }
 
 
--(void)getShopsThroughAddressWithResult:(NSMutableArray*)arr
+-(void)getShopsThroughAddressWithResult:(NSDictionary*)arr
 {
-    [self setTableSearchType:TableSearchProceed];
-    _searchArr = arr;
+    [self setTableSearchType:TableNormal];
+    _bestArr = arr[@"best"];
+    _nearArr = arr[@"near"];
+
     [_table reloadData];
+    
+    if (_nearArr.count == 0&& _bestArr.count == 0) {
+        
+        _emptyWarn = [[THActivityView alloc]initWithFrame:CGRectMake(0, 154, SCREENWIDTH, SCREENHEIGHT-154) withImage:@"select_shopEmptyWarn" withString:@"小喵还未覆盖您所在的位置，敬请期待哦"];
+        _emptyWarn.backgroundColor = FUNCTCOLOR(243, 243, 243);
+        [self.view addSubview:_emptyWarn];
+    }
+
 }
 
 
@@ -673,12 +712,23 @@ typedef enum _TableResultType
     THActivityView* loadView = [[THActivityView alloc]initActivityViewWithSuperView:self.view];
     
     NetWorkRequest* req = [[NetWorkRequest alloc]init];
-    [req seachShopWithCharacter:character WithBk:^(NSMutableArray* respond, NetWorkStatus status) {
-        
+    [req seachShopWithCharacter:character WithBk:^(NSMutableArray* respond, NetWorkStatus status)
+     {
         [wsearch setShowsCancelButton:NO animated:YES];
         [wsearch resignFirstResponder];
         [loadView removeFromSuperview];
-        if (status==NetWorkSuccess) {
+        if (status==NetWorkSuccess)
+        {
+            if (respond.count == 0)
+            {
+                if (_emptyWarn == nil) {
+                    
+                    _emptyWarn = [[THActivityView alloc]initWithFrame:CGRectMake(0, 143, SCREENWIDTH, SCREENHEIGHT-143) withImage:@"select_shopEmptyWarn" withString:@"抱歉，未找到相关地址"];
+                    _emptyWarn.backgroundColor = FUNCTCOLOR(243, 243, 243);
+                    [self.view addSubview:_emptyWarn];
+                }
+            }
+
             [wself getSearchResult:respond];
         }
     }];
@@ -708,11 +758,6 @@ typedef enum _TableResultType
         }
         if (respond)
         {
-            if (respond.count == 0) {
-                _emptyWarn = [[THActivityView alloc]initWithFrame:CGRectMake(0, 154, SCREENWIDTH, SCREENHEIGHT-154) withImage:@"select_shopEmptyWarn" withString:@"小喵还未覆盖您所在的位置，敬请期待哦"];
-                _emptyWarn.backgroundColor = FUNCTCOLOR(243, 243, 243);
-                [self.view addSubview:_emptyWarn];
-            }
             [wself receiveData:respond];
         }
         
@@ -726,9 +771,15 @@ typedef enum _TableResultType
     
     _bestArr = dic[@"best"];
     _nearArr = dic[@"near"];
-
     _area = dic[@"area"];
     [_table reloadData];
+    
+    if (_nearArr.count == 0&& _bestArr.count == 0) {
+        _emptyWarn = [[THActivityView alloc]initWithFrame:CGRectMake(0, 154, SCREENWIDTH, SCREENHEIGHT-154) withImage:@"select_shopEmptyWarn" withString:@"小喵还未覆盖您所在的位置，敬请期待哦"];
+        _emptyWarn.backgroundColor = FUNCTCOLOR(243, 243, 243);
+        [self.view addSubview:_emptyWarn];
+    }
+
 }
 
 
@@ -744,13 +795,11 @@ typedef enum _TableResultType
     {
         [self dismissViewControllerAnimated:YES completion:^{}];
     }
-
 }
 
 
 -(void)dealloc
 {
-//    free(flag);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end
