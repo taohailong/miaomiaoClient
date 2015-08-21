@@ -21,7 +21,7 @@
 #import "OrderFootOneBtCell.h"
 #import "WXApi.h"
 #import <AlipaySDK/AlipaySDK.h>
-
+#import "CommentController.h"
 @interface OrderListController()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
     UITableView* _table;
@@ -52,7 +52,6 @@
     [self.view addSubview:_table];
     _table.delegate = self;
     _table.dataSource = self;
-    
     
     _table.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
@@ -241,7 +240,7 @@
         __weak OrderListController* wself = self;
         __weak OrderData* wOrder = order;
         
-        if (order.orderStatusType != OrderStatus_Wx_WaitPay&&order.orderStatusType != OrderStatus_Zfb_WaitPay) {
+        if (order.orderStatusType != OrderStatus_Wx_WaitPay&&order.orderStatusType != OrderStatus_Zfb_WaitPay&&order.orderStatusType != OrderStatusWaitComment) {
             
             OrderFootCell* cell = [tableView dequeueReusableCellWithIdentifier:@"2"];
             if (cell==nil) {
@@ -258,10 +257,21 @@
         if (cell==nil) {
             cell = [[OrderFootOneBtCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"3"];
         }
-        [cell setOrderBk:^(OrderBtSelect status) {
-            [wself orderRePay:wOrder];
-        }];
-       
+        UIButton* statusBt = [cell getBtWithType:OrderBtFourth];
+        if (order.orderStatusType == OrderStatusWaitComment) {
+            [statusBt setTitle:@"去评价" forState:UIControlStateNormal];
+            [cell setOrderBk:^(OrderBtSelect status) {
+                [wself orderComment:wOrder];
+            }];
+        }
+        else
+        {
+            [statusBt setTitle:@"去支付" forState:UIControlStateNormal];
+            [cell setOrderBk:^(OrderBtSelect status) {
+                [wself orderRePay:wOrder];
+            }];
+        }
+        
         return cell;
     }
     else
@@ -316,6 +326,14 @@
 }
 
 #pragma mark-cellAction
+
+
+-(void)orderComment:(OrderData*)order
+{
+    CommentController* commentView = [[CommentController alloc]init];
+    commentView.order = order;
+    [self.navigationController pushViewController:commentView animated:YES];
+}
 
 
 -(void)orderRePay:(OrderData*)order

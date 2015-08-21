@@ -73,12 +73,64 @@
     _table.translatesAutoresizingMaskIntoConstraints = NO;
     _table.separatorColor = [UIColor clearColor];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_table]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_table attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_table]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
     
     [self creatSearchBar];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:PSEARCHTABLERELOAD object:nil];
+    [self registeNotificationCenter];
 }
+
+#pragma mark-keyboard
+
+-(void)registeNotificationCenter
+{
+    /*注册成功后  重新链接服务器*/
+    NSNotificationCenter *def = [NSNotificationCenter defaultCenter];
+    
+    /* 注册键盘的显示/隐藏事件 */
+    [def addObserver:self selector:@selector(keyboardShown:)
+                name:UIKeyboardWillShowNotification
+											   object:nil];
+    
+    
+    [def addObserver:self selector:@selector(keyboardHidden:)name:UIKeyboardWillHideNotification
+											   object:nil];
+    
+}
+
+- (void)keyboardShown:(NSNotification *)aNotification
+{
+    NSDictionary *info = [aNotification userInfo];
+    NSValue *aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
+    
+    CGSize keyboardSize = [aValue CGRectValue].size;
+    [self accessViewAnimate:-keyboardSize.height];
+}
+
+- (void)keyboardHidden:(NSNotification *)aNotification
+{
+    [self accessViewAnimate:0.0];
+}
+
+-(void)accessViewAnimate:(float)height
+{
+    
+    //    _table.contentInset = UIEdgeInsetsMake(0, 0, -height, 0);
+    [UIView animateWithDuration:.2 delay:0 options:0 animations:^{
+        
+        for (NSLayoutConstraint * constranint in self.view.constraints)
+        {
+            if (constranint.firstItem==_table&&constranint.firstAttribute==NSLayoutAttributeBottom) {
+                constranint.constant = height;
+            }
+        }
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+
 
 #pragma mark-searBar
 
@@ -142,8 +194,6 @@
     
     ProductShopCarController* shopCar = [[ProductShopCarController alloc]init];
     [self.navigationController pushViewController:shopCar animated:YES];
-
-
 }
 
 
@@ -227,7 +277,7 @@
         
     }];
     
-    [cell setPriceStr:[NSString stringWithFormat:@"%.2f", data.price]];
+    [cell setPriceStr:[NSString stringWithFormat:@"%.1f", data.price]];
     [cell setTitleStr:data.pName];
     [cell setPicUrl:data.pUrl];
     return cell;

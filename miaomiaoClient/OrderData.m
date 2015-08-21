@@ -65,7 +65,7 @@
 }
 
 
--(void)setOrderStatueWithString:(NSString *)statue
+-(void)setOrderStatueWithString:(NSString *)statue comment:(int)comment
 {
     switch ([statue intValue]) {
         case 0:
@@ -85,8 +85,16 @@
             self.orderStatusType = OrderStatusCancel;
             break;
         case 4:
-            self.orderStatue = @"订单完成";
-            self.orderStatusType = OrderStatusConfirm;
+            if (comment==1) {
+                self.orderStatue = @"订单完成";
+//                self.orderStatusType = OrderStatusWaitComment;
+                self.orderStatusType = OrderStatusConfirm;
+            }
+            else
+            {
+                self.orderStatue = @"待评价";
+                self.orderStatusType = OrderStatusWaitComment;
+            }
             break;
         case 5:
             self.orderStatue = @"订单取消";
@@ -117,8 +125,6 @@
             self.orderStatusType = OrderStatusCancel;
             break;
     }
-
-
 }
 
 @end

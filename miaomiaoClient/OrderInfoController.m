@@ -17,7 +17,10 @@
 #import "THActivityView.h"
 #import "NetWorkRequest.h"
 #import "DateFormateManager.h"
-@interface OrderInfoController()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
+#import "CommentController.h"
+
+
+@interface OrderInfoController()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,CommentProtocol>
 {
     int _mySection;
     UITableView* _table;
@@ -190,6 +193,16 @@
             button2.hidden = YES;
             button1.hidden = YES;
         }
+        else if (_orderData.orderStatusType == OrderStatusWaitComment)
+        {
+            [cell setCellImage:[UIImage imageNamed:@"orderInfo_complete"]];
+            button3.hidden = NO;
+            [button3 setTitle:@"评价一下" forState:UIControlStateNormal];
+            title.text = @"服务还满意吗，赶快去评价吧";
+            button2.hidden = YES;
+            button1.hidden = YES;
+        }
+        
         else if (_orderData.orderStatusType == OrderStatusDeliver)
         {
             [cell setCellImage:[UIImage imageNamed:@"orderInfo_waitConfirm"]];
@@ -468,11 +481,32 @@
         }
 
     }
+    else if (_orderData.orderStatusType == OrderStatusWaitComment)
+    {
+        [self orderComment:_orderData];
+    }
+    
     else
     {
         UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您确定要收货吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alert show];
     }
+}
+
+#pragma mark-comment
+
+
+-(void)orderComment:(OrderData*)order
+{
+    CommentController* commentView = [[CommentController alloc]init];
+    commentView.order = order;
+    commentView.delegate = self;
+    [self.navigationController pushViewController:commentView animated:YES];
+}
+
+-(void)commentCommitCompleteProtocol
+{
+    [_table reloadData];
 }
 
 #pragma mark-------------alert delegate----------------

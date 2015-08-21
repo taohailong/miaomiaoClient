@@ -17,6 +17,8 @@
 #import "THActivityView.h"
 #import "SpreadViewController.h"
 #import "LogViewController.h"
+#import "CommentListController.h"
+
 @interface UserCenterController()<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
 {
     UITableView* _table;
@@ -234,6 +236,9 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (section==0) {
+        return 3;
+    }
     return 2;
 }
 
@@ -265,7 +270,9 @@
 
                 break;
             default:
-                text = @"";
+                text = @"我的评论";
+                imageStr = @"userCenter_comment";
+
                 break;
         }
     }
@@ -325,6 +332,19 @@
                 }
                 break;
             default:
+                
+                if ([manager isLogin] == NO)
+                {
+                    [self showLogView:^{
+                        [wSelf showCommentViewController];
+                    }];
+                }
+                else
+                {
+                    [self showCommentViewController];
+                }
+
+                
                 break;
         }
         
@@ -342,6 +362,15 @@
 
 
 #pragma mark---------------------action-----------------
+
+
+-(void)showCommentViewController
+{
+    CommentListController* comment= [[CommentListController alloc]init];
+    comment.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:comment animated:YES];
+}
+
 
 -(void)showSettingViewController
 {

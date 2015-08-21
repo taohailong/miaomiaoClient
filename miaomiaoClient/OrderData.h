@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 typedef enum _OrderStatus {
+    OrderStatusWaitComment,
    OrderStatusWaitConfirm,
     OrderStatusCancel,
     OrderStatusConfirm,
@@ -35,7 +36,7 @@ typedef enum _OrderStatus {
 @property(nonatomic,assign)int countOfProduct;
 @property(nonatomic,assign)float discountMoney;
 -(void)setOrderInfoString:(NSString*)string;
--(void)setOrderStatueWithString:(NSString *)orderStatue;
+-(void)setOrderStatueWithString:(NSString *)statue comment:(int)comment;
 -(void)setOrderPayStatus:(NSString *)statue WithType:(NSString*)type;
 -(NSString*)getPayMethod;
 @end

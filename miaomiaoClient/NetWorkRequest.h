@@ -29,6 +29,17 @@ typedef void (^NetCallback)(id respond,NetWorkStatus status);
 @interface NetWorkRequest : NSObject
 
 
+
+//评论
+
+-(void)getAllUserCommentWithIndex:(NSInteger)start ompleteBlock:(NetCallback)completeBk;
+
+-(void)getShopCommentFromIndex:(NSInteger)start completeBlock:(NetCallback)completeBk;
+
+-(void)commitCommentWithOrder:(OrderData*)order comment:(NSString*)comment score:(int)score completeBk:(NetCallback)completeBk;
+
+
+
 //数据
 -(void)startAsynchronous;
 -(void)cancel;

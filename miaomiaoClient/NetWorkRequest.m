@@ -21,6 +21,8 @@
 #import "OrderData.h"
 #import "DiscountData.h"
 #import "THActivityView.h"
+#import "CommentData.h"
+
 
 #define HTTPADD(X) X = [NSString stringWithFormat:@"%@&%@",X, [NSString stringWithFormat:@"uid=%@&gid=%@&chn=ios&user_token=%@",[OpenUDID value],[[NSUserDefaults  standardUserDefaults] objectForKey:UGID]?[[NSUserDefaults  standardUserDefaults] objectForKey:UGID]:@"",[[NSUserDefaults  standardUserDefaults] objectForKey:UTOKEN]?[[NSUserDefaults  standardUserDefaults] objectForKey:UTOKEN]:@""]]
 
@@ -36,6 +38,107 @@
 }
 @end;
 @implementation NetWorkRequest
+
+
+
+#pragma mark-CommentApi-
+
+-(void)commitCommentWithOrder:(OrderData*)order comment:(NSString*)comment score:(int)score completeBk:(NetCallback)completeBk
+{
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/comment/submit?shopId=%@&orderId=%@&starComment=%d&wordsComment=%@",HTTPHOST,order.shopID,order.orderNu,score,comment];
+    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    HTTPADD(url);
+    
+    [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
+        
+        if (status==NetWorkSuccess) {
+            completeBk(sourceDic,status);
+        }
+        else if (status==NetWorkErrorTokenInvalid)
+        {
+            completeBk(nil,status);
+        }
+        else
+        {
+            completeBk(sourceDic,status);
+        }
+    }];
+}
+
+
+-(void)getShopCommentFromIndex:(NSInteger)start completeBlock:(NetCallback)completeBk
+{
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/comment/userAllComments?from=%d&offset=10",HTTPHOST,start];
+    HTTPADD(url);
+    
+    [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
+        
+        if (status==NetWorkSuccess)
+        {
+            NSMutableArray* backArr = [[NSMutableArray alloc]init];
+            NSArray* arr = sourceDic[@"data"][@"orderComments"];
+            
+            for (NSDictionary* dic in arr)
+            {
+                CommentData* comment = [[CommentData alloc]init];
+                comment.creatTime = dic[@"createTime"];
+                comment.comments = dic[@"wordsComment"];
+                comment.score = [dic[@"starComment"] floatValue];
+                [backArr addObject:comment];
+            }
+            completeBk(backArr,status);
+        }
+        else if (status==NetWorkErrorTokenInvalid)
+        {
+            completeBk(nil,status);
+        }
+        else
+        {
+            completeBk(sourceDic,status);
+        }
+    }];
+}
+
+
+
+-(void)getAllUserCommentWithIndex:(NSInteger)start ompleteBlock:(NetCallback)completeBk
+{
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/comment/userAllComments?from=%d&offset=10",HTTPHOST,start];
+    HTTPADD(url);
+    
+    [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
+        
+        if (status==NetWorkSuccess)
+        {
+            NSMutableArray* backArr = [[NSMutableArray alloc]init];
+            NSArray* arr = sourceDic[@"data"][@"orderComments"];
+            
+            for (NSDictionary* dic in arr)
+            {
+                CommentData* comment = [[CommentData alloc]init];
+                comment.creatTime = dic[@"createTime"];
+                comment.comments = dic[@"wordsComment"];
+                comment.score = [dic[@"starComment"] floatValue];
+                comment.shopName = dic[@"shopName"];
+                [backArr addObject:comment];
+            }
+            completeBk(backArr,status);
+        }
+        else if (status==NetWorkErrorTokenInvalid)
+        {
+            completeBk(nil,status);
+        }
+        else
+        {
+            completeBk(sourceDic,status);
+        }
+    }];
+}
+
+
+
+
+
 
 #pragma mark-RootCollectionView
 
@@ -275,7 +378,7 @@
                 order.orderID = dic[@"id"];
                 order.shopID = dic[@"shop_id"];
                 double timeLength = [dic[@"create_time"] doubleValue]/1000;
-                order.orderTime = [manager  formateFloatTimeValueToString:timeLength] ;
+                order.orderTime = [manager  formateFloatTimeValueToString:timeLength];
                 order.orderNu = dic[@"order_id"];
                 order.payWay = dic[@"act"];
                 order.discountMoney = [dic[@"dprice"] floatValue]/100.0;
@@ -283,17 +386,16 @@
                 order.shopName = dic[@"shop_name4V"];
                 order.totalMoney = dic[@"price4V"] ;
                 order.messageStr = dic[@"remarks"];
+                
                 if ([dic[@"status"] intValue]==0) {
                     
                     [order setOrderPayStatus:dic[@"status"] WithType:dic[@"act"]];
                 }
                 else
                 {
-                    [order setOrderStatueWithString:dic[@"order_status"]];
+                    [order setOrderStatueWithString:dic[@"order_status"] comment:[dic[@"comment"] intValue]];
                 }
-                ;
                 [order setOrderInfoString:dic[@"info"]];
-                
                 [returnArr addObject:order];
             }
             

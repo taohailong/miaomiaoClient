@@ -445,6 +445,7 @@
     [self accessViewAnimate:0.0];
 }
 
+
 -(void)accessViewAnimate:(float)height
 {
     [UIView animateWithDuration:.2 delay:0 options:0 animations:^{

@@ -63,13 +63,13 @@
 -(void)addOrChangeShopWithProduct:(ShopProductData *)pData
 {
     NSNumber* count = _shopDic[pData.pID];
-    if (count == nil) {
-        
+    if (count == nil)
+    {
         [_shopDic setObject:[NSNumber numberWithInt:pData.count] forKey:pData.pID];
         [_shopArr addObject:pData];
         
         _totalCount += pData.count;
-        _totalMoney+= pData.price * pData.count;
+        _totalMoney += pData.price * pData.count;
     }
     else
     {
