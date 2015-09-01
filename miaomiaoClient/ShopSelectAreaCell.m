@@ -7,10 +7,12 @@
 //
 
 #import "ShopSelectAreaCell.h"
+
+
 @interface ShopSelectAreaCell()
 {
     UILabel* _titleL;
-    
+   
     UIImageView* _detailImage;
     UILabel* _detailL;
 }
@@ -47,6 +49,9 @@
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_detailImage]-5-[_detailL]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_detailImage,_detailL)]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_detailL attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_detailImage attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
 
+    
+    
+    
     return self;
 }
 

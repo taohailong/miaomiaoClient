@@ -19,10 +19,12 @@
     [self.contentView addSubview:_scoreView];
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[_scoreView(88)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_scoreView)]];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[_scoreView(15)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_scoreView)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[_scoreView(15)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_scoreView)]];
     
     
     _scoreLabel = [[UILabel alloc]init];
+    _scoreLabel.font = DEFAULTFONT(14);
+    _scoreLabel.textColor = FUNCTCOLOR(255, 215, 53);
     _scoreLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_scoreLabel];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_scoreLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_scoreView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
@@ -38,7 +40,7 @@
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[_commentLabel]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_commentLabel)]];
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_scoreLabel]-6-[_commentLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_scoreLabel,_commentLabel)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_scoreLabel]-4-[_commentLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_scoreLabel,_commentLabel)]];
     
     return self;
 }

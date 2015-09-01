@@ -22,7 +22,9 @@
     UIButton* _fourthBt;
     UIButton* _fifthBt;
     UITextView* _textView;
+    UILabel* _indicateLabel;
     int _score;
+    int _lenth;
 }
 @property(nonatomic,strong)NSString* orderID;
 @property(nonatomic,strong)NSString* shopID;

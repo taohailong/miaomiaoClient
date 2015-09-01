@@ -45,7 +45,7 @@
 {
     [super viewDidLoad];
     self.title = @"我的订单";
-    
+    _orderArr = [[NSMutableArray alloc]init];
     _table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     _table.separatorColor = FUNCTCOLOR(229, 229, 229);
     _table.backgroundColor = FUNCTCOLOR(243, 243, 243);
@@ -72,16 +72,8 @@
         
         [loadV removeFromSuperview];
         if (status==NetWorkSuccess) {
-            if (respond.count==0) {
-                THActivityView* warnView = [[THActivityView alloc]initEmptyDataWarnViewWithString:@"您没有订单哦，赶快下单吧" WithImage:@"warn_emptyImage" WithSuperView:self.view];
-                [warnView addBtWithTitle:@"去下单" WithBk:^{
-                    [wSelf backToRoot];
-                }];
-            }
+             [wSelf addDataArr:respond];
             
-            _orderArr = respond;
-            [_table reloadData];
-            [wSelf addLoadMoreViewWithCount:(int)respond.count];
         }
         else if (status == NetWorkErrorUnKnow)
         {
@@ -123,8 +115,19 @@
 
 -(void)addDataArr:(NSMutableArray*)da
 {
-    if (da) {
+    if (da)
+    {
         [_orderArr addObjectsFromArray:da];
+        
+        if (_orderArr.count == 0)
+        {
+              __weak OrderListController* wSelf = self;
+            THActivityView* warnView = [[THActivityView alloc]initEmptyDataWarnViewWithString:@"您没有订单哦，赶快下单吧" WithImage:@"warn_emptyImage" WithSuperView:self.view];
+            [warnView addBtWithTitle:@"去下单" WithBk:^{
+                [wSelf backToRoot];
+            }];
+        }
+        
         [_table reloadData];
     }
     
@@ -439,8 +442,8 @@
           NSString* str = nil;
         if (status==NetWorkSuccess) {
             str = @"确认订单成功";
-            worder.orderStatusType = OrderStatusConfirm;
-            worder.orderStatue = @"订单完成";
+            worder.orderStatusType = OrderStatusWaitComment;
+            worder.orderStatue = @"待评价";
             [wtable reloadData];
         }
         else

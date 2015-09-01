@@ -14,8 +14,10 @@
 {
     self = [super init];
     self.backgroundColor = [UIColor whiteColor];
+    _big = NO;
     return self;
 }
+
 -(void)setScore:(float)score
 {
     if (_score>5) {
@@ -25,13 +27,29 @@
     [self setNeedsDisplay];
 }
 
+-(void)setStarTypeIsBig:(BOOL)type
+{
+    _big = type;
+}
+
+
 -(void)drawRect:(CGRect)rect
 {
     int total = 5;
     
     int full = (int)_score;
-    UIImage* starfull = [UIImage imageNamed:@"starSmall_full"];
-    CGRect frame = CGRectMake(1, 1, 13, 13);
+    
+     UIImage* starfull = nil;
+    
+    if (_big) {
+        starfull =[UIImage imageNamed:@"starBig_full"];
+    }
+    else
+    {
+        starfull =[UIImage imageNamed:@"starSmall_full"];
+    }
+   
+    CGRect frame = CGRectMake(1, 1, starfull.size.width, starfull.size.height);
     for ( int i = 0; i<full; i++) {
         [starfull drawInRect:frame];
         frame.origin.x += 5+ frame.size.width;
@@ -39,13 +57,33 @@
     
     float half = _score-full;
     if (half>0) {
-        UIImage* starhalf = [UIImage imageNamed:@"starSmall_half"];
+        
+        
+        UIImage* starhalf = nil;
+        
+        if (_big) {
+            starhalf =[UIImage imageNamed:@"starBig_half"];
+        }
+        else
+        {
+            starhalf =[UIImage imageNamed:@"starSmall_half"];
+        }
+
         [starhalf drawInRect:frame];
          frame.origin.x += 5+ frame.size.width;
     }
     
     int intEmpty = total - (int)half;
-    UIImage* starempty = [UIImage imageNamed:@"starSmall_empty"];
+     UIImage* starempty = nil;
+    if (_big) {
+        starempty =[UIImage imageNamed:@"starBig_empty"];
+    }
+    else
+    {
+        starempty =[UIImage imageNamed:@"starSmall_empty"];
+    }
+
+   
     
     for ( int i = 0; i<intEmpty; i++) {
         

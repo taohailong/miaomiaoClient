@@ -13,4 +13,5 @@
     UILabel* _fifthLabel;
 }
 -(UILabel*)getFifthLabel;
+-(void)setCommentScore:(float)score;
 @end

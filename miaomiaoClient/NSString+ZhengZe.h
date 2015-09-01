@@ -12,5 +12,5 @@
 +(BOOL)verifyNumber:(NSString*)str;
 +(BOOL)verifyIsMobilePhoneNu:(NSString*)phone;
 +(BOOL)verifyisTelPhone:(NSString*)phone;
-
++(BOOL)stringContainsEmoji:(NSString *)string;
 @end

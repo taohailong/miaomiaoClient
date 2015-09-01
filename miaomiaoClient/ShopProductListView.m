@@ -14,9 +14,10 @@
 #import "UserManager.h"
 #import "THActivityView.h"
 #import "ShopCarShareData.h"
-
+#import "OneLabelTableHeadView.h"
 @interface ShopProductListView()
 {
+    NSString* _cateName;
     NSMutableArray* _dataArr;
      NSString* _currentCategoryID;
     NSString* _currentShopID;
@@ -54,8 +55,19 @@
    
     _dataArr = [[NSMutableArray alloc]init];
     _allDataDic = [[NSMutableDictionary alloc]init];
+    
+    UIView* separateView = [[UIView alloc]init];
+    separateView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:separateView];
+    separateView.backgroundColor = FUNCTCOLOR(221, 221, 221);
+    
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[separateView(0.5)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separateView)]];
+     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[separateView]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separateView)]];
+    
+    
     _table = [[UITableView alloc]initWithFrame:self.bounds style:UITableViewStylePlain];
-    _table.separatorColor = [UIColor clearColor];
+    [_table registerClass:[OneLabelTableHeadView class] forHeaderFooterViewReuseIdentifier:@"OneLabelTableHeadView"];
+    _table.separatorColor = FUNCTCOLOR(221, 221, 221);
     [self addSubview:_table];
     _table.delegate = self;
     _table.dataSource = self;
@@ -71,7 +83,7 @@
     
     
     _table.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[separateView]-0-[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separateView,_table)]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
 
 }
@@ -202,17 +214,17 @@
 
 -(void)addLoadMoreViewWithCount:(long)count
 {
-    if (count==0) {
-        _table.separatorColor = [UIColor clearColor];
-       
-    }
-    else
-    {
-       _table.separatorColor = FUNCTCOLOR(221, 221, 221);
-    }
+//    if (count==0) {
+//        _table.separatorColor = [UIColor clearColor];
+//       
+//    }
+//    else
+//    {
+//       _table.separatorColor = FUNCTCOLOR(221, 221, 221);
+//    }
     
     if (count<20) {
-        _table.tableFooterView = nil;
+        _table.tableFooterView = [[UIView alloc]init];
     }
     else
     {
@@ -220,6 +232,35 @@
     }
  }
 
+
+-(void)setMainCategoryName:(NSString*)name
+{
+    _cateName = name;
+    [_table reloadData];
+}
+
+
+#pragma mark-TableView
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 35;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.1;
+}
+
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    OneLabelTableHeadView* head = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"OneLabelTableHeadView"];
+    head.contentView.backgroundColor = FUNCTCOLOR(237, 237, 237);
+    UILabel* title = [head getFirstLabel];
+    title.textColor = FUNCTCOLOR(180, 180, 180);
+    title.font = DEFAULTFONT(14);
+    title.text = _cateName;
+    return head;
+}
 
 
 
@@ -316,7 +357,7 @@
     
     
     NSLog(@"h-offset is %lf",h-offset.y-y);
-    if(h - offset.y-y <50 && _table.tableFooterView)
+    if(h - offset.y-y <50 && _table.tableFooterView.frame.size.height>10)
     {
         [self loadMoreDataFromNet];
     }

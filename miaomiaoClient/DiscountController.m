@@ -101,6 +101,13 @@
 -(void)reloadData:(NSArray*)arr
 {
     [_dataArr addObjectsFromArray:arr];
+    
+    if (_dataArr.count ==0) {
+        THActivityView* warnView = [[THActivityView alloc]initEmptyDataWarnViewWithString:@"您还没有优惠券哦" WithImage:@"discountList_null" WithSuperView:self.view];
+        warnView.tag = 0;
+    }
+    
+    
     [_table reloadData];
     [self addLoadMoreViewWithCount:arr.count];
 }
@@ -181,7 +188,7 @@
     float y =  bounds.size.height - inset.bottom;
     float h = size.height;
     NSLog(@"h-offset is %lf",h-offset.y-y);
-    if(h - offset.y-y <50 && _table.tableFooterView)
+    if(h - offset.y-y <50 && _table.tableFooterView.frame.size.height>10)
     {
         [self loadMoreDataFromNet];
     }

@@ -39,6 +39,86 @@
 @end;
 @implementation NetWorkRequest
 
+#pragma mark-favoriteAPI
+
+-(void)setFavoriteShop:(ShopInfoData*)shop withCompleteBk:(NetCallback)bk
+{
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/favourite/mark?shop_id=%@",HTTPHOST,shop.shopID];
+    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    HTTPADD(url);
+    
+    [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
+        
+        if (status==NetWorkSuccess) {
+            bk(sourceDic,status);
+        }
+        else if (status==NetWorkErrorTokenInvalid)
+        {
+            bk(nil,status);
+        }
+        else
+        {
+            bk(sourceDic,status);
+        }
+    }];
+}
+
+
+-(void)cancelFavoriteShop:(ShopInfoData*)shop withCompleteBk:(NetCallback)bk
+{
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/favourite/unmark?shop_id=%@",HTTPHOST,shop.shopID];
+    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    HTTPADD(url);
+    
+    [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
+        
+        if (status==NetWorkSuccess) {
+            bk(sourceDic,status);
+        }
+        else if (status==NetWorkErrorTokenInvalid)
+        {
+            bk(nil,status);
+        }
+        else
+        {
+            bk(sourceDic,status);
+        }
+    }];
+}
+
+-(void)getFavoriteList:(NetCallback)completeBk
+{
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/favourite/myMark?%@",HTTPHOST,HTTPPREFIX];
+    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    HTTPADD(url);
+    
+     NetWorkRequest* wself = self;
+    [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
+        __strong NetWorkRequest * sself =  wself;
+        
+        if (status==NetWorkSuccess) {
+            
+            NSMutableArray* backArr = [[NSMutableArray alloc]init];
+            NSArray* shopArr = sourceDic[@"data"][@"myMarkShops"];
+            for (NSDictionary* dic in shopArr)
+            {
+                ShopInfoData* shop = [sself getShopFromDic:dic];
+                shop.favorite = YES;
+                [backArr addObject:shop];
+            }
+            
+            completeBk(backArr,status);
+        }
+        else if (status==NetWorkErrorTokenInvalid)
+        {
+            completeBk(nil,status);
+        }
+        else
+        {
+            completeBk(sourceDic,status);
+        }
+    }];
+}
 
 
 #pragma mark-CommentApi-
@@ -68,7 +148,8 @@
 
 -(void)getShopCommentFromIndex:(NSInteger)start completeBlock:(NetCallback)completeBk
 {
-    NSString* url = [NSString stringWithFormat:@"http://%@/app/comment/userAllComments?from=%d&offset=10",HTTPHOST,start];
+    UserManager* user = [UserManager shareUserManager];
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/comment/shopAllComments?from=%ld&offset=20&shopId=%@",HTTPHOST,(long)start,user.shop.shopID];
     HTTPADD(url);
     
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
@@ -84,6 +165,7 @@
                 comment.creatTime = dic[@"createTime"];
                 comment.comments = dic[@"wordsComment"];
                 comment.score = [dic[@"starComment"] floatValue];
+                comment.telphone = dic[@"phone"];
                 [backArr addObject:comment];
             }
             completeBk(backArr,status);
@@ -103,7 +185,7 @@
 
 -(void)getAllUserCommentWithIndex:(NSInteger)start ompleteBlock:(NetCallback)completeBk
 {
-    NSString* url = [NSString stringWithFormat:@"http://%@/app/comment/userAllComments?from=%d&offset=10",HTTPHOST,start];
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/comment/userAllComments?from=%ld&offset=20",HTTPHOST,(long)start];
     HTTPADD(url);
     
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
@@ -585,6 +667,7 @@
                 shop.latitude = [temp[@"lat"] floatValue];
                 shop.shopName = temp[@"name"];
                 shop.shopAddress = temp[@"address"];
+                
                 [shopArr addObject:shop];
              }
              completeBk(shopArr,status);
@@ -667,12 +750,13 @@
 {
     ShopInfoData* shop = [[ShopInfoData alloc]init];
     shop.shopID = [temp[@"id"] stringValue];
+    shop.score = [temp[@"avgStar"] floatValue];
     shop.shopName = temp[@"name"];
     shop.longitude = [temp[@"lng"] floatValue];
     shop.latitude = [temp[@"lat"] floatValue];
     shop.shopAddress = temp[@"shop_address"];
     shop.shopStatue = [temp[@"status"] intValue]?ShopClose:ShopOpen;
-//    shop.shopStatue = ShopClose;
+    shop.favorite = [temp[@"mark"] intValue]?YES:NO;
     shop.distance = [temp[@"distance"] intValue];
     [shop setServeArea:temp[@"serviceArea"]];
 //    [shop setServeArea:@"1,2,3,4,5,6,78,999,1,0"];
@@ -725,26 +809,30 @@
         
 //             ////////////shopinfo////////////
             ShopInfoData* data = [[ShopInfoData alloc]init];
-            data.longitude = [sourceDic[@"data"][@"shop"][@"lng"] floatValue];
-            data.latitude = [sourceDic[@"data"][@"shop"][@"lat"] floatValue];
-             [data parseCombinPay:[sourceDic[@"data"][@"shop"][@"combin_pay"] intValue]];
-            data.shopName = sourceDic[@"data"][@"shop"][@"name"];
-            data.shopAddress = sourceDic[@"data"][@"shop"][@"shop_address"];
-            data.serveArea = sourceDic[@"data"][@"shop"][@"shop_info"];
-            data.deliverCharge = [sourceDic[@"data"][@"shop"][@"express_fee"] intValue]/100.0;
-            if (sourceDic[@"data"][@"shop"][@"open_time"]) {
-                
-                double openT = [sourceDic[@"data"][@"shop"][@"open_time"] doubleValue]/1000;
+            NSDictionary* shopDic = sourceDic[@"data"][@"shop"];
+             
+            data.longitude = [shopDic[@"lng"] floatValue];
+            data.latitude = [shopDic[@"lat"] floatValue];
+             
+             data.score = [shopDic[@"avgStar"] floatValue];
+             [data parseCombinPay:[shopDic[@"combin_pay"] intValue]];
+            data.shopName = shopDic[@"name"];
+            data.shopAddress = shopDic[@"shop_address"];
+            data.serveArea = shopDic[@"shop_info"];
+            data.deliverCharge = [shopDic[@"express_fee"] intValue]/100.0;
+            if (shopDic[@"open_time"])
+            {
+                double openT = [shopDic[@"open_time"] doubleValue]/1000;
                 data.openTime =  openT;
                 
-                double closeT = [sourceDic[@"data"][@"shop"][@"close_time"] doubleValue]/1000;
+                double closeT = [shopDic[@"close_time"] doubleValue]/1000;
                 data.closeTime = closeT;
             }
             
-            data.mobilePhoneNu = sourceDic[@"data"][@"shop"][@"owner_phone"];
-            data.shopStatue = [sourceDic[@"data"][@"shop"][@"status"] intValue]?ShopClose:ShopOpen;//0 营业中,1 打烊
-            data.minPrice = [sourceDic[@"data"][@"shop"][@"base_price"] floatValue]/100;
-            data.telPhoneNu  = sourceDic[@"data"][@"shop"][@"tel"];
+            data.mobilePhoneNu = shopDic[@"owner_phone"];
+            data.shopStatue = [shopDic[@"status"] intValue]?ShopClose:ShopOpen;//0 营业中,1 打烊
+            data.minPrice = [shopDic[@"base_price"] floatValue]/100;
+            data.telPhoneNu  = shopDic[@"tel"];
             data.shopID = shopid;
              
              
@@ -813,23 +901,35 @@
 
 -(void)shopGetCategoryWithShopID:(NSString *)shopID callBack:(NetCallback)completeBk
 {
-    NSString* url = [NSString stringWithFormat:@"http://%@/app/shop/category/get?shop_id=%@",HTTPHOST,shopID];
+    NSString* url = [NSString stringWithFormat:@"http://%@/app/shop/category/get/v2?shop_id=%@",HTTPHOST,shopID];
     HTTPADD(url);
     
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
         
         if (status==NetWorkSuccess) {
             
-            NSArray* categoryArr = sourceDic[@"data"][@"categoryls"];
             NSMutableArray* backArr = [[NSMutableArray alloc]init];
-            for (NSDictionary* dic in categoryArr)
+            NSArray* cateArr = sourceDic[@"data"][@"categoryList"];
+            for (NSDictionary* dic in cateArr)
             {
-                ShopCategoryData* category = [[ShopCategoryData alloc]init];
-                category.categoryID = [dic[@"category_id"] stringValue];
-                category.categoryName = dic[@"name"];
-//                category.shopID = dic[@"shop_id"];
-                category.subCategory = dic[@"category_sub_id"];
-                [backArr addObject:category];
+                ShopCategoryData* cateData = [[ShopCategoryData alloc]init];
+                cateData.categoryID = [dic[@"category_id"] stringValue];
+                cateData.categoryName = dic[@"name"];
+//                cateData.type = CategoryMainClass;
+                [backArr addObject:cateData];
+                
+                
+                NSMutableArray* back_sub = [[NSMutableArray alloc]init];
+                NSArray* subCategory = dic[@"subCategoryList"];
+                for (NSDictionary* subDic in subCategory) {
+                    
+                    ShopCategoryData* cateSub = [[ShopCategoryData alloc]init];
+                    cateSub.categoryID = [subDic[@"category_id"] stringValue];
+                    cateSub.categoryName = subDic[@"name"];
+//                    cateSub.type = CategorySubClass;
+                    [back_sub addObject:cateSub];
+                }
+                cateData.subClass = back_sub;
             }
             
             completeBk(backArr,status);

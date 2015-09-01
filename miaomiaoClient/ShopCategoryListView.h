@@ -11,12 +11,17 @@
 
 @protocol ShopCategoryProtocol <NSObject>
 
+
+-(void)didSelectMainCategory:(NSString*)categoryID WithName:(NSString*)name;
+-(void)didSelectSubCategory:(NSString*)categoryID WithName:(NSString*)name;
+
 -(void)didSelectCategoryIndexWith:(NSString*)categoryID WithShopID:(NSString*)shopID;
 
 @end
 @interface ShopCategoryListView : UIView<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
-    long _selectIndex;
+     int* _flag;
+    NSInteger _selectIndex;
     UITableView* _table;
     NSMutableArray* _dataArr;
     NSString* _currentShopID;

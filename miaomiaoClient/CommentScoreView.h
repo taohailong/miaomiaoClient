@@ -10,7 +10,9 @@
 
 @interface CommentScoreView : UIView
 {
+    BOOL _big;
     float _score;
 }
 -(void)setScore:(float)score;
+-(void)setStarTypeIsBig:(BOOL)type;
 @end

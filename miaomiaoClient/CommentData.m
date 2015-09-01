@@ -10,13 +10,19 @@
 
 @implementation CommentData
 @synthesize shopName,score,comments,creatTime;
-
+@synthesize telphone;
 -(CGSize)calculateStringHeightWithFont:(UIFont *)font WithSize:(CGSize)size
 {
     if (font.pointSize == _fontSize) {
         return _size;
     }
     _fontSize = font.pointSize;
+    
+    if(self.comments.length==0)
+    {
+        return CGSizeMake(0, 0);
+    }
+    
     CGRect frame = [self.comments boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
     _size = frame.size;
     

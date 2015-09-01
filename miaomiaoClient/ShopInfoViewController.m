@@ -10,9 +10,16 @@
 #import "ShopHeadCell.h"
 #import "ShopDetailCell.h"
 #import "UserManager.h"
+#import "NetWorkRequest.h"
+#import "CommentData.h"
+#import "THActivityView.h"
+#import "LastViewOnTable.h"
+#import "ShopInfoCommentCell.h"
+#import "OneLabelTableHeadView.h"
 @interface ShopInfoViewController()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
     UITableView* _table;
+    NSMutableArray* _dataArr;
 }
 @end
 
@@ -22,11 +29,18 @@
     [super viewDidLoad];
     
     self.title = @"店铺详情";
-    _table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    [_table registerClass:[ShopDetailCell class] forCellReuseIdentifier:@"ShopDetailCell"];
     
+    _dataArr = [[NSMutableArray alloc]init];
+    
+    _table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    [_table setAllowsSelection:NO];
+    _table.backgroundColor = FUNCTCOLOR(243, 243, 243);
+    [_table registerClass:[ShopDetailCell class] forCellReuseIdentifier:@"ShopDetailCell"];
+    [_table registerClass:[ShopInfoCommentCell class] forCellReuseIdentifier:@"ShopInfoCommentCell"];
     [_table registerClass:[ShopHeadCell class] forCellReuseIdentifier:@"ShopHeadCell"];
-    _table.separatorColor = [UIColor clearColor];
+    
+    [_table registerClass:[OneLabelTableHeadView class] forHeaderFooterViewReuseIdentifier:@"OneLabelTableHeadView"];
+    _table.separatorColor = FUNCTCOLOR(221, 221, 221);
     _table.translatesAutoresizingMaskIntoConstraints = NO;
     _table.delegate = self;
     _table.dataSource = self;
@@ -44,45 +58,133 @@
     
     UIBarButtonItem* rightBar = [[UIBarButtonItem alloc]initWithCustomView:custom];
     self.navigationItem.rightBarButtonItem = rightBar;
+    
+    [self getShopCommentData];
 
 }
 
+-(void)getShopCommentData
+{
+    __weak ShopInfoViewController* wself = self;
+    NetWorkRequest* req = [[NetWorkRequest alloc]init];
+    [req getShopCommentFromIndex:_dataArr.count completeBlock:^(id respond, NetWorkStatus status) {
+        if (status == NetWorkSuccess) {
+            [wself parseData:respond];
+        }
+        else if (status == NetWorkErrorTokenInvalid)
+        {
+        }
+        else
+        {
+            THActivityView* warn = [[THActivityView alloc]initWithString:respond];
+            [warn show];
+        }
+    }];
+    [req startAsynchronous];
+}
+
+-(void)parseData:(NSMutableArray*)arr
+{
+    [_dataArr addObjectsFromArray:arr];
+    [_table reloadData];
+    [self addLoadMoreViewWithCount:arr.count];
+}
+
+
+-(void)addLoadMoreViewWithCount:(int)count
+{
+    if (count<20) {
+        _table.tableFooterView = [[UIView alloc]init];
+    }
+    else
+    {
+        _table.tableFooterView = [[LastViewOnTable alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 50)];
+    }
+}
+
+
+#pragma mark-Table
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (_dataArr.count!=0) {
+        return 3;
+    }
     return 2;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (section == 2) {
+        return _dataArr.count;
+    }
     return 1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 2) {
+      CommentData* comment = _dataArr[indexPath.row];
+      CGSize size = [comment calculateStringHeightWithFont:DEFAULTFONT(12) WithSize:CGSizeMake(SCREENWIDTH-30, 10000)];
+        return 60+size.height;
+    }
+    
     if (indexPath.section == 0) {
         return 120;
     }
     return 146;
 }
 
+
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 2) {
+       OneLabelTableHeadView* head = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"OneLabelTableHeadView"];
+        UILabel* title = [head getFirstLabel];
+        title.text = @"用户评价";
+        title.font = DEFAULTFONT(16);
+        title.textColor = FUNCTCOLOR(102, 102, 102);
+        return head;
+    }
+    return nil;
+}
+
+
+
+
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 1;
+    if (section == 2) {
+        return 25;
+    }
+    return 10;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 
 {
-    return 10;
+    return 1;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    if (indexPath.section == 2) {
+        ShopInfoCommentCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ShopInfoCommentCell"];
+        CommentData* comment = _dataArr[indexPath.row];
+        [cell setScore:comment.score];
+        [cell setTelphone:comment.telphone];
+        [cell setTime:comment.creatTime];
+        [cell setCommentText:comment.comments];
+        return cell;
+    }
+    
     if (indexPath.section==0) {
         
         UserManager* manager = [UserManager shareUserManager];
         ShopHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ShopHeadCell"];
         [cell setLayout];
+        [cell setCommentScore:manager.shop.score];
         UILabel* f = [cell getFirstLabel];
         f.text = manager.shop.shopName;
         
@@ -107,6 +209,26 @@
     }
 
 }
+
+
+-(void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    CGPoint offset = scrollView.contentOffset;
+    CGRect bounds = scrollView.bounds;
+    CGSize size = scrollView.contentSize;
+    UIEdgeInsets inset = scrollView.contentInset;
+    float y =  bounds.size.height - inset.bottom;
+    float h = size.height;
+    
+    
+    NSLog(@"h-offset is %lf",h-offset.y-y);
+    if(h - offset.y-y <50 && _table.tableFooterView.frame.size.height>10)
+    {
+        [self getShopCommentData];
+    }
+    
+}
+
 
 
 -(void)makeTelphone

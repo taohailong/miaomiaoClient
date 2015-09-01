@@ -16,6 +16,7 @@
 @property(nonatomic,strong)NSString* shopName;
 @property(nonatomic,strong)NSString* comments;
 @property(nonatomic,strong)NSString* creatTime;
+@property(nonatomic,strong)NSString* telphone;
 @property(nonatomic,assign)float score;
 
 -(CGSize)calculateStringHeightWithFont:(UIFont *)font WithSize:(CGSize)size;

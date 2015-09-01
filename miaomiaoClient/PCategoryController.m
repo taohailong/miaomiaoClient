@@ -167,7 +167,9 @@
 -(void)getNetCategoryData
 {
     UserManager* manager =[UserManager shareUserManager];
+    [_productListV clearAllData];
     [_categoryListV initNetDataWithShopID:manager.shopID WithSpecifyCategory:manager.specifyCategory];
+    
     [self updateNavgationTitleView];
 }
 
@@ -225,12 +227,27 @@
 }
 
 //分类 delegate
--(void)didSelectCategoryIndexWith:(NSString *)categoryID WithShopID:(NSString *)shopID
+//-(void)didSelectCategoryIndexWith:(NSString *)categoryID WithShopID:(NSString *)shopID
+//{
+//    UserManager* user = [UserManager shareUserManager];
+//    [_productListV setCategoryIDToGetData:categoryID WithShopID:user.shopID];
+//    user.specifyCategory = nil;
+//}
+
+
+-(void)didSelectMainCategory:(NSString *)categoryID WithName:(NSString *)name
+{
+    [_productListV setMainCategoryName:name];
+}
+
+-(void)didSelectSubCategory:(NSString *)categoryID WithName:(NSString *)name
 {
     UserManager* user = [UserManager shareUserManager];
     [_productListV setCategoryIDToGetData:categoryID WithShopID:user.shopID];
     user.specifyCategory = nil;
 }
+
+
 //商铺选择 delegate
 -(void)shopSelectOverWithShopID:(ShopInfoData *)shop
 {

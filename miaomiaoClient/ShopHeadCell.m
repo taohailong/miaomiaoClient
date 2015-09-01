@@ -7,8 +7,11 @@
 //
 
 #import "ShopHeadCell.h"
+#import "CommentScoreView.h"
 @interface ShopHeadCell()
 {
+    UILabel* _scoreLabel;
+    CommentScoreView* _scoreView;
     UIView* horizontalSeparate;
     UIView* verticalSeparate1;
 }
@@ -65,7 +68,16 @@
     _fifthLabel.textColor = DEFAULTBLACK;
     _fifthLabel.font = DEFAULTFONT(13);
     
+    _scoreView = [[CommentScoreView alloc]init];
+    [_scoreView setStarTypeIsBig:YES];
+    _scoreView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.contentView addSubview:_scoreView];
     
+    _scoreLabel = [[UILabel alloc]init];
+    _scoreLabel.font = DEFAULTFONT(18);
+    _scoreLabel.textColor = FUNCTCOLOR(255, 215, 53);
+    _scoreLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.contentView addSubview:_scoreLabel];
     return self;
 }
 
@@ -75,6 +87,25 @@
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[_firstLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_firstLabel)]];
 
+    
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_scoreView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:-22]];
+    
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_scoreView(126)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_scoreView)]];
+    
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_firstLabel]-7-[_scoreView(22)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_firstLabel,_scoreView)]];
+    
+    
+    
+    
+    
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_scoreView]-3-[_scoreLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_scoreView,_scoreLabel)]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_scoreLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_scoreView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    
+    
+    
+    
+    
     
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[horizontalSeparate]-8-[_secondLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(horizontalSeparate,_secondLabel)]];
@@ -104,6 +135,13 @@
 -(UILabel*)getFifthLabel
 {
     return _fifthLabel;
+}
+
+
+-(void)setCommentScore:(float)score
+{
+    [_scoreView setScore:score];
+    _scoreLabel.text = [NSString stringWithFormat:@"%.1f分",score];
 }
 
 @end

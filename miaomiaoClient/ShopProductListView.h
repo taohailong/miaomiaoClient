@@ -23,6 +23,7 @@
 
 -(void)clearAllData;
 -(void)reloadTable;
+-(void)setMainCategoryName:(NSString*)name;
 //-(void)setDataArrReloadTable:(NSMutableArray *)dataArr;
 //-(void)addDataArr:(NSMutableArray*)da;
 @end

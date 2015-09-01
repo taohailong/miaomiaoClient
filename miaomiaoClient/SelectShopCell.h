@@ -7,12 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommentScoreView.h"
+typedef void (^FavoriteBk)(void);
 
 @interface SelectShopCell : UITableViewCell
+
 @property(nonatomic,strong)UILabel* titleLabel;
 @property(nonatomic,strong)UILabel* secondLabel;
 @property(nonatomic,strong)UILabel* thirdLabel;
 @property(nonatomic,strong)UILabel* fourthLabel;
+
+-(void)setFavoriteBk:(FavoriteBk)bk;
+-(void)setFavorite:(BOOL)fav;
+-(void)setScore:(float)score;
 -(UILabel*)getStatusLabel;
 -(void)setFifthLabelStr:(NSString*)str;
 -(void)setServerArr:(NSArray*)arr withSizeDic:(NSMutableDictionary*)dic

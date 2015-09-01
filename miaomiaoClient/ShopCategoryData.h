@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface ShopCategoryData : NSObject
+@property(nonatomic,strong)NSMutableArray* subClass;
 @property(nonatomic,strong)NSString* categoryID;
 @property(nonatomic,strong)NSString* categoryName;
 @property(nonatomic,strong)NSArray* products;

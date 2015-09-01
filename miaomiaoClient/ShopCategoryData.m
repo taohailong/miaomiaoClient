@@ -9,5 +9,5 @@
 #import "ShopCategoryData.h"
 
 @implementation ShopCategoryData
-@synthesize products,categoryID,categoryName,subCategory,shopID;
+@synthesize products,categoryID,categoryName,subCategory,shopID,subClass;
 @end

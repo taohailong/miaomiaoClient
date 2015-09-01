@@ -47,7 +47,8 @@ typedef enum _CommitPayMethod
 @property(nonatomic,assign)float longitude;
 @property(nonatomic,strong)NSString* district;
 @property(nonatomic,assign)int distance;
-
+@property(nonatomic,assign)float score;
+@property(nonatomic,assign)BOOL favorite;
 -(void)parseCombinPay:(int)pay;
 -(NSString*)getBusinessHours;
 

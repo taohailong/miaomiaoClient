@@ -44,6 +44,12 @@ typedef void (^NetCallback)(id respond,NetWorkStatus status);
 -(void)startAsynchronous;
 -(void)cancel;
 
+//收藏
+
+-(void)setFavoriteShop:(ShopInfoData*)shop withCompleteBk:(NetCallback)bk;
+
+-(void)cancelFavoriteShop:(ShopInfoData*)shop withCompleteBk:(NetCallback)bk;
+-(void)getFavoriteList:(NetCallback)completeBk;
 
 //推荐码
 -(void)verifySpreadCode:(NSString*)code WithCompleteBk:(NetCallback)completeBk;

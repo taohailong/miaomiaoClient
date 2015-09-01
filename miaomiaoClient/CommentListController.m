@@ -12,19 +12,23 @@
 #import "CommentListBottomCell.h"
 #import "CommentData.h"
 #import "LastViewOnTable.h"
+#import "THActivityView.h"
+
 @implementation CommentListController
 -(void)viewDidLoad
 {
     [super viewDidLoad];
     self.title = @"我的评论";
-    _table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    _table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    [_table setAllowsSelection:NO];
+    _table.backgroundColor = FUNCTCOLOR(243, 243, 243);
     [_table registerClass:[CommentListBottomCell class] forCellReuseIdentifier:@"CommentListBottomCell"];
     [_table registerClass:[CommentListHeadCell class] forCellReuseIdentifier:@"CommentListHeadCell"];
     _table.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:_table];
     _table.delegate = self;
     _table.dataSource = self;
-    
+    _table.separatorColor = FUNCTCOLOR(221, 221, 221);
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_table]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[_table]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
     
@@ -60,8 +64,15 @@
 -(void)parseData:(NSArray*)arr
 {
     [_dataArr addObjectsFromArray:arr];
-    [self addLoadMoreViewWithCount:arr.count];
+    
+    if (_dataArr.count == 0) {
+        THActivityView* warnView = [[THActivityView alloc]initEmptyDataWarnViewWithString:@"还没有评论哦" WithImage:@"commentList_null" WithSuperView:self.view];
+        warnView.tag = 1;
+        return;
+    }
     [_table reloadData];
+    [self addLoadMoreViewWithCount:arr.count];
+    
 }
 
 -(void)addLoadMoreViewWithCount:(int)count
@@ -93,6 +104,12 @@
     return 10;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.1;
+}
+
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
@@ -100,7 +117,7 @@
     }
     CommentData* data = _dataArr[indexPath.section];
     CGSize size = [data calculateStringHeightWithFont:DEFAULTFONT(13) WithSize:CGSizeMake(SCREENWIDTH-30, 1000)];
-    return 40 + size.height;
+    return 37 + size.height;
 }
 
 

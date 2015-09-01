@@ -24,8 +24,8 @@
 @synthesize combinPay,deliverCharge;
 @synthesize shopArea;
 @synthesize distance;
-
-
+@synthesize score;
+@synthesize favorite;
 #pragma mark- serverAreaParse
 
 -(NSArray*)getServerArr

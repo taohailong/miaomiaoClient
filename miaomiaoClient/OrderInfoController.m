@@ -535,8 +535,8 @@
         [loadView removeFromSuperview];
         if (status==NetWorkSuccess) {
             str = @"确认订单成功";
-            worder.orderStatusType = OrderStatusConfirm;
-            worder.orderStatue = @"订单完成";
+            worder.orderStatusType = OrderStatusWaitComment;
+            worder.orderStatue = @"待评价";
             [wtable reloadData];
         }
         else if(NetWorkErrorUnKnow == status)

@@ -485,7 +485,7 @@ typedef enum _TableResultType
     }
     else
     {
-        return 145;
+        return 147;
     }
 }
 
@@ -536,8 +536,20 @@ typedef enum _TableResultType
     {
         statusL.hidden = YES;
     }
-   
+    __weak ShopSelectController* wself = self;
+    __weak ShopInfoData* wdata = shop;
+    [cell setFavoriteBk:^{
+        if (wdata.favorite==YES) {
+            [wself cancelFavoriteShop:wdata];
+        }
+        else
+        {
+            [wself setFavoriteShop:wdata];
+        }
+    }];
+    [cell setFavorite:shop.favorite];
     cell.titleLabel.text = shop.shopName;
+    [cell setScore:shop.score];
     
     cell.secondLabel.text = [NSString stringWithFormat:@"距离：%dm",shop.distance];
     cell.thirdLabel.text = [NSString stringWithFormat:@"%@－%@",[shop getOpenTime],[shop getCloseTime]];
@@ -780,6 +792,51 @@ typedef enum _TableResultType
         [self.view addSubview:_emptyWarn];
     }
 
+}
+
+
+#pragma mark-Favorite
+
+-(void)setFavoriteShop:(ShopInfoData*)shop
+{
+    __weak UITableView* wtable = _table;
+    NetWorkRequest* req = [[NetWorkRequest alloc]init];
+    [req setFavoriteShop:shop withCompleteBk:^(id respond, NetWorkStatus status) {
+        if (status == NetWorkSuccess) {
+            shop.favorite = YES;
+            [wtable reloadData];
+        }
+        else if (NetWorkErrorTokenInvalid == status)
+        {
+        }
+        else
+        {
+            THActivityView* warnView = [[THActivityView alloc]initWithString:respond];
+            [warnView show];
+        }
+    }];
+    [req startAsynchronous];
+}
+
+-(void)cancelFavoriteShop:(ShopInfoData*)shop
+{
+    __weak UITableView* wtable = _table;
+    NetWorkRequest* req = [[NetWorkRequest alloc]init];
+    [req cancelFavoriteShop:shop withCompleteBk:^(id respond, NetWorkStatus status) {
+        if (status == NetWorkSuccess) {
+            shop.favorite = NO;
+            [wtable reloadData];
+        }
+        else if (NetWorkErrorTokenInvalid == status)
+        {
+        }
+        else
+        {
+            THActivityView* warnView = [[THActivityView alloc]initWithString:respond];
+            [warnView show];
+        }
+    }];
+    [req startAsynchronous];
 }
 
 

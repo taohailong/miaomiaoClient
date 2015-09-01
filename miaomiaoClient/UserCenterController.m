@@ -18,6 +18,7 @@
 #import "SpreadViewController.h"
 #import "LogViewController.h"
 #import "CommentListController.h"
+#import "FavoriteController.h"
 
 @interface UserCenterController()<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
 {
@@ -237,7 +238,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
-        return 3;
+        return 4;
     }
     return 2;
 }
@@ -269,9 +270,14 @@
                 imageStr = @"userCenter_spread";
 
                 break;
-            default:
+            case 2:
                 text = @"我的评论";
                 imageStr = @"userCenter_comment";
+                break;
+                
+            case 3:
+                text = @"我的收藏";
+                imageStr = @"userCenter_favorite";
 
                 break;
         }
@@ -331,7 +337,7 @@
                     [self showSpeardViewController];
                 }
                 break;
-            default:
+            case 2:
                 
                 if ([manager isLogin] == NO)
                 {
@@ -343,8 +349,20 @@
                 {
                     [self showCommentViewController];
                 }
-
                 
+            case 3:
+                
+                if ([manager isLogin] == NO)
+                {
+                    [self showLogView:^{
+                        [wSelf showFavoriteController];
+                    }];
+                }
+                else
+                {
+                    [self showFavoriteController];
+                }
+     
                 break;
         }
         
@@ -454,6 +472,14 @@
     SpreadViewController* showSpreadView = [[SpreadViewController alloc]init];
     showSpreadView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:showSpreadView animated:YES];
+}
+
+
+-(void)showFavoriteController
+{
+    FavoriteController* favorite = [[FavoriteController alloc]init];
+    favorite.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:favorite animated:YES];
 }
 
 #pragma mark------------delegate--------------------

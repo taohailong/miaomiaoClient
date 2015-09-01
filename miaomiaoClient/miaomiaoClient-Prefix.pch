@@ -57,7 +57,7 @@
 #define HTTPHOST @"test.mbianli.com:8088"
 #else
 #if ENTERPISE
-#define HTTPHOST @"test.mbianli.com:8099"
+#define HTTPHOST @"test.mbianli.com:8088"
 #else
 #define HTTPHOST @"www.mbianli.com"
 #endif

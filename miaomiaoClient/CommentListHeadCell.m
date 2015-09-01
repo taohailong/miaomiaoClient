@@ -33,7 +33,7 @@
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_cellImageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     
     
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_cellImageView]-10-[_firstLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_cellImageView,_firstLabel)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_cellImageView]-5-[_firstLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_cellImageView,_firstLabel)]];
     
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_firstLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
 

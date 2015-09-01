@@ -10,9 +10,14 @@
 #import "NSStringDrawView.h"
 @interface SelectShopCell()
 {
+    UILabel* _scoreLabel;
     UILabel* _statusL;
     UILabel* _fifthLabel;
     NSStringDrawView* _drawView;
+    CommentScoreView* _scoreView;
+    
+    UIButton* _favoriteBt;
+    FavoriteBk _favoriteBk;
 }
 @end
 @implementation SelectShopCell
@@ -37,7 +42,7 @@
     [self.contentView addSubview:self.titleLabel];
     self.titleLabel.textColor = FUNCTCOLOR(64, 64, 64);
     self.titleLabel.font = DEFAULTFONT(16);
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[titleLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleLabel)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[titleLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleLabel)]];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[titleLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleLabel)]];
 
     _statusL = [[UILabel alloc]init];
@@ -57,6 +62,26 @@
     UILabel* titleL = self.titleLabel;
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[titleL]-10-[_statusL(45)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleL,_statusL)]];
 
+//    scoreView
+    
+    
+    _scoreView = [[CommentScoreView alloc]init];
+    _scoreView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.contentView addSubview:_scoreView];
+    
+    UILabel* t = self.titleLabel;
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[_scoreView(88)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_scoreView)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[t]-0-[_scoreView(15)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(t,_scoreView)]];
+    
+    
+    
+    _scoreLabel = [[UILabel alloc]init];
+    _scoreLabel.font = DEFAULTFONT(13);
+    _scoreLabel.textColor = FUNCTCOLOR(255, 215, 53);
+    _scoreLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.contentView addSubview:_scoreLabel];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_scoreView]-5-[_scoreLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_scoreView,_scoreLabel)]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_scoreLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_scoreView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     
 ///////////////////////self.titleLabel//////////////////
     
@@ -65,7 +90,7 @@
     contentImage1.image = [UIImage imageNamed:@"selectShop_distance"];
     [self.contentView addSubview:contentImage1];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[contentImage1]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentImage1)]];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[titleLabel]-22-[contentImage1]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleLabel,contentImage1)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[titleLabel]-25-[contentImage1]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleLabel,contentImage1)]];
 
     
     self.secondLabel = [[UILabel alloc]init];
@@ -87,7 +112,7 @@
     
     contentImage2.image = [UIImage imageNamed:@"selectShop_time"];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[secondLabel]-15-[contentImage2]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(secondLabel,contentImage2)]];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[titleLabel]-22-[contentImage2]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleLabel,contentImage2)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[titleLabel]-25-[contentImage2]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleLabel,contentImage2)]];
 
     
     self.thirdLabel = [[UILabel alloc]init];
@@ -168,6 +193,17 @@
     
      [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[contentImage3]-8-[_drawView]-3-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentImage3,_drawView)]];
     
+//favoriteView
+    
+    _favoriteBt = [UIButton buttonWithType:UIButtonTypeCustom];
+    _favoriteBt.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.contentView addSubview:_favoriteBt];
+    [_favoriteBt addTarget:self action:@selector(favoriteAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_favoriteBt setImage:[UIImage imageNamed:@"selectShop_favorite"] forState:UIControlStateSelected];
+    [_favoriteBt setImage:[UIImage imageNamed:@"selectShop_nofavorite"] forState:UIControlStateNormal];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[_favoriteBt]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_favoriteBt)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_favoriteBt]-15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_favoriteBt)]];
+    
     return self;
 }
 
@@ -187,6 +223,36 @@
 -(void)setServerArr:(NSArray*)arr withSizeDic:(NSMutableDictionary*)dic
 {
     [_drawView setStings:arr withSizeDic:dic];
+}
+
+-(void)setScore:(float)score
+{
+    [_scoreView setScore:score];
+    _scoreLabel.text = [NSString stringWithFormat:@"%.1f分",score];
+}
+
+-(void)setFavorite:(BOOL)fav
+{
+    if (fav) {
+        _favoriteBt.selected = YES;
+    }
+    else
+    {
+       _favoriteBt.selected = NO;
+    }
+}
+
+-(void)setFavoriteBk:(FavoriteBk)bk
+{
+    _favoriteBk = bk;
+}
+
+
+-(void)favoriteAction:(UIButton*)bt
+{
+    if (_favoriteBk) {
+        _favoriteBk();
+    }
 }
 
 @end
