@@ -51,13 +51,25 @@
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_table]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_table)]];
     
     
-    UIButton* custom = [UIButton buttonWithType:UIButtonTypeCustom];
-    [custom setImage:[UIImage imageNamed:@"shopInfo_phone"] forState:UIControlStateNormal];
-    custom.frame = CGRectMake(0, 0, 30, 40);
-    [custom addTarget:self action:@selector(makeTelphone) forControlEvents:UIControlEventTouchUpInside];
+    UIButton* phoneBt = [UIButton buttonWithType:UIButtonTypeCustom];
+    [phoneBt setImage:[UIImage imageNamed:@"shopInfo_phone"] forState:UIControlStateNormal];
+    phoneBt.frame = CGRectMake(0, 0, 30, 40);
+    [phoneBt addTarget:self action:@selector(makeTelphone) forControlEvents:UIControlEventTouchUpInside];
     
-    UIBarButtonItem* rightBar = [[UIBarButtonItem alloc]initWithCustomView:custom];
-    self.navigationItem.rightBarButtonItem = rightBar;
+    UIBarButtonItem* rightBar1 = [[UIBarButtonItem alloc]initWithCustomView:phoneBt];
+    
+    
+    
+    UIButton* favoriteBt = [UIButton buttonWithType:UIButtonTypeCustom];
+    [favoriteBt setImage:[UIImage imageNamed:@"selectShop_favorite"] forState:UIControlStateNormal];
+    [favoriteBt setImage:[UIImage imageNamed:@"selectShop_nofavorite"] forState:UIControlStateSelected];
+    favoriteBt.frame = CGRectMake(0, 0, 20, 40);
+    [favoriteBt addTarget:self action:@selector(favoriteAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem* rightBar2 = [[UIBarButtonItem alloc]initWithCustomView:favoriteBt];
+
+    
+    self.navigationItem.rightBarButtonItems = @[rightBar2,rightBar1];
     
     [self getShopCommentData];
 
@@ -229,6 +241,68 @@
     
 }
 
+
+-(void)favoriteAction
+{
+    UserManager* manager = [UserManager shareUserManager];
+    
+    UIBarButtonItem* favorite = self.navigationItem.rightBarButtonItems[0];
+    UIButton* favoriteBt = (UIButton*)favorite.customView;
+    if (favoriteBt.selected == YES) {
+        [self cancelFavoriteShop:manager.shop];
+    }
+    else
+    {
+       [self setFavoriteShop:manager.shop];
+    }
+    favoriteBt.selected = !favoriteBt.selected;
+}
+
+
+#pragma mark-Favorite
+
+-(void)setFavoriteShop:(ShopInfoData*)shop
+{
+    UIBarButtonItem* favorite = self.navigationItem.rightBarButtonItems[0];
+    __weak UIButton* favoriteBt = (UIButton*)favorite.customView;
+    NetWorkRequest* req = [[NetWorkRequest alloc]init];
+    [req setFavoriteShop:shop withCompleteBk:^(id respond, NetWorkStatus status) {
+        if (status == NetWorkSuccess) {
+            favoriteBt.selected = YES;
+        }
+        else if (NetWorkErrorTokenInvalid == status)
+        {
+        }
+        else
+        {
+            THActivityView* warnView = [[THActivityView alloc]initWithString:respond];
+            [warnView show];
+        }
+    }];
+    [req startAsynchronous];
+}
+
+-(void)cancelFavoriteShop:(ShopInfoData*)shop
+{
+    UIBarButtonItem* favorite = self.navigationItem.rightBarButtonItems[1];
+    __weak UIButton* favoriteBt = (UIButton*)favorite.customView;
+
+    NetWorkRequest* req = [[NetWorkRequest alloc]init];
+    [req cancelFavoriteShop:shop withCompleteBk:^(id respond, NetWorkStatus status) {
+        if (status == NetWorkSuccess) {
+            favoriteBt.selected = NO;
+        }
+        else if (NetWorkErrorTokenInvalid == status)
+        {
+        }
+        else
+        {
+            THActivityView* warnView = [[THActivityView alloc]initWithString:respond];
+            [warnView show];
+        }
+    }];
+    [req startAsynchronous];
+}
 
 
 -(void)makeTelphone

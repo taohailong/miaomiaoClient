@@ -94,29 +94,29 @@
     
      NetWorkRequest* wself = self;
     [self getMethodRequestStrUrl:url complete:^(NetWorkStatus status, NSDictionary *sourceDic, NSError *err) {
-        __strong NetWorkRequest * sself =  wself;
-        
-        if (status==NetWorkSuccess) {
-            
-            NSMutableArray* backArr = [[NSMutableArray alloc]init];
-            NSArray* shopArr = sourceDic[@"data"][@"myMarkShops"];
-            for (NSDictionary* dic in shopArr)
-            {
-                ShopInfoData* shop = [sself getShopFromDic:dic];
-                shop.favorite = YES;
-                [backArr addObject:shop];
+         __strong NetWorkRequest * sself =  wself;
+    
+            if (status==NetWorkSuccess) {
+                
+                NSMutableArray* backArr = [[NSMutableArray alloc]init];
+                NSArray* shopArr = sourceDic[@"data"][@"myMarkShops"];
+                for (NSDictionary* dic in shopArr)
+                {
+                    ShopInfoData* shop = [sself getShopFromDic:dic];
+                    shop.favorite = YES;
+                    [backArr addObject:shop];
+                }
+                
+                completeBk(backArr,status);
             }
-            
-            completeBk(backArr,status);
-        }
-        else if (status==NetWorkErrorTokenInvalid)
-        {
-            completeBk(nil,status);
-        }
-        else
-        {
-            completeBk(sourceDic,status);
-        }
+            else if (status==NetWorkErrorTokenInvalid)
+            {
+                completeBk(nil,status);
+            }
+            else
+            {
+                completeBk(sourceDic,status);
+            }
     }];
 }
 
@@ -726,7 +726,19 @@
                 ShopInfoData* shop = [sself getShopFromDic:dic];
                 [shopNear addObject:shop];
             }
+  
+//            markShops
+            
+            NSArray* arrFavorite = sourceDic[@"data"][@"markShops"];
+            NSMutableArray* shopFavorite = [[NSMutableArray alloc]init];
+            
+            for (NSDictionary* dic in arrFavorite)
+            {
+                ShopInfoData* shop = [sself getShopFromDic:dic];
+                [shopFavorite addObject:shop];
+            }
 
+            [returnDic setObject:shopFavorite forKey:@"favorite"];
             [returnDic setObject:shopBest  forKey:@"best"];
             [returnDic setObject:shopNear  forKey:@"near"];
             completeBk(returnDic,status);

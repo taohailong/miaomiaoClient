@@ -42,8 +42,10 @@
    for (NSString* temp in _serverAreas)
     {
         CGSize size = [temp sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11]}];
+    
         [_serverDic setObject:NSStringFromCGSize(size)  forKey:temp];
-        width += size.width +HORIZONTALSPACE*2+ SPACEWIDTH;
+        
+         width += size.width +HORIZONTALSPACE*2+ SPACEWIDTH;
     }
     if (width>SCREENWIDTH-90) {
         _onlyOne = NO;

@@ -43,6 +43,7 @@
     }
     _strArr = strs;
     _drawElement = dic;
+    [self setNeedsDisplay];
 }
 
 

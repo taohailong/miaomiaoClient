@@ -16,6 +16,9 @@
 #import "ShopSearchHeadView.h"
 #import "DataBase.h"
 #import "ShopSelectAreaCell.h"
+#import "SelectShopFavoriteCell.h"
+
+
 typedef enum _TableResultType
 {
    TableSearchBegin,
@@ -34,8 +37,12 @@ typedef enum _TableResultType
 //    UILabel* locationLabel;
     UISearchBar* _search;
     NSMutableArray* _bestArr;
-    UISearchDisplayController* searchController;
     NSMutableArray* _nearArr;
+    NSMutableArray* _favoriteArr;
+    
+    
+    UISearchDisplayController* searchController;
+    
     NSString* _area;
     TableResultType _isSearch;
     THActivityView* _emptyWarn;
@@ -69,7 +76,8 @@ typedef enum _TableResultType
     
     _table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     [_table registerClass:[ShopTableHeadView class] forHeaderFooterViewReuseIdentifier:@"ShopTableHeadView"];
-    
+    [_table registerClass:[SelectShopCell class] forCellReuseIdentifier:@"SelectShopCell"];
+    [_table registerClass:[SelectShopFavoriteCell class] forCellReuseIdentifier:@"SelectShopFavoriteCell"];
     [_table registerClass:[ShopSearchHeadView class] forHeaderFooterViewReuseIdentifier:@"ShopSearchHeadView"];
     [_table registerClass:[ShopSelectAreaCell class] forCellReuseIdentifier:@"ShopSelectAreaCell"];
     _table.delegate = self;
@@ -366,11 +374,15 @@ typedef enum _TableResultType
     }
     else
     {
-        if (_bestArr==nil&&_nearArr==nil) {
+        if (_bestArr==nil&&_nearArr==nil&&_favoriteArr==nil) {
             
             return 1;
         }
-        else if (_nearArr.count == 0||_bestArr.count == 0)
+        else if (_bestArr.count != 0&&_nearArr.count!=0&&_favoriteArr.count!=0)
+        {
+            return 4;
+        }
+        else if ((_nearArr.count == 0&&_bestArr.count+_favoriteArr.count==0)||(_bestArr.count == 0&&_nearArr.count+_favoriteArr.count==0)||(_favoriteArr.count == 0&&_bestArr.count+_nearArr.count==0))
         {
             return 2;
         }
@@ -411,7 +423,16 @@ typedef enum _TableResultType
             [headView setTitleStr:_area];
             return headView;
         }
-        else if (section == 1&&_bestArr.count != 0) {
+        
+        else if(section == 1&& _favoriteArr.count !=0)
+        {
+            ShopTableHeadView* headView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"ShopTableHeadView"];
+            headView.titleLabel.text = @"我的店铺";
+            return headView;
+        }
+
+        
+        else if (((section == 1&& _favoriteArr.count==0)||(section == 2&& _favoriteArr.count!=0))&&_bestArr.count != 0) {
             
             ShopTableHeadView* headView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"ShopTableHeadView"];
             headView.titleLabel.text = @"最优店铺";
@@ -423,13 +444,6 @@ typedef enum _TableResultType
             headView.titleLabel.text = @"附近店铺";
             return headView;
         }
-//        else
-//        {
-//            ShopTableHeadView* headView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"ShopTableHeadView"];
-//            headView.titleLabel
-//            .text = @"历史店铺";
-//            return headView;
-//        }
     }
 }
 
@@ -450,7 +464,12 @@ typedef enum _TableResultType
         if (section == 0) {
             return 0;
         }
-        else if (section ==1&&_bestArr.count != 0)
+        else if (section==1&&_favoriteArr.count!=0)
+        {
+            return _favoriteArr.count;
+        }
+        
+        else if (((section ==1&&_favoriteArr.count==0)||(section ==2&&_favoriteArr.count!=0))&&_bestArr.count != 0)
         {
              return _bestArr.count;
         }
@@ -468,10 +487,15 @@ typedef enum _TableResultType
         return 60;
     }
     
+    if(indexPath.section==1&&_favoriteArr.count!=0)
+    {
+        return 50;
+    }
+    
     ShopInfoData* shop = nil;
     if (_isSearch == TableNormal)
     {
-        if (indexPath.section ==1&&_bestArr.count != 0) {
+        if  (((indexPath.section ==1&&_favoriteArr.count==0)||(indexPath.section ==2&&_favoriteArr.count!=0))&&_bestArr.count != 0) {
             shop = _bestArr[indexPath.row];
         }
         else
@@ -507,18 +531,24 @@ typedef enum _TableResultType
         return cell;
     }
     
-    
-    NSString* str  = @"ids";
-    SelectShopCell* cell = [tableView dequeueReusableHeaderFooterViewWithIdentifier:str];
-    if (cell==nil) {
-        cell = [[SelectShopCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
+    if (indexPath.section==1&&_favoriteArr.count!=0) {
+        
+        SelectShopFavoriteCell* cell = [tableView dequeueReusableCellWithIdentifier:@"SelectShopFavoriteCell"];
+        ShopInfoData* shop = _favoriteArr[indexPath.row];
+        UILabel* second =  [cell getCellLabel];
+        second.text = shop.shopAddress;
+        UILabel* first = [cell getFirstLabel];
+        first.text = shop.shopName;
+        return cell;
     }
-   
+    
+    
+    SelectShopCell* cell = [tableView dequeueReusableCellWithIdentifier:@"SelectShopCell"];
     ShopInfoData* shop = nil;
     
     if (_isSearch == TableNormal)
     {
-        if (indexPath.section ==1&&_bestArr.count != 0) {
+        if (((indexPath.section ==1&&_favoriteArr.count==0)||(indexPath.section ==2&&_favoriteArr.count!=0))&&_bestArr.count != 0) {
             shop = _bestArr[indexPath.row];
         }
         else
@@ -547,6 +577,19 @@ typedef enum _TableResultType
             [wself setFavoriteShop:wdata];
         }
     }];
+    
+    UserManager* manager = [UserManager shareUserManager];
+     UIButton* favorite = [cell getFavoriteView];
+    if (manager.isLogin == NO) {
+      
+        favorite.hidden = YES;
+    }
+    else
+    {
+        favorite.hidden = NO;
+    }
+    
+    
     [cell setFavorite:shop.favorite];
     cell.titleLabel.text = shop.shopName;
     [cell setScore:shop.score];
@@ -576,6 +619,8 @@ typedef enum _TableResultType
     
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    
     if ([self.delegate respondsToSelector:@selector(shopSelectOverWithShopID:)])
     {
         NSArray* arr = nil;
@@ -583,7 +628,12 @@ typedef enum _TableResultType
         if (_isSearch != TableNormal) {
            
         }
-        else  if (indexPath.section == 1&&_bestArr.count!=0) {
+        if(indexPath.section==1&&_favoriteArr.count!=0)
+        {
+            arr = _favoriteArr;
+        }
+
+        else  if (((indexPath.section ==1&&_favoriteArr.count==0)||(indexPath.section ==2&&_favoriteArr.count!=0))&&_bestArr.count != 0) {
             arr = _bestArr;
         }
         else
@@ -681,7 +731,7 @@ typedef enum _TableResultType
     [self setTableSearchType:TableNormal];
     _bestArr = arr[@"best"];
     _nearArr = arr[@"near"];
-
+    _favoriteArr = arr[@"favorite"];
     [_table reloadData];
     
     if (_nearArr.count == 0&& _bestArr.count == 0) {

@@ -276,7 +276,7 @@
                 break;
                 
             case 3:
-                text = @"我的收藏";
+                text = @"我的店铺";
                 imageStr = @"userCenter_favorite";
 
                 break;
@@ -349,7 +349,7 @@
                 {
                     [self showCommentViewController];
                 }
-                
+                break;
             case 3:
                 
                 if ([manager isLogin] == NO)
@@ -479,6 +479,7 @@
 {
     FavoriteController* favorite = [[FavoriteController alloc]init];
     favorite.hidesBottomBarWhenPushed = YES;
+    favorite.title = @"我的店铺";
     [self.navigationController pushViewController:favorite animated:YES];
 }
 

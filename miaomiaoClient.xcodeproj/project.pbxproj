@@ -478,6 +478,9 @@
 		C79884121B663F51003F58DF /* ShopSearchHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79884111B663F51003F58DF /* ShopSearchHeadView.m */; };
 		C79884131B663F51003F58DF /* ShopSearchHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79884111B663F51003F58DF /* ShopSearchHeadView.m */; };
 		C79884141B663F51003F58DF /* ShopSearchHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79884111B663F51003F58DF /* ShopSearchHeadView.m */; };
+		C79B1A111B96C7BE0070D25C /* SelectShopFavoriteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79B1A101B96C7BE0070D25C /* SelectShopFavoriteCell.m */; };
+		C79B1A121B96C7BE0070D25C /* SelectShopFavoriteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79B1A101B96C7BE0070D25C /* SelectShopFavoriteCell.m */; };
+		C79B1A131B96C7BE0070D25C /* SelectShopFavoriteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79B1A101B96C7BE0070D25C /* SelectShopFavoriteCell.m */; };
 		C79F18AC1B17285E006AB215 /* ConfirmAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79F18AB1B17285E006AB215 /* ConfirmAddressCell.m */; };
 		C79F18AF1B172938006AB215 /* ConfirmAddressOneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79F18AE1B172938006AB215 /* ConfirmAddressOneCell.m */; };
 		C79F18B21B1736BC006AB215 /* CommitFillCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C79F18B11B1736BC006AB215 /* CommitFillCell.m */; };
@@ -908,6 +911,8 @@
 		C797CDB61B3811D700A49FDB /* miaomiaoClient copy3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "miaomiaoClient copy3-Info.plist"; path = "/Users/taohailong/Desktop/miaomiaoClient/miaomiaoClient copy3-Info.plist"; sourceTree = "<absolute>"; };
 		C79884101B663F51003F58DF /* ShopSearchHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopSearchHeadView.h; sourceTree = "<group>"; };
 		C79884111B663F51003F58DF /* ShopSearchHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopSearchHeadView.m; sourceTree = "<group>"; };
+		C79B1A0F1B96C7BE0070D25C /* SelectShopFavoriteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectShopFavoriteCell.h; sourceTree = "<group>"; };
+		C79B1A101B96C7BE0070D25C /* SelectShopFavoriteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectShopFavoriteCell.m; sourceTree = "<group>"; };
 		C79F18AA1B17285E006AB215 /* ConfirmAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmAddressCell.h; sourceTree = "<group>"; };
 		C79F18AB1B17285E006AB215 /* ConfirmAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfirmAddressCell.m; sourceTree = "<group>"; };
 		C79F18AD1B172938006AB215 /* ConfirmAddressOneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmAddressOneCell.h; sourceTree = "<group>"; };
@@ -1108,6 +1113,8 @@
 				C759B9AB1B033F1C00681E22 /* ShopTableHeadView.m */,
 				C759B9AD1B0344B200681E22 /* SelectShopCell.h */,
 				C759B9AE1B0344B200681E22 /* SelectShopCell.m */,
+				C79B1A0F1B96C7BE0070D25C /* SelectShopFavoriteCell.h */,
+				C79B1A101B96C7BE0070D25C /* SelectShopFavoriteCell.m */,
 			);
 			name = SelectShop;
 			sourceTree = "<group>";
@@ -1891,6 +1898,7 @@
 				C743138A1B1ED89C00E2A068 /* JSONKit.m in Sources */,
 				C743138B1B1ED89C00E2A068 /* DataSigner.m in Sources */,
 				C743138C1B1ED89C00E2A068 /* AddProductCommonCell.m in Sources */,
+				C79B1A121B96C7BE0070D25C /* SelectShopFavoriteCell.m in Sources */,
 				C743138D1B1ED89C00E2A068 /* ConfirmAddressOneCell.m in Sources */,
 				C743138E1B1ED89C00E2A068 /* SDWebImageDownloaderOperation.m in Sources */,
 				C74BFE631B340F58000B5E12 /* SpreadViewController.m in Sources */,
@@ -2043,6 +2051,7 @@
 				C742E7E31B16C4D900EB0A60 /* NSAttributedString+Frame.m in Sources */,
 				C7BADC1B1B01F57E0083252D /* UserManager.m in Sources */,
 				C78224CC1AFB5ED2000A0AB4 /* UIImage+ZoomImage.m in Sources */,
+				C79B1A111B96C7BE0070D25C /* SelectShopFavoriteCell.m in Sources */,
 				C7AAB1301B09D86C00F9082F /* ShopCarTableView.m in Sources */,
 				C78224801AFB5D95000A0AB4 /* ASIAuthenticationDialog.m in Sources */,
 				C74BFE621B340F58000B5E12 /* SpreadViewController.m in Sources */,
@@ -2203,6 +2212,7 @@
 				C797CD6C1B3811D700A49FDB /* NSAttributedString+Frame.m in Sources */,
 				C797CD6D1B3811D700A49FDB /* UserManager.m in Sources */,
 				C797CD6E1B3811D700A49FDB /* UIImage+ZoomImage.m in Sources */,
+				C79B1A131B96C7BE0070D25C /* SelectShopFavoriteCell.m in Sources */,
 				C797CD6F1B3811D700A49FDB /* ShopCarTableView.m in Sources */,
 				C797CD701B3811D700A49FDB /* ASIAuthenticationDialog.m in Sources */,
 				C797CD711B3811D700A49FDB /* SpreadViewController.m in Sources */,

@@ -18,6 +18,7 @@
     _table.delegate = self;
     _table.dataSource = self;
     _table.separatorColor = FUNCTCOLOR(221, 221, 221);
+    _table.backgroundColor = FUNCTCOLOR(243, 243, 243);
     [_table registerClass:[SelectShopCell class] forCellReuseIdentifier:@"SelectShopCell"];
     _table.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:_table];
@@ -53,6 +54,12 @@
 
 -(void)parseData:(NSMutableArray*)arr
 {
+    if(arr.count==0)
+    {
+        THActivityView* warnView = [[THActivityView alloc]initEmptyDataWarnViewWithString:@"您还没有收藏店铺" WithImage:@"favorite_noData" WithSuperView:self.view];
+        warnView.tag = 0;
+        return;
+    }
     _dataArr = arr;
     [_table reloadData];
 }
@@ -123,9 +130,19 @@
     cell.titleLabel.text = shop.shopName;
     [cell setScore:shop.score];
     
-    cell.secondLabel.text = [NSString stringWithFormat:@"距离：%dm",shop.distance];
-    cell.thirdLabel.text = [NSString stringWithFormat:@"%@－%@",[shop getOpenTime],[shop getCloseTime]];
-    [cell setFifthLabelStr:[NSString stringWithFormat:@"%.1f元起送",shop.minPrice]] ;
+    UIImageView* contentImage1 = [cell getFirstImageView];
+    contentImage1.image = [UIImage imageNamed:@"selectShop_time"];
+    
+    UIImageView* contentImage2 = [cell getSecondImageView];
+    contentImage2.image = [UIImage imageNamed:@"selectShop_minPrice"];
+    
+    
+    UIImageView* contentImage3 = [cell getThirdImageView];
+    contentImage3.image = nil;
+    
+    cell.secondLabel.text = [NSString stringWithFormat:@"%@－%@",[shop getOpenTime],[shop getCloseTime]];
+    cell.thirdLabel.text = [NSString stringWithFormat:@"%.1f元起送",shop.minPrice];
+//    [cell setFifthLabelStr:] ;
     cell.fourthLabel.text = shop.shopAddress;
     [cell setServerArr:[shop getServerArr] withSizeDic:[shop getServerSizeDic]];
     return cell;

@@ -19,9 +19,15 @@ typedef void (^FavoriteBk)(void);
 
 -(void)setFavoriteBk:(FavoriteBk)bk;
 -(void)setFavorite:(BOOL)fav;
+-(UIButton*)getFavoriteView;
+
+
 -(void)setScore:(float)score;
 -(UILabel*)getStatusLabel;
 -(void)setFifthLabelStr:(NSString*)str;
 -(void)setServerArr:(NSArray*)arr withSizeDic:(NSMutableDictionary*)dic
 ;
+-(UIImageView*)getFirstImageView;
+-(UIImageView*)getSecondImageView;
+-(UIImageView*)getThirdImageView;
 @end
